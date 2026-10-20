@@ -10,7 +10,7 @@ from pathlib import Path
 
 import polars as pl
 
-from offres import collecte, rome
+from offres import collecte, rome, sonde
 from offres.api import Client
 
 TAILLE_LOT = 50_000  # offres gardées en mémoire avant écriture d'un morceau
@@ -106,6 +106,7 @@ def main(argv: list[str] | None = None) -> None:
     c.add_argument("--jours", type=int, default=3, help="profondeur du mode jour")
     c.add_argument("--annees", type=int, default=3, help="profondeur du mode stock")
     sous.add_parser("referentiels", help="référentiels de l'API (métiers, appellations, départements...)")
+    sous.add_parser("sonde", help="diagnostic : portées OAuth et routes accessibles avec les identifiants")
     sous.add_parser("rome", help="référentiel ROME 4.0 (open data) : compétences et savoirs par métier")
     args = parser.parse_args(argv)
 
@@ -113,6 +114,8 @@ def main(argv: list[str] | None = None) -> None:
         collecter(args.dossier, args.mode, args.jours, args.annees)
     elif args.commande == "referentiels":
         collecter_referentiels(args.dossier)
+    elif args.commande == "sonde":
+        sonde.sonder()
     elif args.commande == "rome":
         rome.telecharger(args.dossier / "rome")
 
