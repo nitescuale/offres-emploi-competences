@@ -12,8 +12,18 @@ Projet de data science de bout en bout sur les offres d'emploi publiques : les *
 4. Extraction des compétences (fait) : [`notebooks/02_competences.ipynb`](notebooks/02_competences.ipynb), évaluation dans [`evaluation/`](evaluation/)
 5. Structure du marché et zoom métiers de la data (fait) : [`notebooks/03_structure.ipynb`](notebooks/03_structure.ipynb)
 6. Postes qui peinent à recruter (fait) : [`notebooks/04_recrutement.ipynb`](notebooks/04_recrutement.ipynb) ; pas de salaire dans les offres du service public, la cible est la republication du poste (le modèle du salaire reviendra avec les offres France Travail)
-7. Dashboard et article
+7. Site, tableau de bord et article (fait) : [`site/`](site/), publié sur GitHub Pages par le workflow « Site »
 8. Industrialisation et suivi
+
+## Site
+
+`offres site --sortie _site` assemble un site statique (sans serveur) dans `_site/` :
+
+- `index.html` : l'article de synthèse, avec les figures des notebooks ;
+- `tableau.html` : le tableau de bord par métier (884), territoire (région, département) et année : offres par mois, télétravail, catégories, management, taux de republication, carte des départements, compétences citées et fiche ROME ;
+- `outil.html` : « Mes compétences », qui découpe une offre ou un CV et rattache chaque item au ROME dans le navigateur. La découpe et TF-IDF sont réécrits en JavaScript ([`site/js/extraction.js`](site/js/extraction.js)) et vérifiés identiques au Python par `tests/test_site.py` ; les formes déjà vues dans les offres reprennent le rattachement de la méthode publiée.
+
+Les données du site (`donnees/`, `outil/`) sont calculées par [`src/offres/web.py`](src/offres/web.py) à partir de la release `donnees`. Le workflow « Site » reconstruit et publie le tout après chaque mise à jour des compétences ; la publication demande GitHub Pages réglé sur la source « GitHub Actions ».
 
 ## Données
 

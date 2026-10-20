@@ -1,0 +1,45 @@
+/* Outil « Mes compétences » */
+
+.outil { max-width: 1180px; margin: 0 auto; padding: 28px 20px 40px; }
+.tete h1 { font-size: 32px; letter-spacing: -0.02em; margin: 0 0 4px; }
+.tete p { margin: 0 0 20px; max-width: 760px; }
+
+.saisie textarea { resize: vertical; min-height: 180px; line-height: 1.45; }
+.saisie .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 10px; }
+.bilan { font-weight: 600; margin: 24px 0 12px; scroll-margin-top: 72px; }
+
+.grille { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 16px; margin-bottom: 16px; align-items: start; }
+.colonne { display: grid; gap: 16px; }
+@media (max-width: 900px) { .grille { grid-template-columns: minmax(0, 1fr); } }
+
+.item { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--grille); font-size: 14px; }
+.item:last-child { border-bottom: 0; }
+.item .source { color: var(--texte-2); }
+.item .cible b { display: block; font-weight: 600; }
+.item .cible small { display: block; color: var(--texte-3); font-size: 12px; }
+@media (max-width: 560px) { .item { grid-template-columns: 1fr; gap: 2px; } }
+
+.badge { display: inline-block; margin-top: 4px; padding: 1px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; background: var(--surface-2); color: var(--texte-2); }
+.badge.vue::before, .badge.proche::before, .badge.approx::before, .badge.incertain::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; vertical-align: 0; }
+.badge.vue::before { background: var(--bleu); }
+.badge.proche::before { background: var(--aqua); }
+.badge.approx::before { background: var(--orange); }
+.badge.incertain::before { background: var(--texte-3); }
+
+.badge.transversale { background: transparent; border: 1px solid var(--grille); margin-left: 4px; }
+.incertains { margin-top: 12px; font-size: 14px; }
+.incertains summary { cursor: pointer; color: var(--bleu); }
+
+.fiche { padding: 10px 0; border-bottom: 1px solid var(--grille); }
+.fiche:last-child { border-bottom: 0; }
+.fiche h3 { font-size: 15px; margin: 0 0 4px; }
+.fiche p { margin: 0 0 4px; }
+.fiche-code { display: inline-block; font-size: 12px; font-weight: 700; padding: 1px 8px; border-radius: 999px; background: var(--surface-2); margin-right: 6px; }
+.manquantes { font-size: 14px; margin-top: 6px; }
+.manquantes summary { cursor: pointer; color: var(--bleu); }
+.manquantes ul { margin: 6px 0 0; padding-left: 18px; }
+
+.methode { margin-top: 24px; }
+.methode ul { margin: 6px 0 0; padding-left: 18px; font-size: 14px; color: var(--texte-2); }
+.methode li { margin-bottom: 6px; }
+.methode b { color: var(--texte); }

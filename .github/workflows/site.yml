@@ -1,0 +1,85 @@
+name: Site
+
+# Construit le site (article, tableau de bord, outil « Mes compétences ») avec les données de la release `donnees` et le
+# publie sur GitHub Pages : après chaque mise à jour des compétences (donc chaque semaine, après les offres) et quand le
+# site ou son code change sur main. Le site est construit dans tous les cas ; il n'est publié que si GitHub Pages est
+# activé pour le dépôt avec la source « GitHub Actions » (Settings > Pages).
+on:
+  workflow_run:
+    workflows: ["Compétences"]
+    types: [completed]
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - "rapports/figures/**"
+      - "src/offres/web.py"
+      - "src/offres/recrutement.py"
+      - "src/offres/competences.py"
+      - "src/offres/cli.py"
+      - "pyproject.toml"
+      - ".github/workflows/site.yml"
+  pull_request:
+    paths:
+      - "site/**"
+      - "rapports/figures/**"
+      - "src/offres/web.py"
+      - "src/offres/recrutement.py"
+      - "src/offres/competences.py"
+      - "src/offres/cli.py"
+      - "pyproject.toml"
+      - ".github/workflows/site.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: site-${{ github.event_name == 'pull_request' && github.ref || 'pages' }}
+  cancel-in-progress: false
+
+jobs:
+  construire:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    outputs:
+      pages: ${{ steps.pages.outputs.actif }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # Installation éditable : le module lit les fichiers du dépôt (site/, rapports/figures/)
+      - run: pip install -e ".[site]"
+      - name: Construire le site
+        run: |
+          offres site --sortie _site
+          du -sh _site _site/donnees _site/outil _site/figures | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - name: GitHub Pages est-il activé ?
+        id: pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Pages doit être réglé sur « GitHub Actions » (et non « Deploy from a branch »)
+          source=$(gh api "repos/${{ github.repository }}/pages" --jq .build_type 2>/dev/null || true)
+          if [ "$source" = "workflow" ]; then
+            echo "actif=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice title=Site::GitHub Pages n'est pas activé avec la source « GitHub Actions » : le site est construit mais pas publié."
+          fi
+
+  publier:
+    needs: construire
+    if: needs.construire.outputs.pages == 'true' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploiement.outputs.page_url }}
+    steps:
+      - id: deploiement
+        uses: actions/deploy-pages@v4

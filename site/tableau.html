@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tableau de bord · Compétences du service public</title>
+  <meta name="description" content="1,6 million d'offres d'emploi de la fonction publique depuis 2022 : volumes, télétravail, catégories, postes republiés et compétences demandées, par métier et par territoire.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/tableau.css">
+</head>
+<body>
+  <header class="entete">
+    <a class="marque" href="index.html"><span class="pastilles"><i style="background:var(--bleu)"></i><i style="background:var(--aqua)"></i></span><span class="titre">Compétences du service public</span></a>
+    <nav>
+      <a href="index.html">Article</a>
+      <a href="tableau.html" aria-current="page">Tableau de bord</a>
+      <a href="outil.html">Mes compétences</a>
+    </nav>
+  </header>
+
+  <main class="tableau">
+    <div class="tete">
+      <h1>Tableau de bord</h1>
+      <p class="discret" id="couverture">Offres de la fonction publique publiées sur Choisir le service public depuis janvier 2022.</p>
+    </div>
+
+    <form class="filtres" id="filtres" autocomplete="off" onsubmit="return false">
+      <div class="filtre filtre-metier">
+        <label for="metier">Métier</label>
+        <div class="champ-metier">
+          <input id="metier" type="search" list="liste-metiers" placeholder="Tous les métiers (tapez pour chercher)">
+          <datalist id="liste-metiers"></datalist>
+        </div>
+      </div>
+      <div class="filtre">
+        <label for="territoire">Territoire</label>
+        <select id="territoire"><option value="">France entière</option></select>
+      </div>
+      <div class="filtre">
+        <label for="annee">Année</label>
+        <select id="annee"><option value="">2022 à 2026</option></select>
+      </div>
+    </form>
+
+    <p class="selection" id="selection" aria-live="polite"></p>
+
+    <section class="tuiles" aria-label="Indicateurs">
+      <div class="tuile"><span class="tuile-libelle">Offres publiées</span><span class="tuile-valeur" id="k-offres">–</span><span class="tuile-note" id="k-offres-note"></span></div>
+      <div class="tuile"><span class="tuile-libelle">Télétravail possible</span><span class="tuile-valeur" id="k-tt">–</span><span class="tuile-note" id="k-tt-note"></span></div>
+      <div class="tuile"><span class="tuile-libelle">Catégories A+ et A · B · C</span><span class="tuile-valeur petite" id="k-cat">–</span><span class="mini-pile" id="k-cat-pile" aria-hidden="true"></span></div>
+      <div class="tuile"><span class="tuile-libelle">Postes avec management</span><span class="tuile-valeur" id="k-mg">–</span><span class="tuile-note" id="k-mg-note"></span></div>
+      <div class="tuile"><span class="tuile-libelle">Postes republiés dans les 6 mois</span><span class="tuile-valeur" id="k-rep">–</span><span class="tuile-note" id="k-rep-note"></span></div>
+    </section>
+
+    <div class="grille">
+      <section class="panneau large">
+        <h2>Offres publiées chaque mois</h2>
+        <p class="sous-titre" id="serie-titre">France entière, tous les métiers</p>
+        <div class="graphique" id="serie"></div>
+      </section>
+
+      <section class="panneau">
+        <div class="titre-carte">
+          <div>
+            <h2>Par département</h2>
+            <p class="sous-titre">Cliquez sur un département pour filtrer.</p>
+          </div>
+          <select id="mesure" aria-label="Indicateur de la carte">
+            <option value="n">Offres</option>
+            <option value="tt">Télétravail possible</option>
+            <option value="rep">Postes republiés</option>
+          </select>
+        </div>
+        <div id="carte" class="carte"></div>
+        <div class="legende-carte" id="legende-carte"></div>
+        <div class="outre-mer" id="outre-mer"></div>
+        <details class="table-carte">
+          <summary>Voir les valeurs en tableau</summary>
+          <div class="defilant"><table id="table-carte"></table></div>
+        </details>
+      </section>
+
+      <section class="panneau">
+        <h2>Compétences citées dans les offres</h2>
+        <p class="sous-titre" id="competences-titre"></p>
+        <div id="competences" class="barres"></div>
+        <p class="alerte" id="competences-alerte" hidden></p>
+      </section>
+
+      <section class="panneau large" id="panneau-fiche">
+        <h2 id="fiche-titre">Métiers les plus fréquents</h2>
+        <p class="sous-titre" id="fiche-sous-titre"></p>
+        <div id="fiche"></div>
+      </section>
+    </div>
+
+    <section class="panneau methode">
+      <h2>Lire ce tableau</h2>
+      <ul>
+        <li><b>Offres</b> : une ligne du fichier « Les offres diffusées sur Choisir le service public » (DGAFP) ; une annonce pour plusieurs postes peut compter plusieurs lignes. La part de télétravail et de management ne se calcule que sur les offres qui renseignent le champ ; le taux de remplissage est indiqué sous chaque chiffre. Le télétravail n'étant renseigné que depuis 2023, sa part toutes années confondues part de 2023.</li>
+        <li><b>Postes republiés</b> : le même poste (même employeur, métier, intitulé et département) est remis en ligne entre 7 et 180 jours plus tard. Le service public ne publie pas de salaire ; la republication est l'indice de difficulté de recrutement retenu dans le <a href="https://github.com/nitescuale/offres-emploi-competences/blob/main/notebooks/04_recrutement.ipynb">notebook 04</a>. Elle se compte par annonce (pas par ligne) et n'est connue que pour les annonces publiées jusqu'au <span id="fin-rep">31 mars 2026</span>.</li>
+        <li><b>Compétences citées</b> : seules 4 à 5 % des offres ont un texte de compétences, surtout à l'État. Chaque item est rattaché à une compétence du référentiel ROME 4.0 (méthode hybride TF-IDF + embeddings, exacte pour 36 à 38 % des items, dans le bon domaine pour 78 à 79 %, <a href="https://github.com/nitescuale/offres-emploi-competences/blob/main/notebooks/02_competences.ipynb">notebook 02</a>). Elles sont calculées sur toutes les années depuis 2022 et tous les territoires. L'alerte « un seul employeur » se lit par service (par exemple le Service du commissariat des armées) : un ministère réparti entre plusieurs services, comme celui des Armées, peut dominer sans la déclencher.</li>
+        <li><b>Fiche ROME</b> : chaque métier de la fonction publique est rapproché d'une fiche du ROME ; le rapprochement est correct pour 59 % des offres des métiers fréquents et voisin pour 92 %.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="pied">
+    <p>Données : <a href="https://www.data.gouv.fr/datasets/les-offres-diffusees-sur-choisir-le-service-public">Choisir le service public</a> (DGAFP) et <a href="https://www.data.gouv.fr/datasets/repertoire-operationnel-des-metiers-et-des-emplois-rome">ROME 4.0</a> (France Travail), Licence Ouverte. Contours des départements : IGN Admin Express via france-geojson. <span id="maj"></span></p>
+    <p>Code et notebooks : <a href="https://github.com/nitescuale/offres-emploi-competences">github.com/nitescuale/offres-emploi-competences</a></p>
+  </footer>
+
+  <script src="js/commun.js"></script>
+  <script src="js/tableau.js"></script>
+</body>
+</html>
