@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mes compétences · Compétences du service public</title>
+  <meta name="description" content="Collez une offre d'emploi ou votre CV : les compétences sont repérées et rattachées au référentiel ROME directement dans votre navigateur, avec les fiches métier les plus proches.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/outil.css">
+</head>
+<body>
+  <header class="entete">
+    <a class="marque" href="index.html"><span class="pastilles"><i style="background:var(--bleu)"></i><i style="background:var(--aqua)"></i></span><span class="titre">Compétences du service public</span></a>
+    <nav>
+      <a href="index.html">Article</a>
+      <a href="tableau.html">Tableau de bord</a>
+      <a href="outil.html" aria-current="page">Mes compétences</a>
+    </nav>
+  </header>
+
+  <main class="outil">
+    <div class="tete">
+      <h1>Mes compétences</h1>
+      <p class="discret">Collez une offre d'emploi ou votre CV. Le texte est découpé en compétences, chacune rattachée au référentiel ROME de France Travail, puis comparé aux <span id="nb-fiches">1 900</span> fiches métier. Tout se passe dans votre navigateur : le texte n'est envoyé nulle part.</p>
+    </div>
+
+    <form id="formulaire" class="saisie">
+      <label for="texte">Offre d'emploi ou CV</label>
+      <textarea id="texte" rows="10" placeholder="Compétences attendues :&#10;- Maîtrise des outils statistiques (R, Python)&#10;- Sens de l'organisation et rigueur&#10;- Travail en équipe…"></textarea>
+      <div class="actions">
+        <button class="bouton" type="submit" id="extraire" disabled>Préparation du référentiel…</button>
+        <button class="bouton secondaire" type="button" id="exemple">Essayer avec un exemple</button>
+        <span class="tres-petit discret" id="etat" aria-live="polite"></span>
+      </div>
+    </form>
+
+    <div id="resultats" hidden>
+      <p class="bilan" id="bilan" aria-live="polite"></p>
+      <div class="grille">
+        <section class="panneau">
+          <h2>Compétences repérées</h2>
+          <p class="sous-titre">Chaque ligne du texte et le libellé ROME le plus proche.</p>
+          <div id="items"></div>
+          <details id="details-incertains" class="incertains" hidden>
+            <summary id="resume-incertains"></summary>
+            <div id="incertains"></div>
+          </details>
+        </section>
+        <div class="colonne">
+          <section class="panneau">
+            <h2>Par domaine</h2>
+            <p class="sous-titre">Nombre de compétences repérées, hors rapprochements incertains.</p>
+            <div id="domaines" class="barres"></div>
+          </section>
+          <section class="panneau">
+            <h2>Fiches métier les plus proches</h2>
+            <p class="sous-titre">Fiches ROME qui partagent le plus de compétences avec le texte, les plus rares comptant davantage. Les savoir-être demandés partout (rigueur, travail en équipe…) ne comptent pas.</p>
+            <div id="fiches"></div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <section class="panneau methode">
+      <h2>Comment ça marche</h2>
+      <ul>
+        <li><b>Découpage</b> : chaque ligne, puce ou élément d'une liste à virgules devient un item ; les titres de rubrique (« Savoir-être : ») et les niveaux attendus (« maîtrise ») sont retirés. C'est le même code que celui qui a traité les 69 000 annonces du projet, réécrit en JavaScript et vérifié identique sur tous leurs textes.</li>
+        <li><b>Formes déjà vues</b> : quand un item a déjà été vu au moins deux fois dans les offres (<span id="nb-formes">41 000</span> formes), il reprend le rattachement de la méthode publiée, un hybride TF-IDF + embeddings : compétence exacte pour 36 à 38 % des items, bon domaine pour 78 à 79 %.</li>
+        <li><b>Autres items</b> : rapprochés par TF-IDF sur les n-grammes de caractères, calculé ici même. Seul, TF-IDF trouve la compétence exacte pour 31 à 35 % des items et le bon domaine pour 75 % ; sa similarité dit bien quand se fier au résultat : au-dessus de 0,8, trois rapprochements sur quatre sont exacts, en dessous de 0,5 presque aucun. Les embeddings, trop lourds pour un navigateur, ne sont pas utilisés ici.</li>
+        <li>Le niveau fiable est donc le <b>domaine</b> plus que le libellé exact. Détails et évaluation dans le <a href="https://github.com/nitescuale/offres-emploi-competences/blob/main/notebooks/02_competences.ipynb">notebook 02</a>.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="pied">
+    <p>Référentiel : <a href="https://www.data.gouv.fr/datasets/repertoire-operationnel-des-metiers-et-des-emplois-rome">ROME 4.0</a> (France Travail), Licence Ouverte. Formes vues dans les offres : <a href="https://www.data.gouv.fr/datasets/les-offres-diffusees-sur-choisir-le-service-public">Choisir le service public</a> (DGAFP).</p>
+    <p>Code et notebooks : <a href="https://github.com/nitescuale/offres-emploi-competences">github.com/nitescuale/offres-emploi-competences</a></p>
+  </footer>
+
+  <script src="js/commun.js"></script>
+  <script src="js/outil.js"></script>
+</body>
+</html>

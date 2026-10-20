@@ -1,4 +1,5 @@
-"""Ligne de commande : `offres collecte --mode jour|stock`, `offres referentiels`, `offres rome`, `offres csp`, `offres competences`."""
+"""Ligne de commande : `offres collecte --mode jour|stock`, `offres referentiels`, `offres rome`, `offres csp`, `offres competences`,
+`offres site`."""
 
 from __future__ import annotations
 
@@ -161,6 +162,8 @@ def main(argv: list[str] | None = None) -> None:
     c4.add_argument("--entree", type=Path, required=True, help="JSON des items et de leurs candidats")
     c4.add_argument("--sortie", type=Path, required=True, help="JSON des choix (reprise possible)")
     c4.add_argument("--lot", type=int, default=8, help="items par requête")
+    c5 = sous.add_parser("site", help="site statique : article, tableau de bord et outil, avec leurs données")
+    c5.add_argument("--sortie", type=Path, default=Path("_site"), help="dossier du site construit")
     c3.add_argument("--cache", type=Path, help="competences_formes.parquet du passage précédent (formes déjà rattachées)")
     args = parser.parse_args(argv)
 
@@ -180,6 +183,10 @@ def main(argv: list[str] | None = None) -> None:
         reclassement.reclasser(args.entree, args.sortie, args.modele, args.lot)
     elif args.commande == "competences":
         extraire_competences(args.dossier, args.cache)
+    elif args.commande == "site":
+        from offres import web
+
+        print(json.dumps(web.construire(args.sortie), ensure_ascii=False, indent=1))
 
 
 if __name__ == "__main__":
