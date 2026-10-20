@@ -127,7 +127,7 @@ LEXIQUE: dict[str, tuple[str, list[str]]] = {
     "WordPress": ("Web", [r"\bwordpress\b"]),
     "API REST": ("Web", [r"\bapi ?rest\b", r"\brestful\b", r"\bapis?\b"]),
     # « agile » seul est souvent un adjectif (« esprit agile ») : on exige le contexte méthode
-    "Agile / Scrum": ("Méthode", [r"\bmethodes? agiles?\b", r"\bmethodologies? agiles?\b", r"\ben mode agile\b", r"\bagilite\b",
+    "Agile / Scrum": ("Méthode", [r"\bmethodes? agiles?\b", r"\bmethodologies? agiles?\b", r"\ben mode agile\b",
                                    r"\bscrum\b", r"\bkanban\b", r"\bsafe\b(?= ?(?:framework|agile))"]),
     "Jira": ("Méthode", [r"\bjira\b", r"\bconfluence\b"]),
     # Progiciels et bureautique
