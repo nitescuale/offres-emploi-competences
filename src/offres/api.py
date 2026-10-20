@@ -10,6 +10,7 @@ import os
 import re
 import time
 from datetime import UTC, datetime, timedelta
+from email.utils import parsedate_to_datetime
 
 import requests
 
@@ -39,6 +40,19 @@ def total_content_range(entete: str | None) -> int | None:
     return int(m.group(1)) if m else None
 
 
+def attente_retry_after(valeur: str | None, defaut: float) -> float:
+    """Retry-After en secondes ou en date HTTP."""
+    if not valeur:
+        return defaut
+    try:
+        return float(valeur)
+    except ValueError:
+        try:
+            return max(0.0, (parsedate_to_datetime(valeur) - datetime.now(UTC)).total_seconds())
+        except (TypeError, ValueError):
+            return defaut
+
+
 class Client:
     def __init__(self, client_id: str | None = None, client_secret: str | None = None, portee: str | None = None):
         self.client_id = client_id or os.environ.get("FRANCE_TRAVAIL_CLIENT_ID")
@@ -55,17 +69,29 @@ class Client:
     def jeton(self) -> str:
         if self._jeton and datetime.now(UTC) < self._expire:
             return self._jeton
-        r = self.session.post(
-            URL_JETON,
-            params={"realm": "/partenaire"},
-            data={
-                "grant_type": "client_credentials",
-                "client_id": self.client_id,
-                "client_secret": self.client_secret,
-                "scope": self.portee,
-            },
-            timeout=60,
-        )
+        r = None
+        for essai in range(5):
+            try:
+                r = self.session.post(
+                    URL_JETON,
+                    params={"realm": "/partenaire"},
+                    data={
+                        "grant_type": "client_credentials",
+                        "client_id": self.client_id,
+                        "client_secret": self.client_secret,
+                        "scope": self.portee,
+                    },
+                    timeout=60,
+                )
+            except requests.RequestException as e:
+                print(f"  jeton, réseau : {e}")
+                time.sleep(2**essai)
+                continue
+            if r.status_code < 500 and r.status_code != 429:
+                break
+            time.sleep(2**essai)
+        if r is None:
+            raise ErreurApi("Jeton : serveur injoignable")
         if r.status_code != 200:
             # Le corps d'erreur OAuth ne contient pas le secret
             raise ErreurApi(f"Jeton refusé ({r.status_code}) : {r.text[:300]}")
@@ -98,7 +124,7 @@ class Client:
                 self._jeton = None
                 continue
             if r.status_code in (429, 500, 502, 503, 504):
-                pause = float(r.headers.get("Retry-After") or 2**essai)
+                pause = attente_retry_after(r.headers.get("Retry-After"), 2**essai)
                 time.sleep(min(pause, 60))
                 continue
             return r
