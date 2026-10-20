@@ -53,4 +53,4 @@ Identifiants : secrets GitHub Actions `FRANCE_TRAVAIL_CLIENT_ID` et `FRANCE_TRAV
 
 ## Licences
 
-Code sous licence MIT. Données dérivées publiées sous Licence Ouverte 2.0, avec mention des sources : « Les offres diffusées sur Choisir le service public » (DGAFP) et le Répertoire opérationnel des métiers et des emplois ROME 4.0 (France Travail), via data.gouv.fr. Les offres de l'API France Travail ne seront republiées que sous forme agrégée.
+Code sous licence MIT. Données dérivées publiées sous Licence Ouverte 2.0, avec mention des sources : « Les offres diffusées sur Choisir le service public » (DGAFP) et le Répertoire opérationnel des métiers et des emplois ROME 4.0 (France Travail), via data.gouv.fr. Les conditions d'utilisation de l'API France Travail seront vérifiées avant de republier ses offres brutes.
