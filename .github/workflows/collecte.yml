@@ -3,6 +3,7 @@ name: Collecte des offres
 # Chaque matin : offres créées ces trois derniers jours. Chaque lundi (et au tout premier passage) : photo complète
 # de toutes les offres en ligne, qui permet aussi de savoir quelles offres ont disparu.
 # Les fichiers Parquet sont publiés comme pièces jointes de la release `donnees` (trop volumineux pour une branche git).
+# Elle tourne aussi quand le code de collecte change sur main, pour le valider sur les vraies données.
 on:
   push:
     branches: [main]

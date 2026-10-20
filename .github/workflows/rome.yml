@@ -2,6 +2,7 @@ name: Référentiel ROME
 
 # Chaque lundi : référentiel ROME 4.0 (métiers, compétences, savoirs) depuis l'open data de France Travail,
 # publié dans la release `donnees` (fichiers rome_*). Sert de dictionnaire pour l'extraction des compétences.
+# Elle tourne aussi quand ce code change sur main.
 on:
   push:
     branches: [main]
