@@ -16,6 +16,11 @@ on:
 permissions:
   contents: write
 
+# Les trois workflows de données écrivent dans la même release : jamais deux à la fois
+concurrency:
+  group: release-donnees
+  cancel-in-progress: false
+
 jobs:
   csp:
     runs-on: ubuntu-latest
@@ -27,7 +32,10 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install .
-      - run: offres --dossier donnees csp
+      - name: Télécharger et consolider (refuse de publier un fichier amputé d'une année)
+        run: |
+          gh release download donnees -p csp_rapport.json -D precedent 2>/dev/null || echo "Pas de rapport précédent"
+          offres --dossier donnees csp --rapport-precedent precedent/csp_rapport.json
       - name: Publier dans la release
         run: |
           gh release view donnees >/dev/null 2>&1 || gh release create donnees --target main --latest=false \

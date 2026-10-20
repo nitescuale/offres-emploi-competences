@@ -11,7 +11,7 @@ from pathlib import Path
 import polars as pl
 
 from offres import collecte, csp, rome, sonde
-from offres.api import Client, ErreurApi
+from offres.api import PLAFOND, Client, ErreurApi
 
 TAILLE_LOT = 50_000  # offres gardées en mémoire avant écriture d'un morceau
 
@@ -31,6 +31,8 @@ def collecter(dossier: Path, mode: str, jours: int, annees: int) -> None:
     jour = vue_le.date().isoformat()
     debut = vue_le - (timedelta(days=jours) if mode == "jour" else timedelta(days=365 * annees))
     morceaux = dossier / "tmp" / f"{jour}_{mode}"
+    for ancien_morceau in morceaux.glob("*.parquet") if morceaux.exists() else []:
+        ancien_morceau.unlink()  # restes d'un passage interrompu le même jour
     morceaux.mkdir(parents=True, exist_ok=True)
     tranches: list[dict] = []
     lot: list[dict] = []
@@ -61,12 +63,17 @@ def collecter(dossier: Path, mode: str, jours: int, annees: int) -> None:
     morceaux.rmdir()
 
     offres = pl.scan_parquet(fichier).select("id", "date_creation", "date_actualisation").collect()
+    journal = pl.DataFrame(tranches, schema={"debut": pl.Datetime("us", "UTC"), "fin": pl.Datetime("us", "UTC"), "criteres": pl.Utf8,
+                                             "total": pl.Int64, "tronque": pl.Boolean, "manquantes": pl.Int64})
     chemin_index = dossier / "index.parquet"
     ancien = pl.read_parquet(chemin_index) if chemin_index.exists() else None
-    index = collecte.mettre_a_jour_index(ancien, offres, vue_le, complet=(mode == "stock"))
+    # Une photo du stock ne sert à dater les disparitions que si aucune offre n'a été perdue en route
+    perdues = journal.height > 0 and (journal["tronque"].any() or journal["manquantes"].sum() > 0)
+    if mode == "stock" and perdues:
+        print("::warning title=Collecte::Offres perdues (plafond ou types de contrat) : disparitions non datées cette fois.")
+    index = collecte.mettre_a_jour_index(ancien, offres, vue_le, complet=(mode == "stock" and not perdues))
     index.write_parquet(chemin_index)
 
-    journal = pl.DataFrame(tranches)
     rapport = {
         "date": vue_le.isoformat(),
         "mode": mode,
@@ -77,7 +84,8 @@ def collecter(dossier: Path, mode: str, jours: int, annees: int) -> None:
         "en_ligne": index.filter("en_ligne").height,
         "tranches": journal.height,
         "tranches_tronquees": int(journal["tronque"].sum()) if journal.height else 0,
-        "offres_perdues_plafond": int(journal.filter("tronque")["total"].sum() - 1150 * journal["tronque"].sum())
+        "offres_hors_types_contrat": int(journal["manquantes"].sum()) if journal.height else 0,
+        "offres_perdues_plafond": int(journal.filter("tronque")["total"].sum() - PLAFOND * journal["tronque"].sum())
         if journal.height
         else 0,
         "appels": client.appels,
@@ -115,7 +123,8 @@ def main(argv: list[str] | None = None) -> None:
     c.add_argument("--jours", type=int, default=3, help="profondeur du mode jour")
     c.add_argument("--annees", type=int, default=3, help="profondeur du mode stock")
     sous.add_parser("referentiels", help="référentiels de l'API (métiers, appellations, départements...)")
-    sous.add_parser("csp", help="offres de Choisir le service public (open data, sans identifiants)")
+    c2 = sous.add_parser("csp", help="offres de Choisir le service public (open data, sans identifiants)")
+    c2.add_argument("--rapport-precedent", type=Path, help="rapport du passage précédent, pour refuser une régression")
     sous.add_parser("sonde", help="diagnostic : portées OAuth et routes accessibles avec les identifiants")
     sous.add_parser("rome", help="référentiel ROME 4.0 (open data) : compétences et savoirs par métier")
     args = parser.parse_args(argv)
@@ -125,7 +134,7 @@ def main(argv: list[str] | None = None) -> None:
     elif args.commande == "referentiels":
         collecter_referentiels(args.dossier)
     elif args.commande == "csp":
-        csp.telecharger(args.dossier / "csp")
+        csp.telecharger(args.dossier / "csp", args.rapport_precedent)
     elif args.commande == "sonde":
         sonde.sonder()
     elif args.commande == "rome":

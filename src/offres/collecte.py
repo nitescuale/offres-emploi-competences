@@ -36,7 +36,8 @@ def offres_periode(client: Client, debut: datetime, fin: datetime, criteres: dic
         return
     if total <= PLAFOND:
         if journal is not None:
-            journal.append({"debut": debut, "fin": fin, "criteres": json.dumps(criteres), "total": total, "tronque": False})
+            journal.append({"debut": debut, "fin": fin, "criteres": json.dumps(criteres), "total": total, "tronque": False,
+                            "manquantes": 0})
         yield from _pages(client, fenetre, premiere, total)
         return
     if fin - debut > DUREE_MIN:
@@ -47,13 +48,22 @@ def offres_periode(client: Client, debut: datetime, fin: datetime, criteres: dic
         yield from offres_periode(client, milieu + timedelta(seconds=1), fin, criteres, journal)
         return
     if "typeContrat" not in criteres:
+        vues = 0
         for contrat in TYPES_CONTRAT:
-            yield from offres_periode(client, debut, fin, {**criteres, "typeContrat": contrat}, journal)
+            for offre in offres_periode(client, debut, fin, {**criteres, "typeContrat": contrat}, journal):
+                vues += 1
+                yield offre
+        # Les offres d'un type absent de la liste (ou sans type) ne sont pas récupérables : on les compte
+        if vues < total and journal is not None:
+            print(f"  ⚠ tranche {format_date(debut)} -> {format_date(fin)} : {total - vues} offres hors types de contrat connus")
+            journal.append({"debut": debut, "fin": fin, "criteres": json.dumps(criteres), "total": total, "tronque": False,
+                            "manquantes": total - vues})
         return
     # Dernier recours : on garde les 1 150 premières et on le signale
     print(f"  ⚠ tranche {format_date(debut)} -> {format_date(fin)} {criteres} : {total} offres, tronquée à {PLAFOND}")
     if journal is not None:
-        journal.append({"debut": debut, "fin": fin, "criteres": json.dumps(criteres), "total": total, "tronque": True})
+        journal.append({"debut": debut, "fin": fin, "criteres": json.dumps(criteres), "total": total, "tronque": True,
+                        "manquantes": 0})
     yield from _pages(client, fenetre, premiere, total)
 
 

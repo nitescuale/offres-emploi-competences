@@ -24,8 +24,9 @@ on:
 permissions:
   contents: write
 
+# Les trois workflows de données écrivent dans la même release : jamais deux à la fois
 concurrency:
-  group: collecte
+  group: release-donnees
   cancel-in-progress: false
 
 jobs:
@@ -67,7 +68,10 @@ jobs:
           mkdir -p donnees
           gh release view donnees >/dev/null 2>&1 || gh release create donnees --target main --latest=false \
             --title "Données collectées" --notes "Offres d'emploi France Travail (Parquet), mises à jour par le workflow « Collecte des offres »."
-          if gh release download donnees -p index.parquet -D donnees; then
+          # « Premier passage » seulement si l'index est vraiment absent de la release : un téléchargement raté
+          # doit faire échouer la tâche, pas repartir d'un index vide qui écraserait l'historique
+          if gh release view donnees --json assets -q '.assets[].name' | grep -qx index.parquet; then
+            gh release download donnees -p index.parquet -D donnees
             echo "premier=false" >> "$GITHUB_OUTPUT"
           else
             echo "premier=true" >> "$GITHUB_OUTPUT"
@@ -84,8 +88,8 @@ jobs:
           offres --dossier donnees collecte --mode "$mode"
           cat donnees/rapports/collecte_*.json >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
 
-      - name: Référentiels de l'API (le lundi ou au premier passage)
-        if: steps.secrets.outputs.ok == 'true' && (steps.index.outputs.premier == 'true' || inputs.stock)
+      - name: Référentiels de l'API (photo complète du stock : lundi, premier passage ou à la demande)
+        if: steps.secrets.outputs.ok == 'true' && hashFiles('donnees/rapports/collecte_*_stock.json') != ''
         continue-on-error: true
         run: |
           offres --dossier donnees referentiels

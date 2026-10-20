@@ -16,6 +16,11 @@ on:
 permissions:
   contents: write
 
+# Les trois workflows de données écrivent dans la même release : jamais deux à la fois
+concurrency:
+  group: release-donnees
+  cancel-in-progress: false
+
 jobs:
   rome:
     runs-on: ubuntu-latest

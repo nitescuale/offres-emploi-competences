@@ -87,3 +87,22 @@ def test_table_et_index():
     assert lignes["A"]["premiere_vue"] == vue1 and lignes["A"]["derniere_vue"] == vue2 and lignes["A"]["en_ligne"]
     assert not lignes["B"]["en_ligne"]
     assert lignes["C"]["en_ligne"]
+
+
+def test_offres_hors_types_de_contrat_comptees():
+    depart = datetime(2026, 1, 1, tzinfo=UTC)
+    rafale = [{**o, "id": f"R{i}", "typeContrat": "XYZ" if i < 300 else o["typeContrat"]}
+              for i, o in enumerate(fabriquer(1500, depart, timedelta(0)))]
+    journal = []
+    vues = list(collecte.offres_periode(FauxClient(rafale), depart - timedelta(days=1), depart + timedelta(days=1), journal=journal))
+    assert len(vues) == 1200
+    assert sum(t["manquantes"] for t in journal) == 300
+
+
+def test_retry_after():
+    from offres.api import attente_retry_after
+
+    assert attente_retry_after("5", 1) == 5
+    assert attente_retry_after(None, 3) == 3
+    assert attente_retry_after("Wed, 21 Oct 2015 07:28:00 GMT", 2) == 0
+    assert attente_retry_after("n'importe quoi", 2) == 2
