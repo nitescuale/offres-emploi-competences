@@ -30,8 +30,17 @@ METIERS_ALERTE = 0.95  # offres dont le métier est rattaché à une fiche ROME
 RECENT_JOURS, HISTORIQUE_JOURS = 182, 730
 MIN_ANNONCES_EMPLOYEUR = 10  # dans chacune des deux périodes, pour la comparaison à employeurs constants
 MIN_EMPLOYEURS = 5  # employeurs citant la compétence sur la période récente
+T_MAX = 99.0
+MIN_EMPLOYEURS_CONSTANTS = 30  # en dessous, pas de test : l'approximation normale du t serait trop optimiste
 DEBUT_NOUVEAUTES = date(2023, 1, 1)  # avant, faute d'historique, presque toutes les formes paraissent nouvelles
 SEUIL_FDR = 0.10  # taux de fausses découvertes (Benjamini-Hochberg) pour déclarer une compétence en hausse
+HISTORIQUE_VOLUME = 30  # le volume est comparé au plus haut des 30 derniers contrôles (une baisse ne devient pas la norme)
+
+# Services du ministère des Armées (champ « organisme ») : principaux auteurs de textes de compétences jusqu'en 2025.
+# Les mots « défense » d'autres administrations (Défenseur des droits, zones de défense, SGDSN...) sont écartés.
+DEFENSE = (r"(?i)arm[ée]es?\b|défense|armement|^marine$|DIRISI|\((?:DRM|DSNJ|SRHC|SEO|SIAé|DMAé|DTIE|DGRIS|SIMu)\)|ECPAD|"
+           r"service de l'aéronautique|^ministère des armées")
+DEFENSE_EXCLUS = r"(?i)défenseur|zone de défense|SGDSN|défense nationale \(AAI\)|service de défense et de sécurité|haut fonctionnaire de défense"
 
 
 def _n(x: int) -> str:
@@ -78,9 +87,16 @@ def _part(table: pl.DataFrame, colonne: str) -> float:
     return table[colonne].sum() / max(table["n"].sum(), 1)
 
 
-def controles_offres(offres: pl.DataFrame, aujourdhui: date, precedent: dict | None) -> tuple[list[dict], pl.DataFrame]:
+def plausibles(offres: pl.DataFrame, aujourdhui: date) -> pl.DataFrame:
+    """Offres datées au plus de demain : une date aberrante ne doit pas masquer un fichier qui n'est plus mis à jour."""
+    return offres.filter(pl.col("date_publication") <= aujourdhui + timedelta(days=1))
+
+
+def controles_offres(offres: pl.DataFrame, aujourdhui: date, volume_reference: int | None) -> tuple[list[dict], pl.DataFrame]:
+    """Contrôles du fichier des offres ; `volume_reference` est le plus haut nombre d'offres des derniers contrôles."""
     resultats = []
-    fin = offres["date_publication"].max()
+    valides = plausibles(offres, aujourdhui)
+    fin = valides["date_publication"].max()
     age = (aujourdhui - fin).days
     niveau = ERREUR if age > FRAICHEUR_ERREUR else ALERTE if age > FRAICHEUR_ALERTE else OK
     resultats.append(_controle("fraicheur", "Fraîcheur des offres", niveau, age,
@@ -88,10 +104,9 @@ def controles_offres(offres: pl.DataFrame, aujourdhui: date, precedent: dict | N
                                f"(alerte au-delà de {FRAICHEUR_ALERTE}, erreur au-delà de {FRAICHEUR_ERREUR})"))
 
     n = offres.height
-    avant = (precedent or {}).get("offres")
-    if avant:
-        niveau = ERREUR if n < BAISSE_VOLUME * avant else OK
-        detail = f"{_n(n)} offres contre {_n(avant)} au contrôle précédent"
+    if volume_reference:
+        niveau = ERREUR if n < BAISSE_VOLUME * volume_reference else OK
+        detail = f"{_n(n)} offres, contre {_n(volume_reference)} au plus haut des {HISTORIQUE_VOLUME} derniers contrôles"
     else:
         niveau, detail = OK, f"{_n(n)} offres (premier contrôle)"
     resultats.append(_controle("volume", "Nombre total d'offres", niveau, n, detail))
@@ -110,16 +125,20 @@ def controles_offres(offres: pl.DataFrame, aujourdhui: date, precedent: dict | N
     resultats.append(_controle("departements", "Départements inconnus", ALERTE if part > 0.01 else OK, round(part, 4),
                                f"{_n(inconnus)} offres avec un code de département hors des 107 connus"))
 
-    mensuel = _par_mois(offres)
-    complets = _mois_complets(offres)
+    mensuel = _par_mois(valides)
+    complets = _mois_complets(valides)
     if len(complets) >= 13:
         dernier, un_an = complets[-1], complets[-1].replace(year=complets[-1].year - 1)
         nd = mensuel.filter(pl.col("mois") == dernier)["n"].sum()
         na = mensuel.filter(pl.col("mois") == un_an)["n"].sum()
-        ratio = nd / max(na, 1)
+        # Un mois compté complet dès le 25 : ramené au mois entier pour ne pas paraître en baisse
+        jours = ((dernier + timedelta(days=32)).replace(day=1) - dernier).days
+        couverts = fin.day if (fin.year, fin.month) == (dernier.year, dernier.month) else jours
+        ratio = nd * jours / couverts / max(na, 1)
         niveau = OK if ECART_MOIS[0] <= ratio <= ECART_MOIS[1] else ALERTE
+        partiel = f" (données jusqu'au {fin.day}, ramenées au mois entier)" if couverts < jours else ""
         resultats.append(_controle("volume_mensuel", "Offres du dernier mois complet", niveau, round(ratio, 3),
-                                   f"{_n(nd)} offres en {dernier:%m/%Y} contre {_n(na)} en {un_an:%m/%Y}"))
+                                   f"{_n(nd)} offres en {dernier:%m/%Y}{partiel} contre {_n(na)} en {un_an:%m/%Y}"))
 
         recents = mensuel.filter(pl.col("mois").is_in(complets[-3:]))
         reference = mensuel.filter(pl.col("mois").is_in(complets[-15:-3]))
@@ -133,7 +152,7 @@ def controles_offres(offres: pl.DataFrame, aujourdhui: date, precedent: dict | N
         niveau = ALERTE if r < BAISSE_TEXTES * a else OK
         resultats.append(_controle("textes", "Offres avec un texte de compétences", niveau, round(r, 4),
                                    f"{_pc(r)} contre {_pc(a)} ({periodes})"))
-        resultats.append(_contributeurs(offres, complets[-3:], complets[-15:-3], periodes))
+        resultats.append(_contributeurs(valides, complets[-3:], complets[-15:-3], periodes))
     return resultats, mensuel
 
 
@@ -217,8 +236,8 @@ def derive(offres: pl.DataFrame, items: pl.DataFrame, formes: pl.DataFrame, libe
     - en brut : part des annonces avec texte qui citent la compétence, et part de l'employeur le plus présent parmi
       les annonces récentes qui la citent (un seul employeur à 80 % = un modèle d'annonce, pas une tendance) ;
     - à employeurs constants : pour chaque employeur présent dans les deux périodes, écart de la part de ses annonces
-      qui citent la compétence ; moyenne des écarts, test t sur les employeurs, puis correction de Benjamini-Hochberg
-      pour les milliers de compétences testées à la fois.
+      qui citent la compétence ; moyenne des écarts, test t sur les employeurs (approximation normale, d'où au moins
+      30 employeurs), puis correction de Benjamini-Hochberg pour les centaines de compétences testées à la fois.
     """
     annonces = (
         offres.filter(pl.col("competences_texte").is_not_null())
@@ -255,29 +274,35 @@ def derive(offres: pl.DataFrame, items: pl.DataFrame, formes: pl.DataFrame, libe
         .agg(s=pl.col("d").sum(), s2=(pl.col("d") ** 2).sum())
     )
     lignes = brut.join(ecarts, on="code_ogr", how="left").fill_null(0)
-    if k >= 3:
+    if k >= MIN_EMPLOYEURS_CONSTANTS:
         # Les employeurs qui ne citent jamais la compétence comptent pour un écart nul
         lignes = lignes.with_columns(m=pl.col("s") / k).with_columns(
             sd=((pl.col("s2") - k * pl.col("m") ** 2) / (k - 1)).clip(lower_bound=0).sqrt())
+        lignes = lignes.with_columns(ic=1.96 * pl.col("sd") / math.sqrt(k))
         lignes = lignes.with_columns(
-            t=pl.when(pl.col("sd") > 0).then(pl.col("m") / (pl.col("sd") / math.sqrt(k))).otherwise(0.0))
+            # Écart identique chez tous les employeurs : certain s'il est non nul (t borné pour rester du JSON valide)
+            t=pl.when(pl.col("sd") > 0).then(pl.col("m") / (pl.col("sd") / math.sqrt(k)))
+            .otherwise(pl.col("m").sign() * T_MAX).clip(-T_MAX, T_MAX))
         testables = lignes.filter(pl.col("employeurs") >= MIN_EMPLOYEURS)
         q = _benjamini_hochberg([_p_bilateral(t) for t in testables["t"].to_list()])
         lignes = lignes.join(testables.select("code_ogr").with_columns(q=pl.Series(q, dtype=pl.Float64)), on="code_ogr", how="left")
     else:
-        lignes = lignes.with_columns(m=pl.lit(0.0), t=pl.lit(0.0), q=pl.lit(None, dtype=pl.Float64))
+        lignes = lignes.with_columns(m=pl.lit(0.0), t=pl.lit(0.0), ic=pl.lit(None, dtype=pl.Float64),
+                                     q=pl.lit(None, dtype=pl.Float64))
 
     def ligne(r: dict) -> dict:
         return {"code_ogr": r["code_ogr"], "libelle": libelles.get(r["code_ogr"], r["code_ogr"]), "recent": r["r"], "avant": r["a"],
                 "part_recente": round(r["pr"], 5), "part_avant": round(r["pa"], 5), "employeurs": r["employeurs"],
                 "concentration": round(r["concentration"], 3) if r["r"] else None,
-                "ecart_constant": round(r["m"], 5), "t": round(r["t"], 2), "q": None if r["q"] is None else round(r["q"], 4)}
+                "ecart_constant": round(r["m"], 5), "ic": None if r["ic"] is None else round(r["ic"], 5),
+                "t": round(r["t"], 2), "q": None if r["q"] is None else round(r["q"], 4)}
 
     # Classement brut : test de deux proportions (z), qui ne fait pas remonter les compétences citées deux fois
     p = (pl.col("r") + pl.col("a")) / (n_recent + n_avant)
     brutes = lignes.filter(pl.col("employeurs") >= MIN_EMPLOYEURS).with_columns(
         z=(pl.col("pr") - pl.col("pa")) / (p * (1 - p) * (1 / max(n_recent, 1) + 1 / max(n_avant, 1))).sqrt())
-    significatives = lignes.filter(pl.col("q").is_not_null() & (pl.col("q") < SEUIL_FDR))
+    # Test bilatéral, mais seules les hausses sont annoncées comme compétences émergentes
+    significatives = lignes.filter(pl.col("q").is_not_null() & (pl.col("q") < SEUIL_FDR) & (pl.col("t") > 0))
     return {
         "periode_recente": [(coupure + timedelta(days=1)).isoformat(), fin.isoformat()],
         "periode_avant": [(debut + timedelta(days=1)).isoformat(), coupure.isoformat()],
@@ -325,28 +350,48 @@ def nouveautes_par_mois(offres: pl.DataFrame, items: pl.DataFrame) -> list[list]
     return [[f"{r['mois']:%Y-%m}", r["items"], r["nouveaux"]] for r in mensuel.iter_rows(named=True)]
 
 
+def textes_defense(offres: pl.DataFrame) -> list[list]:
+    """Pour chaque mois complet : textes de compétences, dont ceux des services des armées, et offres de ces services."""
+    defense = pl.col("organisme").str.contains(DEFENSE) & ~pl.col("organisme").str.contains(DEFENSE_EXCLUS)
+    texte = pl.col("competences_texte").is_not_null()
+    complets = set(_mois_complets(offres))
+    mensuel = (
+        offres.with_columns(d=defense.fill_null(False), mois=pl.col("date_publication").dt.truncate("1mo"))
+        .filter(pl.col("mois").is_in(complets))
+        .group_by("mois").agg(textes=texte.sum(), textes_defense=(texte & pl.col("d")).sum(), offres_defense=pl.col("d").sum())
+        .sort("mois")
+    )
+    return [[f"{r['mois']:%Y-%m}", r["textes"], r["textes_defense"], r["offres_defense"]] for r in mensuel.iter_rows(named=True)]
+
+
 def statut(controles: list[dict]) -> str:
     return max((c["niveau"] for c in controles), key=GRAVITE.get, default=OK)
 
 
+def volume_reference(ancien: list[dict]) -> int | None:
+    return max((h.get("offres") or 0 for h in ancien[-HISTORIQUE_VOLUME:]), default=0) or None
+
+
 def rapport(offres: pl.DataFrame, items: pl.DataFrame, formes: pl.DataFrame, metiers_rome: pl.DataFrame,
-            catalogue: pl.DataFrame, version: str, aujourdhui: date, precedent: dict | None,
+            catalogue: pl.DataFrame, version: str, aujourdhui: date, ancien: list[dict],
             source: dict | None = None) -> dict:
-    ctrl_offres, mensuel = controles_offres(offres, aujourdhui, precedent)
+    ctrl_offres, mensuel = controles_offres(offres, aujourdhui, volume_reference(ancien))
     ctrl_comp = controles_competences(offres, items, formes, metiers_rome, set(catalogue["code_ogr"].to_list()), version)
     controles = ctrl_offres + ctrl_comp
     libelles = dict(zip(catalogue["code_ogr"].to_list(), catalogue["libelle"].to_list()))
+    valides = plausibles(offres, aujourdhui)
     return {
         "date": aujourdhui.isoformat(),
         "statut": statut(controles),
         "offres": offres.height,
-        "derniere_publication": offres["date_publication"].max().isoformat(),
+        "derniere_publication": valides["date_publication"].max().isoformat(),
         "source": source or {},
         "controles": controles,
         "mensuel": [[f"{r['mois']:%Y-%m}", r["n"], r["texte"]] for r in mensuel.iter_rows(named=True)],
-        "mois_complets": [f"{m:%Y-%m}" for m in _mois_complets(offres)],
-        "nouveautes": nouveautes_par_mois(offres, items),
-        "derive": derive(offres, items, formes, libelles),
+        "mois_complets": [f"{m:%Y-%m}" for m in _mois_complets(valides)],
+        "textes_defense": textes_defense(valides),
+        "nouveautes": nouveautes_par_mois(valides, items),
+        "derive": derive(valides, items, formes, libelles),
     }
 
 

@@ -32,7 +32,7 @@ Les données du site (`donnees/`, `outil/`) sont calculées par [`src/offres/web
 
 - **Contrôles** : fraîcheur de la dernière offre, volume total et mensuel, doublons, dates futures, départements inconnus, valeurs manquantes, part d'offres avec un texte de compétences, gros auteurs de textes qui cessent d'en écrire, couverture et version des rattachements au ROME. Un contrôle en erreur fait échouer le workflow (courriel de GitHub) ; le rapport est publié quand même et affiché sur le site.
 - **Dérive** : compétences ROME citées ces six derniers mois contre les deux années précédentes, en brut puis à employeurs constants (écart par employeur présent dans les deux périodes, test t, correction de Benjamini-Hochberg), et part mensuelle de formes jamais vues.
-- **Premier constat** (octobre 2026) : depuis novembre 2025, les services des armées, auteurs d'environ 38 % des textes de compétences en 2023-2025, n'en écrivent presque plus. Les hausses brutes de compétences (travail en équipe, bureautique…) viennent de ce changement d'auteurs : à employeurs constants, aucune des 887 compétences testées ne progresse nettement.
+- **Premier constat** (octobre 2026) : depuis novembre 2025, les services du ministère des Armées (périmètre : `suivi.DEFENSE`), auteurs de 48 % des textes de compétences de 2023 à octobre 2025, n'en écrivent presque plus : 639 textes par mois au total depuis, contre 1 381 les douze mois précédents. Les plus fortes hausses brutes (« Capacité à travailler en équipe » : +6,4 points) disparaissent à employeurs constants (+0,1 point) ; aucune des 887 compétences testées ne résiste à la correction de Benjamini-Hochberg.
 
 ## Données
 

@@ -341,5 +341,5 @@ def copier_suivi(cible: Path) -> None:
     for nom in ("suivi_dernier.json", "suivi_historique.json"):
         try:
             shutil.copy(donnees.chemin(nom, rafraichir=True), cible / nom)
-        except requests.HTTPError as e:
-            print(f"{nom} absent de la release ({e.response.status_code}) : page Coulisses sans contrôles")
+        except requests.RequestException as e:
+            print(f"{nom} indisponible ({e}) : page Coulisses sans contrôles")

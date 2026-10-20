@@ -156,7 +156,7 @@ def suivre(sortie: Path, ancien_historique: Path | None) -> str:
     maj = max(offres["fichier_source"].unique().to_list())[:8]
     source = {"mise_a_jour_fichier": f"{maj[:4]}-{maj[4:6]}-{maj[6:]}" if maj.isdigit() else None}
     rapport = suivi.rapport(offres, items, formes, metiers_rome, catalogue, competences.version(catalogue),
-                            collecte.maintenant().date(), ancien[-1] if ancien else None, source)
+                            collecte.maintenant().date(), ancien, source)
     sortie.mkdir(parents=True, exist_ok=True)
     (sortie / "suivi_dernier.json").write_text(json.dumps(rapport, ensure_ascii=False, indent=1))
     (sortie / "suivi_historique.json").write_text(json.dumps(suivi.historique(ancien, rapport), ensure_ascii=False, indent=1))
