@@ -2,15 +2,15 @@
 
 [![Tests](https://github.com/nitescuale/offres-emploi-competences/actions/workflows/ci.yml/badge.svg)](https://github.com/nitescuale/offres-emploi-competences/actions/workflows/ci.yml)
 
-Projet de data science de bout en bout sur les offres d'emploi publiques : les **offres des trois fonctions publiques** (Choisir le service public, open data, 1,6 million d'offres depuis 2022) et, dès que l'accès à l'API sera accordé, celles diffusées par **France Travail** (API Offres d'emploi v2, désormais en accès restreint) ; extraction des compétences par NLP (dictionnaire, embeddings, LLM en option, comparés sur un échantillon annoté), analyse des salaires et dashboard publié sur GitHub Pages.
+Projet de data science de bout en bout sur les offres d'emploi publiques : les **offres des trois fonctions publiques** (Choisir le service public, open data, 1,6 million d'offres depuis 2022) et, dès que l'accès à l'API sera accordé, celles diffusées par **France Travail** (API Offres d'emploi v2, désormais en accès restreint) ; extraction des compétences par NLP (dictionnaire, embeddings et LLM comparés sur un échantillon annoté ; la version publiée se passe de LLM), analyse des salaires et dashboard publié sur GitHub Pages.
 
 ## Étapes
 
 1. Cadrage : questions et indicateurs
-2. **Collecte et pipeline** (en cours) : photo hebdomadaire de toutes les offres en ligne + nouvelles offres chaque jour
-3. Exploration
-4. Extraction des compétences (NLP)
-5. Structure du marché et zoom métiers de la data
+2. Collecte et pipeline (fait) : offres du service public chaque semaine ; France Travail prêt, en attente de l'accès
+3. Exploration (fait) : [`notebooks/01_exploration.ipynb`](notebooks/01_exploration.ipynb)
+4. Extraction des compétences (fait) : [`notebooks/02_competences.ipynb`](notebooks/02_competences.ipynb), évaluation dans [`evaluation/`](evaluation/)
+5. Structure du marché et zoom métiers de la data (fait) : [`notebooks/03_structure.ipynb`](notebooks/03_structure.ipynb)
 6. Ce qui paie : modèle du salaire
 7. Dashboard et article
 8. Industrialisation et suivi
