@@ -1,6 +1,6 @@
 # Quelles compétences demande le marché ?
 
-Projet de data science de bout en bout sur les offres d'emploi diffusées par **France Travail** : collecte automatisée via l'API Offres d'emploi v2, extraction des compétences par NLP (dictionnaire, embeddings, LLM en option, comparés sur un échantillon annoté), analyse des salaires et dashboard publié sur GitHub Pages.
+Projet de data science de bout en bout sur les offres d'emploi publiques : les **offres des trois fonctions publiques** (Choisir le service public, open data, 1,6 million d'offres depuis 2022) et, dès que l'accès à l'API sera accordé, celles diffusées par **France Travail** (API Offres d'emploi v2, désormais en accès restreint) ; extraction des compétences par NLP (dictionnaire, embeddings, LLM en option, comparés sur un échantillon annoté), analyse des salaires et dashboard publié sur GitHub Pages.
 
 ## Étapes
 
@@ -13,7 +13,19 @@ Projet de data science de bout en bout sur les offres d'emploi diffusées par **
 7. Dashboard et article
 8. Industrialisation et suivi
 
-## Collecte
+## Données
+
+### Offres du service public (source principale)
+
+`offres --dossier donnees csp` télécharge chaque fichier annuel du jeu [« Les offres diffusées sur Choisir le service public »](https://www.data.gouv.fr/datasets/les-offres-diffusees-sur-choisir-le-service-public) (DGAFP, Licence Ouverte), renomme et type les colonnes, extrait le département, la catégorie (A+, A, B, C) et le niveau d'études, puis consolide les années en gardant pour chaque référence la version la plus récente. Le workflow « Offres Choisir le service public » tourne chaque lundi.
+
+| Fichier (release `donnees`) | Contenu |
+|---|---|
+| `csp_offres.parquet` | une ligne par offre : métier, intitulé, versant, catégorie, employeur, département, télétravail, niveau d'études, dates, texte « compétences attendues » (≈ 5 % des offres) |
+| `csp_rapport.json` | nombre d'offres, période couverte, offres par année |
+| `rome_*` | référentiel ROME 4.0 (compétences, savoirs, métiers), workflow « Référentiel ROME » |
+
+### Offres France Travail (quand l'accès sera accordé)
 
 L'API ne renvoie jamais plus de 1 150 offres par requête. `offres collecte` coupe donc la période de création en deux tant qu'une tranche dépasse ce plafond (puis par type de contrat pour les rafales d'offres créées à la même seconde), et pagine chaque tranche par 150.
 
