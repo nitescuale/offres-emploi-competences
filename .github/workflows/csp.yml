@@ -1,0 +1,35 @@
+name: Offres Choisir le service public
+
+# Chaque lundi : offres d'emploi des trois fonctions publiques (open data DGAFP), converties en Parquet et
+# publiées dans la release `donnees` (fichiers csp_*). Aucune clé d'API nécessaire.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/offres/csp.py"
+      - ".github/workflows/csp.yml"
+  schedule:
+    - cron: "0 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  csp:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install .
+      - run: offres --dossier donnees csp
+      - name: Publier dans la release
+        run: |
+          gh release view donnees >/dev/null 2>&1 || gh release create donnees --target main --latest=false \
+            --title "Données collectées" --notes "Offres d'emploi (Parquet) et référentiels, mis à jour par les workflows du dépôt."
+          cd donnees/csp && for f in *; do mv "$f" "csp_$f"; done
+          gh release upload donnees ./* --clobber
