@@ -11,13 +11,22 @@ from pathlib import Path
 import polars as pl
 
 from offres import collecte, csp, rome, sonde
-from offres.api import Client
+from offres.api import Client, ErreurApi
 
 TAILLE_LOT = 50_000  # offres gardées en mémoire avant écriture d'un morceau
 
 
 def collecter(dossier: Path, mode: str, jours: int, annees: int) -> None:
     client = Client()
+    try:
+        client.jeton()
+    except ErreurApi as e:
+        if "invalid_scope" not in str(e):
+            raise
+        # L'API Offres d'emploi est en accès restreint : tant que l'application n'y est pas abonnée, on le signale
+        # sans faire échouer la collecte quotidienne
+        print("::warning title=Collecte::Application non abonnée à l'API Offres d'emploi v2 (accès restreint) : collecte ignorée.")
+        return
     vue_le = collecte.maintenant()
     jour = vue_le.date().isoformat()
     debut = vue_le - (timedelta(days=jours) if mode == "jour" else timedelta(days=365 * annees))
