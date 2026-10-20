@@ -1,0 +1,92 @@
+name: Collecte des offres
+
+# Chaque matin : offres créées ces trois derniers jours. Chaque lundi (et au tout premier passage) : photo complète
+# de toutes les offres en ligne, qui permet aussi de savoir quelles offres ont disparu.
+# Les fichiers Parquet sont publiés comme pièces jointes de la release `donnees` (trop volumineux pour une branche git).
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/offres/api.py"
+      - "src/offres/collecte.py"
+      - ".github/workflows/collecte.yml"
+  schedule:
+    - cron: "30 4 * * *"
+  workflow_dispatch:
+    inputs:
+      stock:
+        description: "Photo complète de toutes les offres en ligne"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: collecte
+  cancel-in-progress: false
+
+jobs:
+  collecte:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    env:
+      FRANCE_TRAVAIL_CLIENT_ID: ${{ secrets.FRANCE_TRAVAIL_CLIENT_ID }}
+      FRANCE_TRAVAIL_CLIENT_SECRET: ${{ secrets.FRANCE_TRAVAIL_CLIENT_SECRET }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Vérifier les identifiants France Travail
+        id: secrets
+        run: |
+          if [ -z "$FRANCE_TRAVAIL_CLIENT_ID" ] || [ -z "$FRANCE_TRAVAIL_CLIENT_SECRET" ]; then
+            echo "::warning title=Collecte::Secrets FRANCE_TRAVAIL_CLIENT_ID / FRANCE_TRAVAIL_CLIENT_SECRET absents : collecte ignorée."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.secrets.outputs.ok == 'true'
+      - uses: actions/setup-python@v5
+        if: steps.secrets.outputs.ok == 'true'
+        with:
+          python-version: "3.12"
+      - run: pip install .
+        if: steps.secrets.outputs.ok == 'true'
+
+      - name: Récupérer l'index des offres déjà vues
+        id: index
+        if: steps.secrets.outputs.ok == 'true'
+        run: |
+          mkdir -p donnees
+          gh release view donnees >/dev/null 2>&1 || gh release create donnees --target main --latest=false \
+            --title "Données collectées" --notes "Offres d'emploi France Travail (Parquet), mises à jour par le workflow « Collecte des offres »."
+          if gh release download donnees -p index.parquet -D donnees; then
+            echo "premier=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "premier=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Collecter
+        if: steps.secrets.outputs.ok == 'true'
+        run: |
+          if [ "${{ inputs.stock }}" = "true" ] || [ "${{ steps.index.outputs.premier }}" = "true" ] || [ "$(date -u +%u)" = "1" ]; then
+            mode=stock
+          else
+            mode=jour
+          fi
+          offres --dossier donnees collecte --mode "$mode"
+          cat donnees/rapports/collecte_*.json >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Référentiels de l'API (le lundi ou au premier passage)
+        if: steps.secrets.outputs.ok == 'true' && (steps.index.outputs.premier == 'true' || inputs.stock)
+        continue-on-error: true
+        run: |
+          offres --dossier donnees referentiels
+          cd donnees/referentiels && for f in *.json; do mv "$f" "ref_$f"; done
+
+      - name: Publier dans la release
+        if: steps.secrets.outputs.ok == 'true'
+        run: |
+          shopt -s nullglob
+          gh release upload donnees donnees/offres/*.parquet donnees/index.parquet donnees/rapports/*.json donnees/referentiels/*.json --clobber
