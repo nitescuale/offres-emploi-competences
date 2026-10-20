@@ -1,0 +1,35 @@
+name: Référentiel ROME
+
+# Chaque lundi : référentiel ROME 4.0 (métiers, compétences, savoirs) depuis l'open data de France Travail,
+# publié dans la release `donnees` (fichiers rome_*). Sert de dictionnaire pour l'extraction des compétences.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/offres/rome.py"
+      - ".github/workflows/rome.yml"
+  schedule:
+    - cron: "0 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  rome:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install .
+      - run: offres --dossier donnees rome
+      - name: Publier dans la release
+        run: |
+          gh release view donnees >/dev/null 2>&1 || gh release create donnees --target main --latest=false \
+            --title "Données collectées" --notes "Offres d'emploi France Travail (Parquet), mises à jour par le workflow « Collecte des offres »."
+          cd donnees/rome && for f in *; do mv "$f" "rome_$f"; done
+          gh release upload donnees ./* --clobber
