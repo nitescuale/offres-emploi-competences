@@ -3,8 +3,11 @@
 
 import { normaliser, segmenter, Tfidf } from "./extraction.js";
 
-const SEUIL_PROCHE = 0.8; // TF-IDF : 3 rapprochements sur 4 exacts au-dessus, sur l'échantillon annoté du notebook 02
-const SEUIL_INCERTAIN = 0.5; // en dessous, presque jamais exact (4 %) : l'item est montré à part
+// Seuils de similarité TF-IDF, lus sur l'échantillon annoté du notebook 02 (evaluation/competences_propositions.csv).
+// Au-dessus de 0,8, les mots de l'item se retrouvent presque tels quels dans le libellé (75 % d'exacts sur l'échantillon) ;
+// sous 0,5, moins d'un item rare sur deux tombe dans le bon domaine : il est montré à part.
+const SEUIL_PROCHE = 0.8;
+const SEUIL_INCERTAIN = 0.5;
 
 const charger = (nom) => fetch(new URL(`../outil/${nom}.json`, import.meta.url)).then((r) => {
   if (!r.ok) throw new Error(`${nom}.json : ${r.status}`);
@@ -34,8 +37,13 @@ function rapprocher({ catalogue, index, vues }, item) {
     item, entree, libelle: catalogue.libelles[entree], domaine: catalogue.domaines[catalogue.domaine[entree]],
     macro: catalogue.macro[entree], ...extra,
   });
-  if (vue) return resultat(vue[0], { source: "vue", occurrences: vue[1] });
   const [meilleur] = index.chercher(forme, 1);
+  // Forme déjà vue : rattachement de la méthode publiée, confronté à TF-IDF. En désaccord, il n'est exact qu'une fois sur
+  // dix dans l'échantillon annoté (contre quatre sur dix en accord) : il est alors rangé avec les incertains.
+  if (vue) {
+    const accord = meilleur?.[0] === vue[0];
+    return resultat(vue[0], { source: "vue", occurrences: vue[1], niveau: accord ? "confirme" : "desaccord" });
+  }
   if (!meilleur) return { item, entree: null, source: "aucun", score: 0 };
   const [entree, score] = meilleur;
   const niveau = score >= SEUIL_PROCHE ? "proche" : score >= SEUIL_INCERTAIN ? "approximatif" : "incertain";
@@ -72,7 +80,7 @@ self.onmessage = async ({ data }) => {
     const items = [...new Set(segmenter(data.texte))];
     const resultats = items.map((i) => rapprocher(etat, i)).filter(Boolean);
     // Les compétences demandées partout (rigueur, travail en équipe...) ne disent rien du métier : écartées ici
-    const distinctives = new Set(resultats.filter((r) => r.entree !== null && r.niveau !== "incertain" &&
+    const distinctives = new Set(resultats.filter((r) => r.entree !== null && !["incertain", "desaccord"].includes(r.niveau) &&
       !etat.transversales.has(r.entree)).map((r) => r.entree));
     for (const r of resultats) r.transversale = etat.transversales.has(r.entree);
     self.postMessage({ type: "resultats", id: data.id, resultats, fiches: fichesProches(etat, distinctives) });

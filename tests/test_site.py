@@ -41,6 +41,15 @@ def test_extraction_js_identique_a_python():
 
 
 @pytest.mark.skipif(NODE is None, reason="Node.js absent")
+def test_extraction_js_sur_un_echantillon_du_corpus():
+    textes = json.loads((RACINE / "tests" / "donnees" / "textes_competences.json").read_text())["textes"]
+    attendu = [[[i, competences.normaliser(i)] for i in competences.segmenter(t)] for t in textes]
+    obtenu = _node("console.log(JSON.stringify(entree.map((t) => x.segmenter(t).map((i) => [i, x.normaliser(i)]))));", textes)
+    differents = [t for t, a, o in zip(textes, attendu, obtenu) if a != o]
+    assert not differents, differents[:3]
+
+
+@pytest.mark.skipif(NODE is None, reason="Node.js absent")
 def test_tfidf_js_identique_a_scikit_learn():
     libelles = ["Travail en équipe", "Travailler en équipe pluridisciplinaire", "Analyse statistique des données",
                 "Programmation en Python", "Gestion administrative du personnel", "Rédaction d'actes administratifs",
@@ -102,8 +111,9 @@ def test_donnees_tableau(tmp_path, monkeypatch):
     assert resume["nb_mois"] == 45  # janvier 2022 à septembre 2025 (la fin du mois est presque atteinte)
 
     metiers = json.loads((tmp_path / "metiers.json").read_text())
-    assert [m[:3] for m in metiers["lignes"]] == [[1, "Agent d'accueil", 3], [2, "Infirmier", 3]]
-    inf = json.loads((tmp_path / "metiers" / "2.json").read_text())
+    accueil, infirmier = web.identifiant("Agent d'accueil"), web.identifiant("Infirmier")
+    assert [m[:3] for m in metiers["lignes"]] == [[accueil, "Agent d'accueil", 3], [infirmier, "Infirmier", 3]]
+    inf = json.loads((tmp_path / "metiers" / f"{infirmier}.json").read_text())
     k = dict(zip(resume["colonnes_kpi"], inf["territoires"]["44"]["annees"]["2023"]))
     assert k["n"] == 2 and k["tt_r"] == 0 and k["cat_A"] == 2 and k["mg_r"] == 2
     assert (k["rep"], k["rep_r"]) == (1, 2)  # l'annonce 1 revient 60 jours plus tard ; la 2, non
@@ -111,17 +121,19 @@ def test_donnees_tableau(tmp_path, monkeypatch):
     assert inf["competences"]["liste"][0] == ["Travail en équipe", "Savoirs · Domaines d'expertise", 1.0]
     assert inf["fiche"]["code_rome"] == "J1506" and inf["fiche"]["coeur"] == ["Réaliser des soins"]
 
-    tous = json.loads((tmp_path / "metiers" / "0.json").read_text())
+    tous = json.loads((tmp_path / "metiers" / "tous.json").read_text())
     assert "?" in tous["territoires"]  # département 99 : compté dans la France entière, pas sur la carte
     assert sum(sum(t["serie"]) for t in tous["territoires"].values()) == 6
-    assert tous["metiers_frequents"]["France|toutes"] == [[1, 3], [2, 3]]
-    assert tous["metiers_frequents"]["r:Pays de la Loire|2023"] == [[2, 2]]
-    assert tous["metiers_frequents"]["75|2024"] == [[1, 1]]
+    frequents = tous["metiers_frequents"]
+    assert sorted(frequents["France|toutes"]) == sorted([[accueil, 3], [infirmier, 3]])
+    assert frequents["r:Pays de la Loire|2023"] == [[infirmier, 2]]
+    assert frequents["75|2024"] == [[accueil, 1]]
+    assert web.identifiant("Infirmier") == infirmier  # stable d'une construction à l'autre
 
 
 def test_donnees_outil(tmp_path):
     _, formes, items, metiers_rome, catalogue, par_fiche = _jeu()
-    metiers = pl.DataFrame({"id": [2], "metier": ["Infirmier"]})
+    metiers = pl.DataFrame({"id": ["abc"], "metier": ["Infirmier"]})
     web.donnees_outil(tmp_path, formes, items, catalogue, par_fiche, metiers_rome, metiers,
                       noms_fiches={"J1506": "Soins infirmiers"})
     cat = json.loads((tmp_path / "catalogue.json").read_text())
@@ -131,4 +143,4 @@ def test_donnees_outil(tmp_path):
     vues = json.loads((tmp_path / "formes.json").read_text())
     assert vues == {"formes": ["travail en equipe"], "entrees": [0], "occurrences": [2]}  # vue une seule fois : écartée
     fiches = json.loads((tmp_path / "fiches.json").read_text())
-    assert fiches["lignes"] == [["J1506", "Soins infirmiers", [1], [0], [[2, "Infirmier"]]]]
+    assert fiches["lignes"] == [["J1506", "Soins infirmiers", [1], [0], [["abc", "Infirmier"]]]]

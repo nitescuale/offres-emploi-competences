@@ -48,7 +48,7 @@
       <ul>
         <li><b>Seules 4 à 5 % des offres décrivent les compétences attendues</b>, surtout à l'État&nbsp;; et plus d'un tiers de ces textes sortent d'un même ministère, celui des Armées. Lire les compétences « du service public » demande de savoir qui les écrit.</li>
         <li><b>Sans LLM, un programme rattache une compétence au bon libellé du référentiel une fois sur trois, au bon domaine quatre fois sur cinq.</b> Un grand modèle de langue fait nettement mieux (53 à 59&nbsp;%), un modèle qui tourne sur un portable non&nbsp;: la version publiée s'en passe.</li>
-        <li><b>Un socle de savoir-être est demandé partout</b>&nbsp;: rigueur, autonomie, travail en équipe et réactivité figurent dans plus des trois quarts des métiers.</li>
+        <li><b>Un socle de savoir-être est demandé partout</b>&nbsp;: rigueur, autonomie, travail en équipe et réactivité figurent dans plus des trois quarts des métiers qui ont assez de textes pour être comparés.</li>
         <li><b>Une annonce sur sept est republiée dans les six mois</b>, et la part monte (12,7&nbsp;% en 2022, 16,2&nbsp;% en 2025). L'aide à domicile, la petite enfance, le travail social et le soin sont en tête.</li>
         <li><b>Un modèle prévoit ces republications (AUC 0,78), mais une règle simple fait presque aussi bien (0,76)</b>&nbsp;: le métier et l'historique du poste portent l'essentiel du signal.</li>
       </ul>
@@ -56,7 +56,7 @@
 
     <section>
       <h2><span class="numero">1</span>La démarche</h2>
-      <p>Le projet suit le chemin complet d'une étude de données, de la collecte à un site qui se met à jour seul. Chaque étape a son notebook, publié avec le code, et chaque chiffre de cet article en vient.</p>
+      <p>Le projet suit le chemin complet d'une étude de données, de la collecte à un site qui se met à jour seul. Chaque étape a son notebook, publié avec le code, et chaque chiffre de cet article en vient. Ces chiffres datent du 20 octobre 2026&nbsp;; ceux du tableau de bord se mettent à jour chaque semaine.</p>
       <ol class="etapes">
         <li><b>Cadrage</b> : quelles compétences demande le marché, où, et lesquelles manquent&nbsp;?</li>
         <li><b>Collecte</b> : un paquet Python et des tâches GitHub Actions qui récupèrent chaque semaine les offres du service public et le référentiel ROME, rangés en Parquet. Le code de collecte de l'API France Travail est prêt, en attente d'un accès devenu restreint.</li>
@@ -92,7 +92,7 @@
       <figure>
         <img src="figures/05_teletravail.png" alt="Part des offres proposant du télétravail par catégorie et par année" loading="lazy">
       </figure>
-      <p>Les métiers de la <b>data</b> restent une niche (0,7&nbsp;% des offres, sans progression), mais tranchent avec le reste&nbsp;: surtout des cadres, du télétravail dans 78 à 90&nbsp;% des offres qui le précisent, une offre de data scientist sur deux à Paris.</p>
+      <p>Les métiers de la <b>data</b> restent une niche (0,7&nbsp;% des offres, sans progression), mais tranchent avec le reste&nbsp;: surtout des cadres, du télétravail le plus souvent proposé (contre environ 40&nbsp;% des offres en moyenne), une offre de data scientist sur deux à Paris.</p>
       <p class="aparte">La grande absente est le <b>salaire</b>&nbsp;: le service public ne le publie pas. Et seules 4,5&nbsp;% des offres ont un texte de compétences. D'où les deux choix qui suivent&nbsp;: passer par un référentiel pour lire les compétences, et mesurer la difficulté de recrutement autrement que par le salaire.</p>
     </section>
 
@@ -114,16 +114,16 @@
 
     <section>
       <h2><span class="numero">4</span>Un socle commun, des gabarits d'employeurs</h2>
-      <p>Un <b>socle transversal</b> de 31 formes pèse 22&nbsp;% des citations&nbsp;: rigueur (92&nbsp;% des métiers), autonomie (90&nbsp;%), travail en équipe (85&nbsp;%), réactivité (77&nbsp;%). Ces savoir-être viennent en partie des référentiels de compétences des ministères, repris tels quels dans les offres de l'État.</p>
+      <p>Un <b>socle transversal</b> de 31 formes pèse 22&nbsp;% des citations&nbsp;: parmi les 414 métiers qui ont au moins 20 annonces avec un texte, rigueur est citée par 92&nbsp;% d'entre eux, autonomie par 90&nbsp;%, travail en équipe par 85&nbsp;%, réactivité par 77&nbsp;%. Ces savoir-être viennent en partie des référentiels de compétences des ministères, repris tels quels dans les offres de l'État.</p>
       <figure>
         <img src="figures/14_competences_transversales.png" alt="Compétences citées par le plus grand nombre de métiers" loading="lazy">
         <figcaption>Un métier « cite » une forme si au moins 2&nbsp;% de ses annonces la mentionnent. <a href="https://github.com/nitescuale/offres-emploi-competences/blob/main/notebooks/03_structure.ipynb">Notebook 03</a>.</figcaption>
       </figure>
-      <p>Le réseau des compétences qui vont ensemble dit d'abord <b>qui écrit</b>&nbsp;: 37&nbsp;% des textes viennent des services du ministère des Armées, qui puisent dans un même référentiel, et sept des neuf communautés du réseau sont écrites à plus de moitié par eux. Une factorisation des profils de compétences (NMF) dégage neuf familles stables&nbsp;: soins et santé, bâtiment et prévention, archives et patrimoine, restauration collective, systèmes d'information, achats publics, renseignement et administration, juridique et greffe, et un reste de 171 métiers mal décrits par leurs textes.</p>
+      <p>Le réseau des compétences qui vont ensemble dit d'abord <b>qui écrit</b>&nbsp;: 37&nbsp;% des textes viennent des services du ministère des Armées, qui puisent dans un même référentiel, et sept des neuf communautés du réseau sont écrites à plus de moitié par eux. Une factorisation des profils de compétences (NMF) dégage neuf familles, le plus grand nombre qui reste stable d'un tirage à l'autre, de robustesse inégale (de 0,86 pour les soins à 0,19 pour le juridique)&nbsp;: soins et santé, bâtiment et prévention, archives et patrimoine, restauration collective, systèmes d'information, achats publics, renseignement et administration, juridique et greffe, et un reste de 171 métiers mal décrits par leurs textes.</p>
       <figure>
         <img src="figures/17_familles_metiers.png" alt="Familles de métiers issues de la factorisation des profils de compétences" loading="lazy">
       </figure>
-      <p>Les annonces <b>data</b> ont le vocabulaire le plus distinctif&nbsp;: statistique, science des données, informatique décisionnelle, modélisation, chacune 20 à 50 fois plus fréquente qu'ailleurs. Un tiers de leurs textes nomment un outil&nbsp;: Python (14&nbsp;%), Excel (8&nbsp;%), R (7&nbsp;%), SQL (6&nbsp;%).</p>
+      <p>Les annonces <b>data</b> ont un vocabulaire très distinctif&nbsp;: statistique, science des données, informatique décisionnelle, modélisation, chacune 20 à 50 fois plus fréquente qu'ailleurs. Un tiers de leurs textes nomment un outil&nbsp;: Python (14&nbsp;%), Excel (8&nbsp;%), R (7&nbsp;%), SQL (6&nbsp;%).</p>
       <figure>
         <img src="figures/18_competences_data.png" alt="Compétences les plus surreprésentées dans les annonces des métiers de la data" loading="lazy">
       </figure>
@@ -141,7 +141,7 @@
         <img src="figures/22_effets_republication.png" alt="Contribution moyenne de chaque caractéristique de l'annonce à la probabilité de republication" loading="lazy">
         <figcaption>Contribution moyenne de chaque modalité à la prévision du modèle (valeurs de Shapley, en log-cote)&nbsp;; orange&nbsp;: vers plus de republications.</figcaption>
       </figure>
-      <p>À métier et historique égaux, les postes avec <b>management</b> et ceux de catégorie A+ vont avec moins de republications, ceux de catégorie C avec plus. Les compétences demandées, elles, n'apportent que des pistes&nbsp;: les écarts les plus forts tiennent à un seul employeur.</p>
+      <p>Dans le modèle, les postes avec <b>management</b> et ceux de catégorie A+ tirent la prévision vers moins de republications, ceux de catégorie C vers plus&nbsp;; ce sont des contributions moyennes, pas des effets à toutes choses égales par ailleurs. Les compétences demandées, elles, n'apportent que des pistes&nbsp;: les écarts les plus forts tiennent à un seul employeur.</p>
       <p class="aparte">Le taux de republication de chaque métier, par département et par année, est dans le <a href="tableau.html">tableau de bord</a>&nbsp;; la carte peut le montrer à la place des volumes.</p>
     </section>
 

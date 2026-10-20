@@ -8,6 +8,7 @@ compétences.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import re
@@ -112,6 +113,12 @@ def _dep() -> pl.Expr:
     return pl.when(pl.col("departement").is_in(CONNUS)).then(pl.col("departement")).otherwise(pl.lit("?"))
 
 
+def identifiant(metier: str) -> str:
+    """Identifiant stable d'un métier (empreinte de son nom) : les liens partagés du tableau de bord (#m=...) restent
+    valables d'une semaine à l'autre, même quand l'ordre des métiers change."""
+    return hashlib.sha1(metier.encode()).hexdigest()[:8]
+
+
 def offres_du_site(offres: pl.DataFrame, metiers: pl.DataFrame) -> pl.DataFrame:
     """Une ligne par offre depuis 2022 : identifiant du métier, département connu (« ? » sinon), mois, année, champs des
     indicateurs."""
@@ -119,7 +126,7 @@ def offres_du_site(offres: pl.DataFrame, metiers: pl.DataFrame) -> pl.DataFrame:
         offres.filter(pl.col("date_publication") >= DEBUT)
         .join(metiers.select("metier", "id"), on="metier", how="left")
         .with_columns(
-            id=pl.col("id").fill_null(-1),
+            id=pl.col("id").fill_null(""),
             dep=_dep(),
             mois=_mois(),
             annee=pl.col("date_publication").dt.year(),
@@ -178,7 +185,7 @@ def metiers_frequents(lignes: pl.DataFrame, n: int = 12) -> dict:
     """Les métiers les plus fréquents par territoire (France, région, département) et par année (ou toutes) : clés
     « territoire|année » lues par le tableau de bord quand aucun métier n'est choisi."""
     region = {d: r for r, codes in REGIONS.items() for d in codes.split()}
-    base = (lignes.filter(pl.col("id") > 0).group_by("id", "dep", "annee").len()
+    base = (lignes.filter(pl.col("id") != "").group_by("id", "dep", "annee").len()
             .with_columns(region=pl.concat_str(pl.lit("r:"), pl.col("dep").replace_strict(region, default=None))))
     resultat = {}
     for cle_t, filtre in [("France", pl.lit(True)), ("region", pl.col("region").is_not_null()), ("dep", pl.col("dep") != "?")]:
@@ -188,7 +195,7 @@ def metiers_frequents(lignes: pl.DataFrame, n: int = 12) -> dict:
             g = (sous if annee is None else sous.filter(pl.col("annee") == annee)).group_by("t", "id").agg(pl.col("len").sum())
             g = g.sort(["t", "len", "id"], descending=[False, True, False]).group_by("t", maintain_order=True).head(n)
             for (terr,), lot in g.group_by("t", maintain_order=True):
-                resultat[f"{terr}|{annee or 'toutes'}"] = [[int(i), int(c)] for i, c in lot.select("id", "len").iter_rows()]
+                resultat[f"{terr}|{annee or 'toutes'}"] = [[i, int(c)] for i, c in lot.select("id", "len").iter_rows()]
     return resultat
 
 
@@ -206,14 +213,18 @@ def donnees_tableau(sortie: Path, offres: pl.DataFrame, formes: pl.DataFrame, it
     # Le dernier mois n'est gardé que s'il est (presque) complet
     nb_mois = (fin.year - DEBUT.year) * 12 + fin.month - (1 if fin.day < 25 else 0)
     metiers = (offres.filter(pl.col("date_publication") >= DEBUT).drop_nulls("metier").group_by("metier").len()
-               .sort(["len", "metier"], descending=[True, False]).with_row_index("id", offset=1))
+               .sort(["len", "metier"], descending=[True, False])
+               .with_columns(id=pl.col("metier").map_elements(identifiant, return_dtype=pl.Utf8)))
+    if metiers["id"].n_unique() < metiers.height:
+        raise ValueError("deux métiers ont le même identifiant : allonger l'empreinte")
     lignes = offres_du_site(offres, metiers)
     rep = (recrutement.republications(offres).join(metiers.select("metier", "id"), on="metier", how="left")
-           .with_columns(id=pl.col("id").fill_null(-1), dep=_dep(), annee=pl.col("date_publication").dt.year()))
+           .with_columns(id=pl.col("id").fill_null(""), dep=_dep(), annee=pl.col("date_publication").dt.year()))
 
     libelles = {r["code_ogr"]: (r["libelle"], domaine(r)) for r in catalogue.iter_rows(named=True)}
     textes = (items.join(formes.select("forme", "code_ogr"), on="forme").drop_nulls("code_ogr")
-              .join(offres.unique("annonce_id").select("annonce_id", "metier", "organisme"), on="annonce_id")
+              .join(offres.filter(pl.col("date_publication") >= DEBUT).unique("annonce_id")
+                    .select("annonce_id", "metier", "organisme"), on="annonce_id")
               .join(metiers.select("metier", "id"), on="metier", how="left")
               .select("annonce_id", "id", "organisme", "code_ogr").unique(["annonce_id", "code_ogr"]))
     fiches = metiers_rome.select("metier", "code_rome", "libelle_rome", "appellation")
@@ -232,10 +243,10 @@ def donnees_tableau(sortie: Path, offres: pl.DataFrame, formes: pl.DataFrame, it
         contenu = {"territoires": _par_territoire(ind_m, rp_m, nb_mois, series_m),
                    "competences": _competences_citees(textes_m, libelles), **autres}
         if fiche:
-            contenu["fiche"] = {**fiche, "coeur": coeur.get(fiche["code_rome"], [])[:15]}
+            contenu["fiche"] = {**fiche, "coeur": coeur.get(fiche["code_rome"], [])}
         ecrire(sortie / "metiers" / f"{id_}.json", contenu)
 
-    fichier(0, ind_tous, rp_tous, series_tous, textes, None, metiers_frequents=metiers_frequents(lignes))
+    fichier("tous", ind_tous, rp_tous, series_tous, textes, None, metiers_frequents=metiers_frequents(lignes))
     groupes = {k[0]: g.drop("id") for k, g in ind.group_by("id")}
     groupes_rp = {k[0]: g.drop("id") for k, g in rp.group_by("id")}
     groupes_s = {k[0]: g.drop("id") for k, g in series.group_by("id")}

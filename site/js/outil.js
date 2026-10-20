@@ -53,13 +53,14 @@ Savoir-être : rigueur, autonomie, esprit d'équipe, curiosité`;
   });
 
   const BADGES = {
-    vue: (r) => [`vue ${nombre(r.occurrences)} fois dans les offres`, "vue"],
+    confirme: (r) => [`vue ${nombre(r.occurrences)} fois dans les offres · confirmée par TF-IDF`, "vue"],
+    desaccord: (r) => [`vue ${nombre(r.occurrences)} fois · méthodes en désaccord`, "incertain"],
     proche: () => ["rapprochement proche", "proche"],
     approximatif: () => ["rapprochement approximatif", "approx"],
     incertain: () => ["incertain", "incertain"],
   };
   const badge = (r) => {
-    const [texte, classe] = BADGES[r.source === "vue" ? "vue" : r.niveau](r);
+    const [texte, classe] = BADGES[r.niveau](r);
     const titre = r.source === "tfidf" ? ` title="similarité TF-IDF ${nombre(r.score, 2)}"` : "";
     return `<span class="badge ${classe}"${titre}>${texte}</span>` +
       (r.transversale ? '<span class="badge transversale" title="citée par au moins 5 % des annonces : ne compte pas pour les fiches métier">transversale</span>' : "");
@@ -69,7 +70,7 @@ Savoir-être : rigueur, autonomie, esprit d'équipe, curiosité`;
 
   function afficher({ resultats, fiches }) {
     $("resultats").hidden = false;
-    const fiables = resultats.filter((r) => r.entree !== null && r.niveau !== "incertain");
+    const fiables = resultats.filter((r) => r.entree !== null && !["incertain", "desaccord"].includes(r.niveau));
     const incertains = resultats.filter((r) => !fiables.includes(r));
     const distinctes = new Set(fiables.map((r) => r.entree)).size;
     $("etat").textContent = "";

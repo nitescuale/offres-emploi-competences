@@ -5,7 +5,9 @@
   const { charger, objets, nombre, pourcent, date, MOIS, echapper, montrerBulle, cacherBulle } = Commun;
   const $ = (id) => document.getElementById(id);
   const SVG = "http://www.w3.org/2000/svg";
-  const MIN_PART = 20; // en dessous de 20 offres renseignées, une part n'est pas montrée (carte et tuiles)
+  const MIN_PART = 20; // en dessous de 20 offres renseignées, une part n'est pas montrée dans les tuiles
+  const MIN_CARTE = 50; // sur la carte, 50 : les petits départements étireraient sinon l'échelle des couleurs
+  const DEBUT_TT = "2023"; // le télétravail n'est renseigné que depuis 2023 (15 % des offres en 2022)
 
   let resume, metiers, territoires, geo;
   try {
@@ -18,11 +20,14 @@
   }
   metiers = objets(metiers);
   const parId = new Map(metiers.map((m) => [m.id, m]));
+  const fichierDe = (id) => id || "tous";
   const parNom = new Map(metiers.map((m) => [m.metier.toLowerCase(), m]));
   const K = Object.fromEntries(resume.colonnes_kpi.map((c, i) => [c, i]));
   const annees = [];
   for (let a = Number(resume.debut.slice(0, 4)); a <= Number(resume.fin.slice(0, 4)); a++) annees.push(String(a));
   const departements = territoires.departements;
+  const PERIODE = `${annees[0]} à ${annees.at(-1)}`;
+  $("annee").options[0].textContent = PERIODE;
 
   $("couverture").textContent =
     `${nombre(resume.offres)} offres de la fonction publique publiées sur Choisir le service public, de janvier 2022 au ` +
@@ -42,12 +47,12 @@
   $("annee").insertAdjacentHTML("beforeend", annees.map((a) =>
     `<option value="${a}">${a}${a === annees.at(-1) && finMois < 12 ? ` (jusqu'à ${MOIS[finMois - 1]})` : ""}</option>`).join(""));
 
-  const etat = { metier: 0, territoire: "", annee: "", mesure: "n" };
+  const etat = { metier: "", territoire: "", annee: "", mesure: "n" };
   const lireAdresse = () => {
     const p = new URLSearchParams(location.hash.slice(1));
-    etat.metier = parId.has(Number(p.get("m"))) ? Number(p.get("m")) : 0;
+    etat.metier = parId.has(p.get("m")) ? p.get("m") : "";
     const t = p.get("t") ?? "";
-    etat.territoire = t === "" || departements[t] || territoires.regions.includes(t.slice(2)) ? t : "";
+    etat.territoire = departements[t] || (t.startsWith("r:") && territoires.regions.includes(t.slice(2))) ? t : "";
     etat.annee = annees.includes(p.get("a")) ? p.get("a") : "";
     etat.mesure = ["n", "tt", "rep"].includes(p.get("c")) ? p.get("c") : "n";
   };
@@ -62,7 +67,7 @@
 
   const fichiers = new Map();
   const donneesMetier = (id) => {
-    if (!fichiers.has(id)) fichiers.set(id, charger(`donnees/metiers/${id}`));
+    if (!fichiers.has(id)) fichiers.set(id, charger(`donnees/metiers/${fichierDe(id)}`));
     return fichiers.get(id);
   };
 
@@ -90,44 +95,63 @@
     return total;
   }
   const part = (num, den) => (den >= MIN_PART ? num / den : null);
-  function valeur(k, mesure) {
+  /** Années retenues pour le télétravail : celle choisie, ou toutes depuis 2023 (champ absent avant). */
+  const anneeTt = (annee) => (annee ? [annee] : annees.filter((a) => a >= DEBUT_TT));
+  function sommeTt(d, deps, annee) {
+    const total = new Array(resume.colonnes_kpi.length).fill(0);
+    for (const a of anneeTt(annee)) somme(d, deps, a).forEach((v, i) => (total[i] += v));
+    return total;
+  }
+  function valeur(d, deps, annee, mesure, minimum) {
+    const k = mesure === "tt" ? sommeTt(d, deps, annee) : somme(d, deps, annee);
+    const p = (num, den) => (den >= minimum ? num / den : null);
     if (mesure === "n") return { v: k[K.n], n: k[K.n] };
-    if (mesure === "tt") return { v: part(k[K.tt], k[K.tt_r]), n: k[K.tt_r] };
-    return { v: part(k[K.rep], k[K.rep_r]), n: k[K.rep_r] };
+    if (mesure === "tt") return { v: p(k[K.tt], k[K.tt_r]), n: k[K.tt_r] };
+    return { v: p(k[K.rep], k[K.rep_r]), n: k[K.rep_r] };
   }
   const nomTerritoire = (t) => (!t ? "France entière" : t.startsWith("r:") ? t.slice(2) : `${departements[t].nom} (${t})`);
 
-  // Rendu
+  // Rendu : seul le dernier rendu demandé s'affiche (un fichier lent ne doit pas écraser une sélection plus récente)
+  let rendu = 0;
   async function rendre() {
+    const numero = ++rendu;
     ecrireAdresse();
     $("metier").value = etat.metier ? parId.get(etat.metier).metier : "";
     $("territoire").value = etat.territoire;
     $("annee").value = etat.annee;
     $("mesure").value = etat.mesure;
-    const d = await donneesMetier(etat.metier);
+    let d;
+    try {
+      d = await donneesMetier(etat.metier);
+    } catch (erreur) {
+      $("selection").textContent = `Données indisponibles (${erreur.message}).`;
+      return;
+    }
+    if (numero !== rendu) return;
     const deps = depsDe(etat.territoire);
     const k = somme(d, deps, etat.annee);
     const nomMetier = etat.metier ? parId.get(etat.metier).metier : "Tous les métiers";
-    const morceaux = [nomMetier, nomTerritoire(etat.territoire), etat.annee || "2022 à 2026"];
+    const morceaux = [nomMetier, nomTerritoire(etat.territoire), etat.annee || PERIODE];
     const filtre = etat.metier || etat.territoire || etat.annee;
     $("selection").innerHTML = `${morceaux.map(echapper).join(" · ")}${filtre ? ' <button type="button" id="effacer">Tout effacer</button>' : ""}`;
-    $("effacer")?.addEventListener("click", () => Object.assign(etat, { metier: 0, territoire: "", annee: "" }) && rendre());
-    tuiles(k, d);
+    $("effacer")?.addEventListener("click", () => Object.assign(etat, { metier: "", territoire: "", annee: "" }) && rendre());
+    tuiles(k, d, deps);
     courbe(serie(d, deps));
     carte(d);
     competences(d);
-    fiche(d);
+    await fiche(d, numero);
   }
 
-  function tuiles(k, d) {
+  function tuiles(k, d, deps) {
     $("k-offres").textContent = nombre(k[K.n]);
     const toutes = somme(d, null, "")[K.n];
     $("k-offres-note").textContent = etat.territoire || etat.annee
-      ? `${pourcent(k[K.n] / toutes, 1)} des offres de ce métier sur 2022-2026`
-      : etat.metier ? `${pourcent(k[K.n] / resume.offres, 1)} de toutes les offres` : "toutes les offres depuis 2022";
-    const tt = part(k[K.tt], k[K.tt_r]);
-    $("k-tt").textContent = pourcent(tt);
-    $("k-tt-note").textContent = k[K.n] ? `champ renseigné pour ${pourcent(k[K.tt_r] / k[K.n])} des offres` : "";
+      ? `${pourcent(k[K.n] / toutes, 1)} des offres ${etat.metier ? "de ce métier" : "publiées"} de ${PERIODE}`
+      : etat.metier ? `${pourcent(k[K.n] / resume.offres, 1)} de toutes les offres` : `toutes les offres de ${PERIODE}`;
+    const kt = sommeTt(d, deps, etat.annee);
+    $("k-tt").textContent = pourcent(part(kt[K.tt], kt[K.tt_r]));
+    $("k-tt-note").textContent = kt[K.n]
+      ? `${etat.annee ? "" : `depuis ${DEBUT_TT}, `}champ renseigné pour ${pourcent(kt[K.tt_r] / kt[K.n])} des offres` : "";
     const a = k[K["cat_A+"]] + k[K.cat_A];
     const cats = [a, k[K.cat_B], k[K.cat_C]];
     const totalCat = cats.reduce((x, y) => x + y, 0);
@@ -215,7 +239,7 @@
     const valeurs = {};
     for (const code of Object.keys(departements)) {
       const t = d.territoires[code];
-      valeurs[code] = t ? valeur(somme(d, [code], etat.annee), mesure) : { v: mesure === "n" ? 0 : null, n: 0 };
+      valeurs[code] = t ? valeur(d, [code], etat.annee, mesure, MIN_CARTE) : { v: mesure === "n" ? 0 : null, n: 0 };
     }
     const connues = Object.values(valeurs).map((x) => x.v).filter((v) => v !== null);
     const max = Math.max(...connues, mesure === "n" ? 1 : 0.01);
@@ -236,10 +260,13 @@
     $("outre-mer").innerHTML = om.map((c) =>
       `<button type="button" data-code="${c}" class="${choisis.has(c) ? "choisi" : ""}"><i style="background:${fond(valeurs[c].v)}"></i>${echapper(departements[c].nom)}</button>`).join("");
     const libelle = { n: "Offres", tt: "Part avec télétravail possible", rep: "Part de postes republiés" }[mesure];
+    const unite = mesure === "tt" ? "offres renseignées" : "annonces";
     const fin = (v) => (mesure === "n" ? nombre(v) : pourcent(v));
     const pas = Array.from({ length: 8 }, (_, i) => couleur(i / 7)).join(",");
     $("legende-carte").innerHTML = `<span>${fin(min)}</span><span class="degrade" style="background:linear-gradient(90deg,${pas})"></span><span>${fin(max)}</span>` +
-      (mesure === "n" ? "<span>(échelle en racine carrée)</span>" : `<span><i class="vide" style="background:${GRIS()}"></i> moins de ${MIN_PART} offres renseignées</span>`);
+      (mesure === "n" ? `<span>échelle en racine carrée : le milieu du dégradé vaut ${nombre(max / 4)}</span>`
+        : `<span><i class="vide" style="background:${GRIS()}"></i> moins de ${MIN_CARTE} ${unite}</span>`) +
+      (mesure === "tt" && !etat.annee ? `<span>depuis ${DEBUT_TT}</span>` : "");
     $("table-carte").innerHTML = `<thead><tr><th>Département</th><th>${libelle}</th></tr></thead><tbody>` +
       Object.entries(valeurs).filter(([c]) => d.territoires[c]).sort((a, b) => (b[1].v ?? -1) - (a[1].v ?? -1))
         .map(([c, x]) => `<tr><td>${echapper(departements[c].nom)} (${c})</td><td>${x.v === null ? "–" : fin(x.v)}</td></tr>`).join("") + "</tbody>";
@@ -266,7 +293,7 @@
       return;
     }
     $("competences-titre").textContent =
-      `Part des ${nombre(c.textes)} annonces avec un texte qui citent chaque compétence (2022-2026, tous territoires).`;
+      `Part des ${nombre(c.textes)} annonces avec un texte qui citent chaque compétence (${PERIODE}, tous territoires).`;
     const max = c.liste[0][2];
     $("competences").innerHTML = c.liste.slice(0, 15).map(([libelle, domaine, p]) =>
       `<div class="barre"><span class="nom" title="${echapper(libelle)}">${echapper(libelle)}<small>${echapper(domaine)}</small></span>` +
@@ -277,16 +304,17 @@
     }
   }
 
-  async function fiche(d) {
+  async function fiche(d, numero) {
     if (!etat.metier) {
-      const zero = await donneesMetier(0);
+      const zero = await donneesMetier("");
+      if (numero !== rendu) return;
       const cle = `${etat.territoire || "France"}|${etat.annee || "toutes"}`;
       const liste = zero.metiers_frequents[cle] ?? [];
       $("fiche-titre").textContent = "Métiers les plus fréquents";
-      $("fiche-sous-titre").textContent = `${nomTerritoire(etat.territoire)}, ${etat.annee || "2022 à 2026"}. Cliquez pour filtrer.`;
+      $("fiche-sous-titre").textContent = `${nomTerritoire(etat.territoire)}, ${etat.annee || PERIODE}. Cliquez pour filtrer.`;
       $("fiche").innerHTML = `<ul class="liste-metiers">${liste.map(([id, n]) =>
         `<li><button type="button" data-id="${id}"><span>${echapper(parId.get(id).metier)}</span><span>${nombre(n)}</span></button></li>`).join("")}</ul>`;
-      for (const b of $("fiche").querySelectorAll("button")) b.addEventListener("click", () => { etat.metier = Number(b.dataset.id); rendre(); });
+      for (const b of $("fiche").querySelectorAll("button")) b.addEventListener("click", () => { etat.metier = b.dataset.id; rendre(); });
       return;
     }
     $("fiche-titre").textContent = "Fiche ROME rattachée";
@@ -304,10 +332,10 @@
   // Événements
   $("metier").addEventListener("change", () => {
     const m = parNom.get($("metier").value.trim().toLowerCase());
-    etat.metier = m ? m.id : 0;
+    etat.metier = m ? m.id : "";
     rendre();
   });
-  $("metier").addEventListener("search", () => { if (!$("metier").value) { etat.metier = 0; rendre(); } });
+  $("metier").addEventListener("search", () => { if (!$("metier").value) { etat.metier = ""; rendre(); } });
   $("territoire").addEventListener("change", () => { etat.territoire = $("territoire").value; rendre(); });
   $("annee").addEventListener("change", () => { etat.annee = $("annee").value; rendre(); });
   $("mesure").addEventListener("change", () => { etat.mesure = $("mesure").value; rendre(); });
