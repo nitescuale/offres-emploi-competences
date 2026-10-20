@@ -109,6 +109,8 @@ def test_rattacher_formes_reprend_le_cache(monkeypatch):
     assert dict(zip(premier["forme"], premier["code_ogr"])) == {"gestion de projets": "2", "soudure": "3"}
     assert premier.filter(pl.col("forme") == "gestion de projets")["occurrences"][0] == 2
     assert premier["candidats"].list.len().to_list() == [3, 3]
+    # Libellé affiché : la graphie la plus fréquente (à égalité, la première dans l'ordre alphabétique)
+    assert dict(zip(premier["forme"], premier["libelle"]))["gestion de projets"] == "Gestion de projets"
 
     # Une forme déjà rattachée n'est pas recalculée : seules les nouvelles passent par le rapprocheur
     demandes = []

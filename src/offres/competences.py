@@ -23,9 +23,9 @@ from offres import donnees
 _MOT_TITRE = (r"(?:savoirs?|savoir faire|savoir etre|savoirs etre|connaissances?|competences?|qualites?|aptitudes?|profil|"
               r"formations?|experiences?|capacites?|outils|nom|intitule)")
 _ADJ_TITRE = (r"(?:requis\w*|attendu\w*|techniques?|operationnel\w*|theoriques?|pratiques?|generaux|generales?|disciplinaires|"
-              r"comportement\w*|transvers\w*|professionnel\w*|relationnel\w*|specifiques?|personnel\w*|souhaite\w*|"
+              r"comportement\w*|transvers\w*|professionnel\w*|relationnel\w*|specifiques?|personnel\w*|souhait\w*|anterieur\w*|"
               r"recherche\w*|necessaires?|cles|mobilise\w*|associe\w*|manageria\w*|metiers?|indispensables?|du|de|des|la|le|"
-              r"les|poste|candidat|et|ou|faire|etre|savoirs?|connaissances?|competences?|qualites?|aptitudes?|niveau)")
+              r"les|poste|candidat|et|ou|faire|etre|savoirs?|connaissances?|competences?|qualites?|aptitudes?|experiences?|outils?|niveau)")
 _TITRE = re.compile(rf"^(?:les )?{_MOT_TITRE}(?: {_ADJ_TITRE}){{0,6}}$")
 # Puces : tirets, symboles (y compris les caractères privés de Wingdings collés depuis Word), numéros
 _PUCE = re.compile(r"^\s*(?:[^\w\s(«\"'.]+|o(?=\s)|\d+[.)]|[a-hA-H]\)(?=\s))\s*")
@@ -250,7 +250,9 @@ def items_des_offres(offres: pl.DataFrame) -> pl.DataFrame:
 def rattacher_formes(items: pl.DataFrame, modele, cache: pl.DataFrame | None = None) -> pl.DataFrame:
     """Forme -> compétence ROME (méthode hybride). Les formes déjà rattachées avec la même version (méthode et catalogue)
     sont reprises du cache."""
-    formes = items.group_by("forme").agg(pl.col("item").sort().first(), pl.len().alias("occurrences"))
+    # `item` : représentant fixe, passé au rapprochement ; `libelle` : graphie la plus fréquente, pour l'affichage
+    formes = items.group_by("forme").agg(pl.col("item").sort().first(), libelle=pl.col("item").mode().sort().first(),
+                                         occurrences=pl.len())
     catalogue = catalogue_rome()
     v = version(catalogue)
     deja = (cache.filter(pl.col("version") == v).select("forme", "code_ogr", "score", "candidats")
@@ -268,7 +270,7 @@ def rattacher_formes(items: pl.DataFrame, modele, cache: pl.DataFrame | None = N
             "candidats": [[codes[j] for j, _ in c] for c in cands],
         }, schema=schema)
     tout = pl.concat([deja, nouveaux]) if deja is not None else nouveaux
-    return formes.select("forme", "occurrences").join(tout, on="forme", how="left").with_columns(version=pl.lit(v))
+    return formes.select("forme", "libelle", "occurrences").join(tout, on="forme", how="left").with_columns(version=pl.lit(v))
 
 
 def rattacher_metiers(offres: pl.DataFrame, modele) -> pl.DataFrame:
