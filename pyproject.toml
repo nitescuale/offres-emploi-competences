@@ -9,7 +9,10 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "ruff>=0.6"]
+# Les tests du rapprochement demandent numpy et scikit-learn (pas les modèles d'embeddings)
+dev = ["pytest>=8", "ruff>=0.6", "numpy>=1.26", "scikit-learn>=1.4"]
+# Analyse (notebooks) : rapprochement des compétences, graphiques
+analyse = ["numpy>=1.26", "scikit-learn>=1.4", "matplotlib>=3.8", "sentence-transformers>=3", "nbformat>=5", "nbconvert>=7", "ipykernel>=6"]
 
 [project.scripts]
 offres = "offres.cli:main"

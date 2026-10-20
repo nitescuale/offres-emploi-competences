@@ -1,0 +1,56 @@
+name: Compétences
+
+# Après chaque mise à jour des offres du service public : textes de compétences découpés en items, items rattachés au
+# ROME 4.0 (méthode hybride TF-IDF + embeddings e5, évaluée dans le notebook 02), métiers rattachés aux fiches ROME.
+# Les formes déjà rattachées la semaine précédente sont reprises du cache : seules les nouvelles sont calculées.
+# Publie dans la release `donnees` : competences_formes.parquet, competences_items.parquet, metiers_rome.parquet,
+# competences_rapport.json.
+on:
+  workflow_run:
+    workflows: ["Offres Choisir le service public"]
+    types: [completed]
+  push:
+    branches: [main]
+    paths:
+      - "src/offres/competences.py"
+      - "src/offres/embeddings.py"
+      - ".github/workflows/competences.yml"
+  workflow_dispatch:
+    inputs:
+      sans_cache:
+        description: "Tout recalculer (ignorer les rattachements de la semaine précédente)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+# Groupe à part : ce workflow, long, n'écrit que ses propres fichiers (competences_*). Dans le groupe commun, il ferait
+# annuler les collectes en attente (GitHub ne garde qu'une exécution en attente par groupe).
+concurrency:
+  group: competences
+  cancel-in-progress: false
+
+jobs:
+  competences:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # PyTorch en version CPU (la version par défaut embarque CUDA, inutile ici et dix fois plus lourde)
+      - run: pip install torch --index-url https://download.pytorch.org/whl/cpu && pip install ".[analyse]"
+      - name: Récupérer les rattachements de la semaine précédente
+        if: ${{ !inputs.sans_cache }}
+        run: gh release download donnees -p competences_formes.parquet -D precedent 2>/dev/null || echo "Pas de cache"
+      - name: Extraire et rattacher les compétences
+        run: |
+          offres --dossier donnees competences --cache precedent/competences_formes.parquet
+          { echo '```json'; cat donnees/competences/competences_rapport.json; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: Publier dans la release
+        run: gh release upload donnees donnees/competences/* --clobber
