@@ -72,7 +72,7 @@ def segmenter(texte: str | None) -> list[str]:
     if not texte:
         return []
     items: list[str] = []
-    for ligne in re.split(r"[\r\n]+|;|•|\uf0a7|\uf0b7", texte):
+    for ligne in re.split(r"[\r\n\t]+|;|•|\uf0a7|\uf0b7", texte):
         ligne = _PUCE.sub("", ligne).strip(" .,:\t-")
         # « Savoir-être : rigueur, autonomie » : le titre est suivi des items sur la même ligne
         if ":" in ligne:
@@ -221,6 +221,7 @@ class Rapprocheur:
         return pl.DataFrame(lignes, schema={"item": pl.Utf8, "code_ogr": pl.Utf8, "libelle_rome": pl.Utf8, "score": pl.Float64})
 
 
+CANDIDATS = 10
 VERSION = "hybride-e5-v1"  # change si la méthode ou le catalogue change : les rattachements en cache sont alors refaits
 
 
@@ -241,14 +242,21 @@ def items_des_offres(offres: pl.DataFrame) -> pl.DataFrame:
 def rattacher_formes(items: pl.DataFrame, modele, cache: pl.DataFrame | None = None) -> pl.DataFrame:
     """Forme -> compétence ROME (méthode hybride). Les formes déjà rattachées avec la même VERSION sont reprises du cache."""
     formes = items.group_by("forme").agg(pl.col("item").first(), pl.len().alias("occurrences"))
-    deja = cache.filter(pl.col("version") == VERSION).select("forme", "code_ogr", "score") if cache is not None else None
+    deja = (cache.filter(pl.col("version") == VERSION).select("forme", "code_ogr", "score", "candidats")
+            if cache is not None and "candidats" in cache.columns else None)
     a_faire = formes.join(deja, on="forme", how="anti") if deja is not None else formes
     print(f"{formes.height} formes, {a_faire.height} à rattacher")
-    nouveaux = pl.DataFrame(schema={"forme": pl.Utf8, "code_ogr": pl.Utf8, "score": pl.Float64})
+    schema = {"forme": pl.Utf8, "code_ogr": pl.Utf8, "score": pl.Float64, "candidats": pl.List(pl.Utf8)}
+    nouveaux = pl.DataFrame(schema=schema)
     if a_faire.height:
         catalogue = catalogue_rome()
-        r = Rapprocheur(catalogue, "hybride", modele).rapprocher(a_faire["item"].to_list())
-        nouveaux = pl.DataFrame({"forme": a_faire["forme"], "code_ogr": r["code_ogr"], "score": r["score"]})
+        codes = catalogue["code_ogr"].to_list()
+        # Les 10 meilleures propositions sont gardées pour un éventuel reclassement par LLM (offres.reclassement)
+        cands = Rapprocheur(catalogue, "hybride", modele).candidats(a_faire["item"].to_list(), k=CANDIDATS)
+        nouveaux = pl.DataFrame({
+            "forme": a_faire["forme"], "code_ogr": [codes[c[0][0]] for c in cands], "score": [c[0][1] for c in cands],
+            "candidats": [[codes[j] for j, _ in c] for c in cands],
+        }, schema=schema)
     tout = pl.concat([deja, nouveaux]) if deja is not None else nouveaux
     return formes.select("forme", "occurrences").join(tout, on="forme", how="left").with_columns(version=pl.lit(VERSION))
 

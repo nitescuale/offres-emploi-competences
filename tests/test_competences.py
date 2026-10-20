@@ -11,6 +11,8 @@ def test_segmenter_puces_et_titres():
 def test_segmenter_puces_wingdings():
     texte = "Compétences :\r\n\tCompétences techniques en sérologie \r\n\tForce de proposition"
     assert segmenter(texte) == ["Compétences techniques en sérologie", "Force de proposition"]
+    # Niveau et compétence séparés par une tabulation (tableaux copiés depuis un traitement de texte)
+    assert segmenter("Niveau maîtrise requis\tSavoir travailler en équipe") == ["Savoir travailler en équipe"]
 
 
 def test_segmenter_liste_a_virgules():
@@ -76,3 +78,26 @@ def test_rapprocheur_hybride():
     cands = r.candidats(["gestion de projet"], k=3)[0]
     assert cands[0][0] == 1 and len(cands) == 3
     assert cands[0][1] >= cands[1][1] >= cands[2][1]
+
+
+def test_rattacher_formes_reprend_le_cache(monkeypatch):
+    from offres import competences
+
+    catalogue = pl.DataFrame({
+        "code_ogr": ["1", "2", "3"],
+        "libelle": ["Marchés publics", "Gestion de projet", "Techniques de soudure"],
+    }).with_columns(pl.col("libelle").map_elements(normaliser, return_dtype=pl.Utf8).alias("forme"))
+    monkeypatch.setattr(competences, "catalogue_rome", lambda: catalogue)
+    items = pl.DataFrame({"annonce_id": ["a", "b", "b"], "item": ["Gestion de projets", "Soudure", "gestion de projets"]})
+    items = items.with_columns(pl.col("item").map_elements(normaliser, return_dtype=pl.Utf8).alias("forme"))
+    premier = competences.rattacher_formes(items, FauxModele())
+    assert dict(zip(premier["forme"], premier["code_ogr"])) == {"gestion de projets": "2", "soudure": "3"}
+    assert premier.filter(pl.col("forme") == "gestion de projets")["occurrences"][0] == 2
+    assert premier["candidats"].list.len().to_list() == [3, 3]
+
+    # Une forme déjà rattachée n'est pas recalculée : on le vérifie avec un catalogue qui ne la contient plus
+    monkeypatch.setattr(competences, "catalogue_rome", lambda: catalogue.filter(pl.col("code_ogr") != "2"))
+    nouveaux = items.vstack(pl.DataFrame({"annonce_id": ["c"], "item": ["Marchés publics"], "forme": ["marches publics"]}))
+    second = competences.rattacher_formes(nouveaux, FauxModele(), cache=premier)
+    assert dict(zip(second["forme"], second["code_ogr"]))["gestion de projets"] == "2"
+    assert dict(zip(second["forme"], second["code_ogr"]))["marches publics"] == "1"

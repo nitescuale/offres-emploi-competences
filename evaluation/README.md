@@ -4,8 +4,8 @@ Jeux annotés utilisés par le notebook `02_competences.ipynb` pour comparer les
 
 ## Items de compétences
 
-- **Échantillon** : 400 occurrences d'items tirées au hasard (graine 2026) parmi les 657 000 items découpés dans les
-  textes « compétences attendues » des offres du service public, soit 321 formes distinctes. `poids` = nombre de tirages
+- **Échantillon** : 400 occurrences d'items tirées au hasard (graine 2026) parmi les 657 000 items (avant dédoublonnage
+  par annonce) découpés dans les textes « compétences attendues » des offres du service public, soit 321 formes distinctes. `poids` = nombre de tirages
   de la forme : les métriques pondérées reflètent la distribution réelle des items (« rigueur » compte plus qu'un item rare).
 - **Pool** : pour chaque item, la meilleure proposition de chaque méthode (dictionnaire, TF-IDF, e5 asymétrique et
   symétrique, MiniLM, deux hybrides), dédoublonnée et mélangée : l'annotateur ne sait pas quelle méthode propose quoi.
