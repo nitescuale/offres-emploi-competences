@@ -82,7 +82,7 @@ jobs:
             mode=jour
           fi
           offres --dossier donnees collecte --mode "$mode"
-          cat donnees/rapports/collecte_*.json >> "$GITHUB_STEP_SUMMARY"
+          cat donnees/rapports/collecte_*.json >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
 
       - name: Référentiels de l'API (le lundi ou au premier passage)
         if: steps.secrets.outputs.ok == 'true' && (steps.index.outputs.premier == 'true' || inputs.stock)
@@ -95,4 +95,5 @@ jobs:
         if: steps.secrets.outputs.ok == 'true'
         run: |
           shopt -s nullglob
+          [ -f donnees/index.parquet ] || { echo "Rien à publier"; exit 0; }
           gh release upload donnees donnees/offres/*.parquet donnees/index.parquet donnees/rapports/*.json donnees/referentiels/*.json --clobber
