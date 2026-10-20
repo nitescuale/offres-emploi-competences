@@ -11,7 +11,7 @@ Projet de data science de bout en bout sur les offres d'emploi publiques : les *
 3. Exploration (fait) : [`notebooks/01_exploration.ipynb`](notebooks/01_exploration.ipynb)
 4. Extraction des compétences (fait) : [`notebooks/02_competences.ipynb`](notebooks/02_competences.ipynb), évaluation dans [`evaluation/`](evaluation/)
 5. Structure du marché et zoom métiers de la data (fait) : [`notebooks/03_structure.ipynb`](notebooks/03_structure.ipynb)
-6. Ce qui paie : modèle du salaire
+6. Postes qui peinent à recruter (fait) : [`notebooks/04_recrutement.ipynb`](notebooks/04_recrutement.ipynb) ; pas de salaire dans les offres du service public, la cible est la republication du poste (le modèle du salaire reviendra avec les offres France Travail)
 7. Dashboard et article
 8. Industrialisation et suivi
 
