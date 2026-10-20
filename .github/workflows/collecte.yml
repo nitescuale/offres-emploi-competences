@@ -88,7 +88,7 @@ jobs:
           offres --dossier donnees collecte --mode "$mode"
           cat donnees/rapports/collecte_*.json >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
 
-      - name: Référentiels de l'API (photo complète du stock : lundi, premier passage ou à la demande)
+      - name: "Référentiels de l'API (photo complète du stock, lundi, premier passage ou à la demande)"
         if: steps.secrets.outputs.ok == 'true' && hashFiles('donnees/rapports/collecte_*_stock.json') != ''
         continue-on-error: true
         run: |
