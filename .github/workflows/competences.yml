@@ -25,9 +25,10 @@ on:
 permissions:
   contents: write
 
-# Les workflows de données écrivent dans la même release : jamais deux à la fois
+# Groupe à part : ce workflow, long, n'écrit que ses propres fichiers (competences_*). Dans le groupe commun, il ferait
+# annuler les collectes en attente (GitHub ne garde qu'une exécution en attente par groupe).
 concurrency:
-  group: release-donnees
+  group: competences
   cancel-in-progress: false
 
 jobs:
@@ -50,6 +51,6 @@ jobs:
       - name: Extraire et rattacher les compétences
         run: |
           offres --dossier donnees competences --cache precedent/competences_formes.parquet
-          cat donnees/competences/competences_rapport.json >> "$GITHUB_STEP_SUMMARY"
+          { echo '```json'; cat donnees/competences/competences_rapport.json; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
       - name: Publier dans la release
         run: gh release upload donnees donnees/competences/* --clobber

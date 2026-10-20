@@ -30,6 +30,15 @@ def test_segmenter_niveaux_et_rubriques():
         "Aide à la décision : expertise\nLogiciels : Excel, Word\nSavoirs théoriques et pratiques :\nCompétences opérationnelles"
     )
     assert segmenter(texte) == ["Outils de gestion de projet", "Politiques publiques", "Aide à la décision", "Excel", "Word"]
+    # Le niveau n'est retiré que s'il occupe toute la partie après les deux-points
+    assert segmenter("Compétences : maîtrise des marchés publics") == ["maîtrise des marchés publics"]
+    assert segmenter("Logiciels : maîtrise d'Excel") == ["maîtrise d'Excel"]
+    assert segmenter("Anglais : niveau B2") == ["Anglais"]
+
+
+def test_segmenter_virgules_decimales_et_points():
+    assert segmenter("Expérience de 2,5 ans en comptabilité") == ["Expérience de 2,5 ans en comptabilité"]
+    assert segmenter(".NET, Java.") == [".NET", "Java"]
 
 
 def test_segmenter_vide():
@@ -43,6 +52,12 @@ def test_normaliser():
     assert normaliser("Maîtrise de soi") == "maitrise de soi"
     assert normaliser("SIG (indispensable)") == "sig"
     assert normaliser("C++ / C#") == "c++ c#"
+    # Les mots courts (« a », « en ») ne sont retirés qu'entiers, et seulement après un préfixe
+    assert normaliser("Savoir anticiper") == "savoir anticiper"
+    assert normaliser("Aptitude au travail en équipe") == "travail en equipe"
+    assert normaliser("Connaissances administratives") == "connaissances administratives"
+    assert normaliser("Connaissance de l'environnement territorial") == "environnement territorial"
+    assert normaliser("Sens des responsabilités") == "sens des responsabilites"
 
 
 def test_rapprocheur_dictionnaire_et_tfidf():
@@ -95,9 +110,18 @@ def test_rattacher_formes_reprend_le_cache(monkeypatch):
     assert premier.filter(pl.col("forme") == "gestion de projets")["occurrences"][0] == 2
     assert premier["candidats"].list.len().to_list() == [3, 3]
 
-    # Une forme déjà rattachée n'est pas recalculée : on le vérifie avec un catalogue qui ne la contient plus
-    monkeypatch.setattr(competences, "catalogue_rome", lambda: catalogue.filter(pl.col("code_ogr") != "2"))
+    # Une forme déjà rattachée n'est pas recalculée : seules les nouvelles passent par le rapprocheur
+    demandes = []
+    candidats = competences.Rapprocheur.candidats
+    monkeypatch.setattr(competences.Rapprocheur, "candidats",
+                        lambda self, items, k=5, lot=1000: demandes.extend(items) or candidats(self, items, k, lot))
     nouveaux = items.vstack(pl.DataFrame({"annonce_id": ["c"], "item": ["Marchés publics"], "forme": ["marches publics"]}))
     second = competences.rattacher_formes(nouveaux, FauxModele(), cache=premier)
-    assert dict(zip(second["forme"], second["code_ogr"]))["gestion de projets"] == "2"
-    assert dict(zip(second["forme"], second["code_ogr"]))["marches publics"] == "1"
+    assert demandes == ["Marchés publics"]
+    assert dict(zip(second["forme"], second["code_ogr"])) == {"gestion de projets": "2", "soudure": "3", "marches publics": "1"}
+
+    # Un catalogue modifié invalide le cache
+    monkeypatch.setattr(competences, "catalogue_rome", lambda: catalogue.filter(pl.col("code_ogr") != "2"))
+    demandes.clear()
+    competences.rattacher_formes(nouveaux, FauxModele(), cache=second)
+    assert len(demandes) == 3

@@ -7,7 +7,9 @@ Tourne sur une machine avec Ollama (`ollama serve`, modèle déjà téléchargé
 
 L'entrée est une liste JSON de {"id", "item", "candidats": [{"code", "libelle"}, ...]} ; la sortie, une liste de
 {"id", "code"} (code null si aucun candidat ne convient). Les items déjà présents dans la sortie sont sautés : on peut
-interrompre et relancer.
+interrompre et relancer ; un item dont la requête échoue n'est pas enregistré et sera retenté.
+
+Le notebook 02 compare ce reclassement local au même exercice fait par Claude sur l'échantillon annoté.
 """
 
 from __future__ import annotations
@@ -19,6 +21,7 @@ from pathlib import Path
 import requests
 
 URL_OLLAMA = "http://localhost:11434/api/chat"
+ERREURS = (requests.RequestException, ValueError, KeyError, TypeError)
 
 CONSIGNE = """Tu rattaches des compétences tirées d'offres d'emploi de la fonction publique française au référentiel ROME.
 Pour chaque item, choisis le numéro du candidat qui désigne le mieux la même compétence (même sens, pas seulement les mêmes
@@ -56,10 +59,12 @@ def choisir(lot: list[dict], modele: str, url: str = URL_OLLAMA) -> list[str | N
     })
     r.raise_for_status()
     reponse = json.loads(r.json()["message"]["content"])["choix"]
-    par_item = {c["item"]: c["candidat"] for c in reponse}
+    if len(reponse) != len(lot):
+        raise ValueError(f"{len(reponse)} choix pour {len(lot)} items")
+    # Lu par position : le schéma fixe la longueur de la liste, les numéros d'items écrits par le modèle sont ignorés
     codes: list[str | None] = []
-    for n, entree in enumerate(lot, start=1):
-        k = par_item.get(n, 0)
+    for c, entree in zip(reponse, lot):
+        k = int(c["candidat"])
         codes.append(entree["candidats"][k - 1]["code"] if 1 <= k <= len(entree["candidats"]) else None)
     return codes
 
@@ -70,22 +75,27 @@ def reclasser(entree: Path, sortie: Path, modele: str, taille_lot: int = 8, url:
     a_faire = [i for i in items if i["id"] not in faits]
     print(f"{len(items)} items, {len(a_faire)} à faire avec {modele}")
     depart = time.monotonic()
+    echecs = 0
     for debut in range(0, len(a_faire), taille_lot):
         lot = a_faire[debut : debut + taille_lot]
         try:
-            codes = choisir(lot, modele, url)
-        except (requests.RequestException, ValueError, KeyError) as e:
+            resultats = list(zip(lot, choisir(lot, modele, url)))
+        except ERREURS as e:
             print(f"  lot {debut} : {e} ; nouvel essai item par item")
-            codes = []
+            resultats = []
             for entree_seule in lot:
                 try:
-                    codes += choisir([entree_seule], modele, url)
-                except (requests.RequestException, ValueError, KeyError):
-                    codes.append(None)
-        for e_, code in zip(lot, codes):
+                    resultats.append((entree_seule, choisir([entree_seule], modele, url)[0]))
+                except ERREURS as e_seul:
+                    # Pas enregistré (un échec n'est pas une abstention) : l'item sera retenté au prochain lancement
+                    echecs += 1
+                    print(f"    item {entree_seule['id']} : {e_seul}")
+        for e_, code in resultats:
             faits[e_["id"]] = {"id": e_["id"], "code": code}
         if (debut // taille_lot) % 20 == 0 or debut + taille_lot >= len(a_faire):
             sortie.write_text(json.dumps(list(faits.values()), ensure_ascii=False), encoding="utf-8")
             ecoule = time.monotonic() - depart
             fait = min(debut + taille_lot, len(a_faire))
             print(f"  {fait}/{len(a_faire)} items, {ecoule:.0f} s, ~{ecoule / fait * (len(a_faire) - fait) / 60:.0f} min restantes")
+    if echecs:
+        print(f"{echecs} items en échec, non enregistrés : relancer la même commande pour les retenter")

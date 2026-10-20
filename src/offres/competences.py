@@ -9,6 +9,7 @@ Trois méthodes de rapprochement, comparées sur un échantillon annoté (notebo
 
 from __future__ import annotations
 
+import hashlib
 import re
 import unicodedata
 
@@ -31,7 +32,8 @@ _PUCE = re.compile(r"^\s*(?:[^\w\s(«\"'.]+|o(?=\s)|\d+[.)]|[a-hA-H]\)(?=\s))\s*
 # « Management : expertise » : niveau attendu, à retirer pour garder la compétence
 _NIVEAU = re.compile(
     r"^(?:niveau\s+)?(?:expert(?:ise)?|maitrise|pratique|application|notions?|sensibilisation|initie|initiation|confirme|"
-    r"debutant|elementaire|intermediaire|avance|requis|souhaite|indispensable|apprecie|\d)\b(?: \w+){0,2}"
+    r"debutant|elementaire|intermediaire|avance|requis|souhaite|indispensable|apprecie|[abc][12]|\d)\b"
+    r"(?: (?!(?:de|d|des|du|en|l|la|le|les)\b)\w+){0,2}"
 )
 _RENVOI = re.compile(r"^(?:cf|voir|se referer)\b")
 
@@ -47,8 +49,8 @@ def _forme_brute(texte: str) -> str:
 
 _PREFIXE = re.compile(
     r"^(?!ma[iî]trise de soi\b)(?:(?:tr[eè]s )?(?:bonnes?|solides?|excellentes?) )?"
-    r"(?:connaissances?|ma[iî]trise|capacit[eé]s?|aptitudes?|savoir|[eê]tre capable|sens|notions?)(?= )"
-    r"(?: (?:de la|des|du|de l'|de|d'|à|a|en))? ?"
+    r"(?:(?:connaissances?|capacit[eé]s?|aptitudes?|savoir|[eê]tre capable) (?:de la |de l'|des |du |de |d'|à |a |au |aux |en )"
+    r"|(?:ma[iî]trise|notions?) (?:de la |de l'|des |du |de |d'|à |a |au |aux |en )?)"
 )
 _EXIGENCE = re.compile(r"[\s(]+(?:indispensables?|appr[eé]ci[eé]\w*|souhait[eé]\w*|serait un (?:atout|plus)|un plus|requis\w*|exig[eé]\w*)\)?$")
 
@@ -73,18 +75,18 @@ def segmenter(texte: str | None) -> list[str]:
         return []
     items: list[str] = []
     for ligne in re.split(r"[\r\n\t]+|;|•|\uf0a7|\uf0b7", texte):
-        ligne = _PUCE.sub("", ligne).strip(" .,:\t-")
+        ligne = _PUCE.sub("", ligne).strip(" ,:\t-").rstrip(".")
         # « Savoir-être : rigueur, autonomie » : le titre est suivi des items sur la même ligne
         if ":" in ligne:
             tete, _, reste = ligne.partition(":")
-            if _NIVEAU.match(_forme_brute(reste)):
+            if _NIVEAU.fullmatch(_forme_brute(reste)):
                 ligne = tete.strip()
             elif _TITRE.match(_forme_brute(tete)) or _NIVEAU.match(_forme_brute(tete)) or len(tete.split()) <= 3:
                 ligne = reste.strip(" .,")
         forme = _forme_brute(ligne)
         if not ligne or _TITRE.match(forme) or _NIVEAU.fullmatch(forme) or _RENVOI.match(forme):
             continue
-        morceaux = [m.strip(" .") for m in ligne.split(",")]
+        morceaux = [m.strip().rstrip(".") for m in re.split(r"(?<!\d),|,(?!\d)", ligne)]
         # Une liste de mots courts (« Autonome, Rigoureux, Dynamique ») est éclatée ; une phrase avec virgules ne l'est pas
         if len(morceaux) > 1 and all(0 < len(m.split()) <= 4 for m in morceaux):
             items.extend(m for m in morceaux if m)
@@ -222,7 +224,13 @@ class Rapprocheur:
 
 
 CANDIDATS = 10
-VERSION = "hybride-e5-v1"  # change si la méthode ou le catalogue change : les rattachements en cache sont alors refaits
+VERSION = "hybride-e5-v2"  # à changer avec la méthode ou le découpage : les rattachements en cache sont alors refaits
+
+
+def version(catalogue: pl.DataFrame) -> str:
+    """VERSION suivie d'une empreinte du catalogue : une nouvelle version du ROME invalide aussi le cache."""
+    lignes = (catalogue["code_ogr"] + "|" + catalogue["libelle"]).to_list()
+    return f"{VERSION}-{hashlib.sha1(chr(10).join(lignes).encode()).hexdigest()[:8]}"
 
 
 def items_des_offres(offres: pl.DataFrame) -> pl.DataFrame:
@@ -240,16 +248,18 @@ def items_des_offres(offres: pl.DataFrame) -> pl.DataFrame:
 
 
 def rattacher_formes(items: pl.DataFrame, modele, cache: pl.DataFrame | None = None) -> pl.DataFrame:
-    """Forme -> compétence ROME (méthode hybride). Les formes déjà rattachées avec la même VERSION sont reprises du cache."""
-    formes = items.group_by("forme").agg(pl.col("item").first(), pl.len().alias("occurrences"))
-    deja = (cache.filter(pl.col("version") == VERSION).select("forme", "code_ogr", "score", "candidats")
+    """Forme -> compétence ROME (méthode hybride). Les formes déjà rattachées avec la même version (méthode et catalogue)
+    sont reprises du cache."""
+    formes = items.group_by("forme").agg(pl.col("item").sort().first(), pl.len().alias("occurrences"))
+    catalogue = catalogue_rome()
+    v = version(catalogue)
+    deja = (cache.filter(pl.col("version") == v).select("forme", "code_ogr", "score", "candidats")
             if cache is not None and "candidats" in cache.columns else None)
     a_faire = formes.join(deja, on="forme", how="anti") if deja is not None else formes
     print(f"{formes.height} formes, {a_faire.height} à rattacher")
     schema = {"forme": pl.Utf8, "code_ogr": pl.Utf8, "score": pl.Float64, "candidats": pl.List(pl.Utf8)}
     nouveaux = pl.DataFrame(schema=schema)
     if a_faire.height:
-        catalogue = catalogue_rome()
         codes = catalogue["code_ogr"].to_list()
         # Les 10 meilleures propositions sont gardées pour un éventuel reclassement par LLM (offres.reclassement)
         cands = Rapprocheur(catalogue, "hybride", modele).candidats(a_faire["item"].to_list(), k=CANDIDATS)
@@ -258,7 +268,7 @@ def rattacher_formes(items: pl.DataFrame, modele, cache: pl.DataFrame | None = N
             "candidats": [[codes[j] for j, _ in c] for c in cands],
         }, schema=schema)
     tout = pl.concat([deja, nouveaux]) if deja is not None else nouveaux
-    return formes.select("forme", "occurrences").join(tout, on="forme", how="left").with_columns(version=pl.lit(VERSION))
+    return formes.select("forme", "occurrences").join(tout, on="forme", how="left").with_columns(version=pl.lit(v))
 
 
 def rattacher_metiers(offres: pl.DataFrame, modele) -> pl.DataFrame:

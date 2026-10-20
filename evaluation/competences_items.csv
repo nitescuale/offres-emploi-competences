@@ -1,13 +1,13 @@
 id,item,forme,poids,est_competence,annotateurs
 0,a)	Savoir sur l'environnement professionnel,a savoir sur l environnement professionnel,1,true,A
-1,"Connaissances abouties de l'histoire de l'art français et de l'histoire des XVIIe, XVIIIe et XIXe siècles",abouties de l histoire de l art francais et de l histoire des xviie xviiie et xixe siecles,1,true,A
+1,"Connaissances abouties de l'histoire de l'art français et de l'histoire des XVIIe, XVIIIe et XIXe siècles",connaissances abouties de l histoire de l art francais et de l histoire des xviie xviiie et xixe siecles,1,true,A
 2,ACCOMPAGNEMENT DE L'UTILISATEUR DES SYSTEMES D'INFORMATION ET DE COMMUNICATION,accompagnement de l utilisateur des systemes d information et de communication,1,true,A
 3,ACCOMPAGNEMENT DES FAMILLES,accompagnement des familles,1,true,A
 4,Adaptabilité (différents publics et jeux d'acteurs),adaptabilite differents publics et jeux d acteurs,1,true,A
 5,Capacité d'adaptation,adaptation,2,true,A
 6,Capacité d'adaptation et faculté à travailler avec un public exigeant,adaptation et faculte a travailler avec un public,1,true,A
 7,ADMINISTRATION D'UN SYSTEME D'INFORMATION,administration d un systeme d information,2,true,A
-8,Connaissances administratives avérées,administratives averees,1,true,A
+8,Connaissances administratives avérées,connaissances administratives averees,1,true,A
 9,agendas partagés,agendas partages,1,true,A
 10,Aisance relationnelle,aisance relationnelle,1,true,A
 11,ALERTE D'UN DYSFONCTIONNEMENT OU D'UNE SITUATION A RISQUES,alerte d un dysfonctionnement ou d une situation a risques,1,true,A
@@ -28,7 +28,7 @@ id,item,forme,poids,est_competence,annotateurs
 26,Architecture logicielle pour les produits de sécurité,architecture logicielle pour les produits de securite,1,true,A
 27,"archives ouvertes, etc.) et pratique de la recherche d'information",archives ouvertes etc et pratique de la recherche d information,1,true,A
 28,Assurer la maîtrise d'ouvrage,assurer la maitrise d ouvrage,1,true,A
-29,Aptitude au travail en équipe,au travail en equipe,1,true,A
+29,Aptitude au travail en équipe,travail en equipe,1,true,A
 30,Autonomie,autonomie,6,true,A
 31,Etre capable d'autonomie et de réactivité,autonomie et de reactivite,1,true,A
 32,Autonomie et esprit d'initiative,autonomie et esprit d initiative,1,true,A
@@ -40,19 +40,19 @@ id,item,forme,poids,est_competence,annotateurs
 38,BAC ou équivalence,bac ou equivalence,1,true,A
 39,CONNAISSANCE DES BONNES PRATIQUES D'HYGIENE (BPH),bonnes pratiques d hygiene bph,2,true,A
 40,Cadre de santé,cadre de sante,1,true,A
-41,"Capacités à rester neutre, à prendre du recul, à faire preuve de réactivité",capacites a rester neutre a prendre du recul a faire preuve de reactivite,1,true,A
-42,Capacités d'analyse et de synthèse,capacites d analyse et de synthese,1,true,A
-43,Capacités d'initiatives et d'autonomie,capacites d initiatives et d autonomie,1,true,A
+41,"Capacités à rester neutre, à prendre du recul, à faire preuve de réactivité",rester neutre a prendre du recul a faire preuve de reactivite,1,true,A
+42,Capacités d'analyse et de synthèse,analyse et de synthese,1,true,A
+43,Capacités d'initiatives et d'autonomie,initiatives et d autonomie,1,true,A
 44,Capacités pédagogiques,capacites pedagogiques,1,true,A
 45,Certificat de qualification de Chef de Service de Sécurité Incendie S.S.I.A.P. 3,certificat de qualification de chef de service de securite incendie s s i a p 3,1,true,A
 46,Connaissances des chaines de production graphique et éditoriale,chaines de production graphique et editoriale,1,true,A
 47,Chorus (formulaire et InfoCentre),chorus formulaire et infocentre,1,true,A
 48,Circuits administratifs,circuits administratifs,1,true,A
-49,Savoir collaborer et travailler en équipe,collaborer et travailler en equipe,1,true,A
+49,Savoir collaborer et travailler en équipe,savoir collaborer et travailler en equipe,1,true,A
 50,COMMANDEMENT D'UNE UNITE OPERATIONNELLE,commandement d une unite operationnelle,1,true,A
 51,communication,communication,2,true,A
 52,COMMUNICATION EN LANGUE ANGLAISE A L'ORAL ET A L'ECRIT,communication en langue anglaise a l oral et a l ecrit,1,true,A
-53,Savoir communiquer,communiquer,2,true,A
+53,Savoir communiquer,savoir communiquer,2,true,A
 54,Capacité à communiquer avec divers partenaires nationaux et internationaux,communiquer avec divers partenaires nationaux et internationaux,1,true,A
 55,Compétence organisationnelle,competence organisationnelle,1,true,A
 56,COMPETENCES ET CONNAISSANCES PRINCIPALES,competences et connaissances principales,1,false,A
@@ -74,7 +74,7 @@ id,item,forme,poids,est_competence,annotateurs
 72,CONSEIL AUX AUTORITES,conseil aux autorites,1,true,A
 73,CONSTRUCTION DU PLAN DE MAITRISE SANITAIRE (PMS),construction du plan de maitrise sanitaire pms,1,true,A
 74,Consulter le profil de poste et les modalités de candidature sur le site web de La Rochelle Université à l'adresse suivante : https://www.univ-larochelle.fr/luniversite/recrutement/,consulter le profil de poste et les modalites de candidature sur le site web de la rochelle universite a l adresse suivante https www univ larochelle fr luniversite recrutement,1,false,A
-75,sens du contact,contact,1,true,A
+75,sens du contact,sens du contact,1,true,A
 76,Contractuel ou titulaire,contractuel ou titulaire,1,false,A
 77,Contrôle et audit,controle et audit,1,true,A
 78,Capacité de coordination,coordination,1,true,A
@@ -87,15 +87,15 @@ id,item,forme,poids,est_competence,annotateurs
 85,d'entretien et d'écoute,d entretien et d ecoute,1,true,A
 86,D'évaluer les demandes,d evaluer les demandes,1,true,A
 87,D'UN EVENEMENT,d un evenement,1,false,A
-88,Connaissances dans le domaine de la géophysique spécialement concernant le champ de gravité,dans le domaine de la geophysique specialement concernant le champ de gravite,1,true,A
+88,Connaissances dans le domaine de la géophysique spécialement concernant le champ de gravité,connaissances dans le domaine de la geophysique specialement concernant le champ de gravite,1,true,A
 89,de son organisation,de son organisation,1,false,A
 90,DECISION - ARBITRAGE,decision arbitrage,3,true,A
 91,Déléguer,deleguer,1,true,A
 92,des documents de synthèse,des documents de synthese,1,true,A
-93,Sens du dialogue et de l'écoute,dialogue et de l ecoute,1,true,A
+93,Sens du dialogue et de l'écoute,sens du dialogue et de l ecoute,1,true,A
 94,DIALOGUE SOCIAL,dialogue social,1,true,A
 95,Diplomatie,diplomatie,1,true,A
-96,"Sens de la diplomatie, savoir s'adapter à différents interlocuteurs",diplomatie savoir s adapter a differents interlocuteurs,1,true,A
+96,"Sens de la diplomatie, savoir s'adapter à différents interlocuteurs",sens de la diplomatie savoir s adapter a differents interlocuteurs,1,true,A
 97,Diplôme réglementaire exigé - Formation professionnelle,diplome reglementaire exige formation professionnelle,1,false,A
 98,DISCIPLINE,discipline,1,true,A
 99,discrétion,discretion,1,true,A
@@ -109,7 +109,7 @@ id,item,forme,poids,est_competence,annotateurs
 107,Easy Vista,easy vista,1,true,A
 108,capacité d'écoute,ecoute,1,true,A
 109,"Ecoute et disponibilité, qualités relationnelles : rôle d'interface important entre le patient, l'entourage, le médecin traitant, les autres acteurs de la prise en charge et les services de soins",ecoute et disponibilite qualites relationnelles role d interface important entre le patient l entourage le medecin traitant les autres acteurs de la prise en charge et les services de soins,1,true,A
-110,sens de l'écoute et du conseil,ecoute et du conseil,1,true,A
+110,sens de l'écoute et du conseil,sens de l ecoute et du conseil,1,true,A
 111,Capacité à effectuer des transmissions adaptées afin de garantir la continuité des soins dans ce contexte de remplacement et de renfort,effectuer des transmissions adaptees afin de garantir la continuite des soins dans ce contexte de remplacement et de renfort,1,true,A
 112,ELABORATION DES MENUS,elaboration des menus,1,true,A
 113,EMPLOI DES ENGINS DE LA MOBILITE TERRESTRE,emploi des engins de la mobilite terrestre,1,true,A
@@ -121,8 +121,8 @@ id,item,forme,poids,est_competence,annotateurs
 119,Esprit d'équipe,esprit d equipe,1,true,A
 120,esprit d'initiative,esprit d initiative,1,true,A
 121,Esprit de synthèse,esprit de synthese,1,true,A
-122,CONNAISSANCE ET APPLICATION DE LA REGLEMENTATION VOIE ROUTIERE EN VIGUEUR DANS LES ARMEES,et application de la reglementation voie routiere en vigueur dans les armees,1,true,A
-123,Connaissances et compréhension de la sémiologie en santé mentale,et comprehension de la semiologie en sante mentale,1,true,A
+122,CONNAISSANCE ET APPLICATION DE LA REGLEMENTATION VOIE ROUTIERE EN VIGUEUR DANS LES ARMEES,connaissance et application de la reglementation voie routiere en vigueur dans les armees,1,true,A
+123,Connaissances et compréhension de la sémiologie en santé mentale,connaissances et comprehension de la semiologie en sante mentale,1,true,A
 124,Établir des rapports d'incidents,etablir des rapports d incidents,1,true,A
 125,etc,etc,1,false,A
 126,Etre à l'écoute,etre a l ecoute,1,true,A
@@ -168,7 +168,7 @@ id,item,forme,poids,est_competence,annotateurs
 166,Identifier les besoins d'acquisition et/ou de développement de compétences chez les assistants de prévention ■■■□,identifier les besoins d acquisition et ou de developpement de competences chez les assistants de prevention,1,true,A+B
 167,INGENIERIE DE DEVELOPPEMENT DES COMPETENCES,ingenierie de developpement des competences,1,true,A+B
 168,Ingénierie des SI pour les essais,ingenierie des si pour les essais,1,true,A+B
-169,Savoir inscrire son activité dans un cadre de,inscrire son activite dans un cadre de,1,false,A+B
+169,Savoir inscrire son activité dans un cadre de,savoir inscrire son activite dans un cadre de,1,false,A+B
 170,"Installer, paramétrer et maintenir le parc matériel",installer parametrer et maintenir le parc materiel,1,true,A+B
 171,Intégration des techniques d'état-major,integration des techniques d etat major,1,true,A+B
 172,Jouer un rôle de conseil et d'aide à la décision,jouer un role de conseil et d aide a la decision,1,true,A+B
@@ -190,7 +190,7 @@ id,item,forme,poids,est_competence,annotateurs
 188,méthode,methode,2,true,B
 189,"CONNAISSANCE DES METHODES ET OUTILS DE BUDGETISATION ET DE SUIVI BUDGETAIRE (HT2), DONT CEUX LIES A LA PLANIFICATION FINANCIERE DES PROGRAMMES ET DES OPERATIONS D'ARMEMENT",methodes et outils de budgetisation et de suivi budgetaire ht2 dont ceux lies a la planification financiere des programmes et des operations d armement,1,true,B
 190,CONNAISSANCE DES METHODES ET OUTILS DE PROGRAMMATION ET DE CONSTRUCTION BUDGETAIRES (HT2),methodes et outils de programmation et de construction budgetaires ht2,1,true,B
-191,Savoir mettre en œuvre les procédés de préparation (formulation ou synthèse) des matériaux qui seront caractérisés,mettre en uvre les procedes de preparation formulation ou synthese des materiaux qui seront caracterises,1,true,B
+191,Savoir mettre en œuvre les procédés de préparation (formulation ou synthèse) des matériaux qui seront caractérisés,savoir mettre en uvre les procedes de preparation formulation ou synthese des materiaux qui seront caracterises,1,true,B
 192,MISE EN OEUVRE DES MOYENS DE DEPANNAGE,mise en oeuvre des moyens de depannage,1,true,B
 193,MISE EN OEUVRE DES PROCEDURES RELATIVES AUX OPERATIONS DE MAINTENANCE,mise en oeuvre des procedures relatives aux operations de maintenance,1,true,B
 194,MISE EN OEUVRE DES TECHNIQUES DE RECHERCHE ET DE RESOLUTION DE PANNES,mise en oeuvre des techniques de recherche et de resolution de pannes,1,true,B
@@ -199,15 +199,15 @@ id,item,forme,poids,est_competence,annotateurs
 197,MISE EN OEUVRE GENERALE DE LA GESTION LOG DES BIENS,mise en oeuvre generale de la gestion log des biens,1,true,B
 198,Mise en place d'une démarche qualité,mise en place d une demarche qualite,1,true,B
 199,MISE EN PLACE UN PLAN DE SECOURS POUR ASSURER LA CONTINUITE DES SERVICES SIC,mise en place un plan de secours pour assurer la continuite des services sic,1,true,B
-200,sens de la négociation,negociation,1,true,B
+200,sens de la négociation,sens de la negociation,1,true,B
 201,NEGOCIATION DE L'ACHAT,negociation de l achat,1,true,B
 202,non nécessaire,non necessaire,1,false,B
 203,Organisation,organisation,3,true,B
 204,"Connaissance de l'organisation du CROUS, de ses missions et de son environnement institutionnel",organisation du crous de ses missions et de son environnement institutionnel,1,true,B
 205,"maîtrise de l'organisation, du fonctionnement et des missions du service",organisation du fonctionnement et des missions du service,1,true,B
 206,CONNAISSANCE DE L'ORGANISATION DU MINISTERE DES ARMEES,organisation du ministere des armees,1,true,B
-207,Sens de l'organisation et adaptabilité,organisation et adaptabilite,1,true,B
-208,Sens de l'organisation et de la prise de décision,organisation et de la prise de decision,1,true,B
+207,Sens de l'organisation et adaptabilité,sens de l organisation et adaptabilite,1,true,B
+208,Sens de l'organisation et de la prise de décision,sens de l organisation et de la prise de decision,1,true,B
 209,"Organisation et fonctionnement du système de santé, enjeux de la stratégie de transformation du système de santé, statuts des personnels médicaux et des étudiants, analyse et compétences juridiques",organisation et fonctionnement du systeme de sante enjeux de la strategie de transformation du systeme de sante statuts des personnels medicaux et des etudiants analyse et competences juridiques,1,true,B
 210,ORGANISATION ET METHODE,organisation et methode,7,true,B
 211,Connaissance de l'organisation judiciaire,organisation judiciaire,1,true,B
@@ -221,7 +221,7 @@ id,item,forme,poids,est_competence,annotateurs
 219,Pilotage de projet digital avec prestataires (planning/budget/qualité),pilotage de projet digital avec prestataires planning budget qualite,1,true,B
 220,Piloter et coordonner différents projets,piloter et coordonner differents projets,1,true,B
 221,Piloter un projet,piloter un projet,1,true,B
-222,Savoir planifier et respecter les délais,planifier et respecter les delais,1,true,B
+222,Savoir planifier et respecter les délais,savoir planifier et respecter les delais,1,true,B
 223,Power Point,power point,1,true,B
 224,Pratiquer Excel au niveau expert,pratiquer excel au niveau expert,1,true,B
 225,Précision,precision,1,true,B
@@ -243,7 +243,7 @@ id,item,forme,poids,est_competence,annotateurs
 241,REACTIVITE,reactivite,4,true,B
 242,RECEPTION DES TRAVAUX D'INSTALLATIONS PETROLIERES SPECIALISEES,reception des travaux d installations petrolieres specialisees,1,true,B
 243,RECUEIL ET ANALYSE DU BESOIN,recueil et analyse du besoin,2,true,B
-244,Savoir rédiger,rediger,1,true,B
+244,Savoir rédiger,savoir rediger,1,true,B
 245,Rédiger des supports d'information et de communication,rediger des supports d information et de communication,1,true,B
 246,Rédiger et mettre à jour la documentation fonctionnelle et technique,rediger et mettre a jour la documentation fonctionnelle et technique,1,true,B
 247,Réelle appétence pour la conception de bases de données (MySQL/PostGres) et l'IA,reelle appetence pour la conception de bases de donnees mysql postgres et l ia,1,true,B
@@ -259,14 +259,14 @@ id,item,forme,poids,est_competence,annotateurs
 257,REGLES DE GESTION ET D'ADMINISTRATION DES PERSONNELS,regles de gestion et d administration des personnels,3,true,B
 258,REGLES DU MARCHE PUBLIC DE TRAVAUX,regles du marche public de travaux,1,true,B
 259,REGLES SUR LES OUVRAGES,regles sur les ouvrages,1,true,B
-260,Sens du relationnel,relationnel,1,true,B
-261,SENS DES RELATIONS HUMAINES,relations humaines,2,true,B
+260,Sens du relationnel,sens du relationnel,1,true,B
+261,SENS DES RELATIONS HUMAINES,sens des relations humaines,2,true,B
 262,relevant de son domaine de compétence,relevant de son domaine de competence,1,false,B
 263,Remonter et partager les informations utiles et servant à la prise de décision,remonter et partager les informations utiles et servant a la prise de decision,1,true,B
-264,Savoir rendre compte,rendre compte,2,true,B
+264,Savoir rendre compte,savoir rendre compte,2,true,B
 265,Capacité à représenter l'établissement à l'extérieur,representer l etablissement a l exterieur,1,true,B
-266,Connaissance requise de la Fonction Publique Hospitalière,requise de la fonction publique hospitaliere,1,true,B
-267,Connaissance réseaux,reseaux,1,true,B
+266,Connaissance requise de la Fonction Publique Hospitalière,connaissance requise de la fonction publique hospitaliere,1,true,B
+267,Connaissance réseaux,connaissance reseaux,1,true,B
 268,Respect de la confidentialité,respect de la confidentialite,1,true,B
 269,Respect de la discrétion et du secret professionnel,respect de la discretion et du secret professionnel,1,true,B
 270,RIGUEUR,rigueur,10,true,B
@@ -275,17 +275,17 @@ id,item,forme,poids,est_competence,annotateurs
 273,Santé publique,sante publique,1,true,B
 274,SATISFACTION DE LA DEMANDE D'UN CLIENT,satisfaction de la demande d un client,1,true,B
 275,scolarité,scolarite,1,true,B
-276,Sens du service,service,1,true,B
+276,Sens du service,sens du service,1,true,B
 277,CONNAISSANCE DU SERVICE NATIONAL,service national,1,true,B
-278,Sens du service public,service public,1,true,B
+278,Sens du service public,sens du service public,1,true,B
 279,CONNAISSANCE DE SON ENVIRONNEMENT PROFESSIONNEL,son environnement professionnel,5,true,B
 280,Souci du client,souci du client,1,true,B
 281,STATISTIQUES - EXPLOITATION DE DONNEES,statistiques exploitation de donnees,1,true,B
 282,"Connaissance du statut des fonctionnaires et des statuts particuliers, du droit à la formation, du droit syndical, du droit du travail et de la santé",statut des fonctionnaires et des statuts particuliers du droit a la formation du droit syndical du droit du travail et de la sante,1,true,B
 283,STRATEGIE D'ACQUISITION EN ACHATS,strategie d acquisition en achats,3,true,B
 284,SUPPORT INFORMATIQUE INTERVENTION,support informatique intervention,1,true,B
-285,Connaissances sur,sur,1,false,B
-286,Connaissance sur l'organisation de la formation initiale et continue,sur l organisation de la formation initiale et continue,1,true,B
+285,Connaissances sur,connaissances sur,1,false,B
+286,Connaissance sur l'organisation de la formation initiale et continue,connaissance sur l organisation de la formation initiale et continue,1,true,B
 287,SYNTHESE DES INFORMATIONS,synthese des informations,2,true,B
 288,Connaissance du système éducatif,systeme educatif,1,true,B
 289,Systèmes d'information des ressources humaines	Organiser,systemes d information des ressources humaines organiser,1,true,B
@@ -304,13 +304,13 @@ id,item,forme,poids,est_competence,annotateurs
 302,Notions du travail en mode projet,travail en mode projet,1,true,B
 303,TRAVAIL EN RESEAU,travail en reseau,1,true,B
 304,Travailler en équipe,travailler en equipe,3,true,B
-305,Savoir travailler en équipe et avoir une approche transversale,travailler en equipe et avoir une approche transversale,1,true,B
+305,Savoir travailler en équipe et avoir une approche transversale,savoir travailler en equipe et avoir une approche transversale,1,true,B
 306,Capacité à travailler en équipe et en réseau et le sens du collectif et un bon relationnel sont indispensables,travailler en equipe et en reseau et le sens du collectif et un bon relationnel sont,1,true,B
 307,Capacité à travailler en équipe pluridisciplinaire,travailler en equipe pluridisciplinaire,2,true,B
 308,"Capacité à travailler sous tension, sens de l'organisation et rigueur",travailler sous tension sens de l organisation et rigueur,1,true,B
 309,Très bonnes qualités rédactionnelles et de synthèse,tres bonnes qualites redactionnelles et de synthese,1,true,B
 310,Ubuntu,ubuntu,1,true,B
-311,Connaissances (d'un ou plusieurs des domaines suivants serait un plus),un ou plusieurs des domaines suivants,1,false,B
+311,Connaissances (d'un ou plusieurs des domaines suivants serait un plus),connaissances d un ou plusieurs des domaines suivants,1,false,B
 312,Une maîtrise de Chorus cœur et Chorus Formulaire serait un véritable atout pour la candidature. Une parfaite maîtrise des fonctionnalités du tableur Excel est également primordiale,une maitrise de chorus c ur et chorus formulaire serait un veritable atout pour la candidature une parfaite maitrise des fonctionnalites du tableur excel est egalement primordiale,1,true,B
 313,UTILISATION D'UN SYSTEME D'INFORMATION SPECIFIQUE OU LIE A SON DOMAINE D'ACTIVITE,utilisation d un systeme d information specifique ou lie a son domaine d activite,2,true,B
 314,UTILISATION D'UN TRAITEMENT DE TEXTE,utilisation d un traitement de texte,1,true,B
