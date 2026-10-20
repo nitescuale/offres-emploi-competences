@@ -17,8 +17,11 @@ from sklearn.metrics import adjusted_rand_score
 
 from offres.competences import _TITRE
 
-# Une compétence citée pour plus d'un quart des métiers est « transversale » : elle ne dit rien du métier
+# Une compétence citée pour plus d'un quart des métiers est « transversale » : elle ne dit rien du métier. Un métier ne
+# « cite » une compétence que si au moins 2 % de ses annonces la mentionnent, sans quoi les gros métiers, qui ont plus
+# de textes, citeraient tout une fois et feraient passer pour transversales des compétences de quelques métiers.
 SEUIL_TRANSVERSAL = 0.25
+PART_MIN_METIER = 0.02
 
 
 def items_par_metier(items: pl.DataFrame, offres: pl.DataFrame, min_annonces: int = 20) -> pl.DataFrame:
@@ -26,15 +29,19 @@ def items_par_metier(items: pl.DataFrame, offres: pl.DataFrame, min_annonces: in
     (« compétences », « connaissances et expériences ») que le découpage a laissé passer."""
     metier = offres.filter(pl.col("competences_texte").is_not_null()).unique("annonce_id").select("annonce_id", "metier")
     x = (items.unique(["annonce_id", "forme"]).join(metier, on="annonce_id").drop_nulls("metier")
-         .filter(~pl.col("forme").map_elements(lambda f: bool(_TITRE.match(f)), return_dtype=pl.Boolean)))
+         .filter(~pl.col("forme").str.contains(_TITRE.pattern)))
     gardes = x.group_by("metier").agg(pl.col("annonce_id").n_unique().alias("n")).filter(pl.col("n") >= min_annonces)
     return x.filter(pl.col("metier").is_in(gardes["metier"].implode()))
 
 
-def transversalite(x: pl.DataFrame) -> pl.DataFrame:
-    """Par forme : nombre d'annonces, de métiers, et part des métiers qui la citent au moins une fois."""
+def transversalite(x: pl.DataFrame, part_min: float = PART_MIN_METIER) -> pl.DataFrame:
+    """Par forme : nombre d'annonces, nombre de métiers qui la citent (dans au moins `part_min` de leurs annonces) et
+    part de ces métiers parmi tous."""
     n_metiers = x["metier"].n_unique()
-    return (x.group_by("forme").agg(annonces=pl.col("annonce_id").n_unique(), metiers=pl.col("metier").n_unique())
+    taille = x.group_by("metier").agg(n=pl.col("annonce_id").n_unique())
+    par_metier = (x.group_by("forme", "metier").agg(a=pl.col("annonce_id").n_unique()).join(taille, on="metier")
+                  .with_columns(cite=pl.col("a") / pl.col("n") >= part_min))
+    return (par_metier.group_by("forme").agg(annonces=pl.col("a").sum(), metiers=pl.col("cite").sum())
             .with_columns(part_metiers=pl.col("metiers") / n_metiers,
                           transversale=pl.col("metiers") / n_metiers > SEUIL_TRANSVERSAL)
             .sort(["annonces", "forme"], descending=[True, False]))  # ordre total : `head(n)` reproductible
@@ -67,12 +74,13 @@ def communautes(aretes: pl.DataFrame, seuil_npmi: float = 0.25, graine: int = 1)
 
 def matrice_metiers(x: pl.DataFrame, min_annonces_forme: int = 20) -> tuple[list[str], list[str], sparse.csr_matrix]:
     """Métiers × formes de métier (transversales exclues) : part des annonces du métier qui citent la forme, pondérée
-    par TF-IDF pour que les formes propres à peu de métiers comptent plus."""
+    par TF-IDF pour que les formes propres à peu de métiers comptent plus. Les métiers sans aucune forme du vocabulaire
+    sont écartés (la NMF les rangerait arbitrairement dans la première famille)."""
     t = transversalite(x)
     vocab = t.filter(~pl.col("transversale"), pl.col("annonces") >= min_annonces_forme)["forme"].sort().to_list()
-    metiers = x["metier"].unique().sort().to_list()
-    n_ann = dict(x.group_by("metier").agg(pl.col("annonce_id").n_unique()).iter_rows())
     c = x.filter(pl.col("forme").is_in(vocab)).group_by("metier", "forme").len()
+    metiers = c["metier"].unique().sort().to_list()
+    n_ann = dict(x.group_by("metier").agg(pl.col("annonce_id").n_unique()).iter_rows())
     im = {m: i for i, m in enumerate(metiers)}
     jf = {f: j for j, f in enumerate(vocab)}
     valeurs = (c["len"] / c["metier"].replace_strict(n_ann)).to_numpy()
@@ -88,8 +96,10 @@ def familles(matrice: sparse.csr_matrix, k: int, graine: int = 0) -> tuple[np.nd
 
 
 def stabilite(matrice: sparse.csr_matrix, ks: list[int], graines: int = 5) -> pl.DataFrame:
-    """Pour chaque k, accord moyen (indice de Rand ajusté) entre les familles obtenues avec des initialisations
-    aléatoires différentes : un découpage qui change à chaque tirage ne décrit pas une structure réelle."""
+    """Pour chaque k, accord moyen et minimal (indice de Rand ajusté) entre les familles obtenues avec des
+    initialisations aléatoires différentes : un découpage qui change à chaque tirage ne décrit pas une structure réelle.
+    `familles` part d'une initialisation déterministe (nndsvda) ; ce test mesure donc la stabilité du problème autour
+    d'elle, pas la variance d'une procédure qui serait de toute façon reproductible."""
     lignes = []
     for k in ks:
         etiquettes = []

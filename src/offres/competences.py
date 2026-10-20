@@ -23,9 +23,9 @@ from offres import donnees
 _MOT_TITRE = (r"(?:savoirs?|savoir faire|savoir etre|savoirs etre|connaissances?|competences?|qualites?|aptitudes?|profil|"
               r"formations?|experiences?|capacites?|outils|nom|intitule)")
 _ADJ_TITRE = (r"(?:requis\w*|attendu\w*|techniques?|operationnel\w*|theoriques?|pratiques?|generaux|generales?|disciplinaires|"
-              r"comportement\w*|transvers\w*|professionnel\w*|relationnel\w*|specifiques?|personnel\w*|souhaite\w*|"
+              r"comportement\w*|transvers\w*|professionnel\w*|relationnel\w*|specifiques?|personnel\w*|souhait\w*|anterieur\w*|"
               r"recherche\w*|necessaires?|cles|mobilise\w*|associe\w*|manageria\w*|metiers?|indispensables?|du|de|des|la|le|"
-              r"les|poste|candidat|et|ou|faire|etre|savoirs?|connaissances?|competences?|qualites?|aptitudes?|experiences?|niveau)")
+              r"les|poste|candidat|et|ou|faire|etre|savoirs?|connaissances?|competences?|qualites?|aptitudes?|experiences?|outils?|niveau)")
 _TITRE = re.compile(rf"^(?:les )?{_MOT_TITRE}(?: {_ADJ_TITRE}){{0,6}}$")
 # Puces : tirets, symboles (y compris les caractères privés de Wingdings collés depuis Word), numéros
 _PUCE = re.compile(r"^\s*(?:[^\w\s(«\"'.]+|o(?=\s)|\d+[.)]|[a-hA-H]\)(?=\s))\s*")
