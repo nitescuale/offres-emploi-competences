@@ -17,13 +17,14 @@ Jeux annotés utilisés par le notebook `02_competences.ipynb` pour comparer les
   sévère est retenu. Ce n'est pas une annotation humaine : les verdicts peuvent être relus et corrigés dans
   `annotations_brutes.json`, et le notebook se recalcule à partir de ces fichiers.
 - **Propositions ajoutées ensuite** : après une correction du nettoyage des items (lot D) et pour les choix des LLM
-  (lots E et suivants), les propositions encore jamais jugées ont été annotées à l'aveugle par d'autres instances, mêlées
-  à deux propositions déjà jugées par item pour contrôler l'accord (kappa 0,89 pour le lot D, 0,75 pour le lot E).
+  (lots E et F), les propositions encore jamais jugées ont été annotées à l'aveugle par d'autres instances, mêlées à
+  deux propositions déjà jugées par item pour contrôler l'accord (kappa 0,89 pour le lot D, 0,75 pour le lot E, 0,88
+  pour le lot F).
 - **Reclassement par LLM** : un LLM choisit, pour chaque item, la meilleure des 10 propositions de l'hybride (ou aucune).
   Fait par Claude sur les candidats de l'hybride e5, ceux de la production (`reclassement_candidats.json`,
-  `reclassement_claude.json`), et plus tôt sur ceux de l'hybride MiniLM (`*_minilm.json`) ; par un modèle local via
-  Ollama avec `offres reclasser`. Biais possible : le reclasseur Claude et les annotateurs sont des modèles de la même
-  famille.
+  `reclassement_claude.json`), et plus tôt sur ceux de l'hybride MiniLM (`*_minilm.json`) ; par Qwen 2.5 7B et
+  Llama 3.1 8B en local via Ollama (`offres reclasser`, sur les candidats MiniLM). Biais possible : le reclasseur Claude
+  et les annotateurs sont des modèles de la même famille.
 
 Fichiers :
 
@@ -32,7 +33,7 @@ Fichiers :
 | `competences_items.csv` | les 321 formes : item, forme, poids, est_competence, annotateurs |
 | `competences_propositions.csv` | une ligne par (item, méthode) : proposition ROME, score, verdict |
 | `metiers_propositions.csv` | une ligne par (métier, méthode) : appellation et fiche ROME proposées, verdict |
-| `annotations_brutes.json` | verdicts de chaque annotateur (lots A à E, et métiers) |
+| `annotations_brutes.json` | verdicts de chaque annotateur (lots A à F, et métiers) |
 | `reclassement_candidats*.json` | les 10 propositions de l'hybride par item, entrée du reclassement par LLM |
 | `reclassement_<modèle>*.json` | les choix de chaque LLM : `{"id", "code"}`, code null si aucun candidat ne convient |
 

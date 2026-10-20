@@ -5118,5 +5118,1712 @@
 "518406": "correct"
 }
 }
+],
+"F": [
+{
+"id": 0,
+"est_competence": true,
+"verdicts": {
+"511929": "correct",
+"497686": "faux"
+}
+},
+{
+"id": 4,
+"est_competence": true,
+"verdicts": {
+"518886": "partiel",
+"491870": "partiel",
+"491867": "faux",
+"518692": "partiel"
+}
+},
+{
+"id": 5,
+"est_competence": true,
+"verdicts": {
+"491924": "faux",
+"477053": "correct"
+}
+},
+{
+"id": 7,
+"est_competence": true,
+"verdicts": {
+"404076": "faux",
+"300204": "correct"
+}
+},
+{
+"id": 8,
+"est_competence": true,
+"verdicts": {
+"118218": "partiel",
+"107981": "partiel",
+"517210": "partiel"
+}
+},
+{
+"id": 9,
+"est_competence": true,
+"verdicts": {
+"494965": "partiel",
+"120722": "partiel",
+"124876": "correct"
+}
+},
+{
+"id": 10,
+"est_competence": true,
+"verdicts": {
+"404865": "partiel",
+"513740": "partiel",
+"500071": "partiel"
+}
+},
+{
+"id": 11,
+"est_competence": true,
+"verdicts": {
+"511938": "correct",
+"503075": "partiel"
+}
+},
+{
+"id": 12,
+"est_competence": true,
+"verdicts": {
+"404868": "faux",
+"487088": "partiel",
+"521458": "partiel"
+}
+},
+{
+"id": 15,
+"est_competence": true,
+"verdicts": {
+"477161": "partiel",
+"123739": "faux",
+"492419": "correct"
+}
+},
+{
+"id": 19,
+"est_competence": true,
+"verdicts": {
+"403494": "correct",
+"400766": "partiel"
+}
+},
+{
+"id": 20,
+"est_competence": true,
+"verdicts": {
+"501927": "partiel",
+"300471": "correct",
+"300470": "partiel"
+}
+},
+{
+"id": 21,
+"est_competence": true,
+"verdicts": {
+"490359": "partiel",
+"511546": "correct",
+"404362": "partiel"
+}
+},
+{
+"id": 22,
+"est_competence": true,
+"verdicts": {
+"492204": "partiel",
+"513942": "correct",
+"521323": "partiel"
+}
+},
+{
+"id": 23,
+"est_competence": true,
+"verdicts": {
+"117211": "partiel",
+"522509": "faux",
+"495622": "partiel",
+"101573": "partiel"
+}
+},
+{
+"id": 24,
+"est_competence": true,
+"verdicts": {
+"511151": "partiel",
+"493781": "faux",
+"519319": "partiel",
+"109915": "partiel"
+}
+},
+{
+"id": 25,
+"est_competence": true,
+"verdicts": {
+"520984": "partiel",
+"490257": "correct",
+"485073": "partiel"
+}
+},
+{
+"id": 26,
+"est_competence": true,
+"verdicts": {
+"404132": "faux",
+"499110": "faux",
+"507589": "partiel"
+}
+},
+{
+"id": 27,
+"est_competence": true,
+"verdicts": {
+"500668": "faux",
+"518691": "partiel",
+"497141": "faux",
+"501192": "partiel"
+}
+},
+{
+"id": 28,
+"est_competence": true,
+"verdicts": {
+"120342": "partiel",
+"400160": "partiel",
+"519076": "correct"
+}
+},
+{
+"id": 29,
+"est_competence": true,
+"verdicts": {
+"477056": "correct",
+"479792": "correct",
+"512298": "partiel"
+}
+},
+{
+"id": 30,
+"est_competence": true,
+"verdicts": {
+"300460": "correct",
+"521056": "correct",
+"482711": "faux"
+}
+},
+{
+"id": 31,
+"est_competence": true,
+"verdicts": {
+"300460": "partiel",
+"300473": "partiel",
+"300035": "faux"
+}
+},
+{
+"id": 32,
+"est_competence": true,
+"verdicts": {
+"521056": "partiel",
+"300460": "partiel",
+"519770": "faux"
+}
+},
+{
+"id": 34,
+"est_competence": true,
+"verdicts": {
+"512289": "faux",
+"501204": "faux",
+"402122": "partiel"
+}
+},
+{
+"id": 36,
+"est_competence": true,
+"verdicts": {
+"399999": "faux",
+"500071": "partiel",
+"403009": "faux"
+}
+},
+{
+"id": 39,
+"est_competence": true,
+"verdicts": {
+"519051": "partiel",
+"513678": "partiel",
+"107447": "partiel"
+}
+},
+{
+"id": 40,
+"est_competence": false,
+"verdicts": {
+"521974": "faux",
+"481704": "faux",
+"122645": "faux"
+}
+},
+{
+"id": 41,
+"est_competence": true,
+"verdicts": {
+"521158": "partiel",
+"492383": "partiel",
+"300473": "partiel"
+}
+},
+{
+"id": 43,
+"est_competence": true,
+"verdicts": {
+"521056": "partiel",
+"482488": "faux",
+"503123": "faux"
+}
+},
+{
+"id": 44,
+"est_competence": true,
+"verdicts": {
+"115277": "partiel",
+"499424": "faux",
+"100090": "partiel"
+}
+},
+{
+"id": 46,
+"est_competence": true,
+"verdicts": {
+"114198": "partiel",
+"502504": "partiel",
+"102461": "correct"
+}
+},
+{
+"id": 47,
+"est_competence": true,
+"verdicts": {
+"118042": "faux",
+"403158": "faux",
+"117773": "correct"
+}
+},
+{
+"id": 48,
+"est_competence": true,
+"verdicts": {
+"107970": "correct",
+"503285": "partiel"
+}
+},
+{
+"id": 49,
+"est_competence": true,
+"verdicts": {
+"402302": "correct",
+"519803": "partiel",
+"477056": "correct"
+}
+},
+{
+"id": 51,
+"est_competence": true,
+"verdicts": {
+"478037": "partiel",
+"477699": "correct",
+"493615": "correct"
+}
+},
+{
+"id": 54,
+"est_competence": true,
+"verdicts": {
+"519664": "partiel",
+"501239": "faux",
+"479740": "partiel"
+}
+},
+{
+"id": 55,
+"est_competence": true,
+"verdicts": {
+"493781": "faux",
+"491117": "faux",
+"300398": "faux"
+}
+},
+{
+"id": 56,
+"est_competence": false,
+"verdicts": {
+"493062": "faux",
+"513119": "faux",
+"493990": "faux",
+"494261": "faux"
+}
+},
+{
+"id": 59,
+"est_competence": true,
+"verdicts": {
+"300586": "partiel",
+"480765": "correct",
+"480173": "correct"
+}
+},
+{
+"id": 60,
+"est_competence": true,
+"verdicts": {
+"492246": "partiel",
+"511054": "partiel",
+"515203": "faux"
+}
+},
+{
+"id": 61,
+"est_competence": true,
+"verdicts": {
+"506233": "faux",
+"513823": "faux",
+"513574": "faux"
+}
+},
+{
+"id": 62,
+"est_competence": true,
+"verdicts": {
+"121760": "partiel",
+"115692": "partiel",
+"477844": "correct"
+}
+},
+{
+"id": 65,
+"est_competence": true,
+"verdicts": {
+"513119": "faux",
+"479839": "faux",
+"122277": "partiel"
+}
+},
+{
+"id": 66,
+"est_competence": true,
+"verdicts": {
+"504515": "partiel",
+"507699": "partiel",
+"492316": "correct"
+}
+},
+{
+"id": 67,
+"est_competence": true,
+"verdicts": {
+"482122": "partiel",
+"511929": "partiel",
+"511534": "partiel"
+}
+},
+{
+"id": 69,
+"est_competence": true,
+"verdicts": {
+"118748": "partiel",
+"121030": "correct",
+"108647": "faux"
+}
+},
+{
+"id": 70,
+"est_competence": true,
+"verdicts": {
+"491798": "partiel",
+"118218": "partiel",
+"506394": "partiel"
+}
+},
+{
+"id": 72,
+"est_competence": true,
+"verdicts": {
+"511524": "partiel",
+"513944": "correct"
+}
+},
+{
+"id": 73,
+"est_competence": true,
+"verdicts": {
+"519154": "partiel",
+"519155": "correct"
+}
+},
+{
+"id": 74,
+"est_competence": false,
+"verdicts": {
+"514500": "faux",
+"494963": "faux",
+"122356": "faux"
+}
+},
+{
+"id": 75,
+"est_competence": true,
+"verdicts": {
+"497469": "partiel",
+"107874": "faux",
+"107527": "faux",
+"511810": "faux"
+}
+},
+{
+"id": 76,
+"est_competence": false,
+"verdicts": {
+"519055": "faux",
+"500731": "faux",
+"121431": "faux"
+}
+},
+{
+"id": 78,
+"est_competence": true,
+"verdicts": {
+"513447": "faux",
+"511932": "partiel",
+"477683": "partiel"
+}
+},
+{
+"id": 80,
+"est_competence": false,
+"verdicts": {
+"123183": "faux",
+"404097": "faux",
+"108745": "faux",
+"123293": "faux"
+}
+},
+{
+"id": 81,
+"est_competence": true,
+"verdicts": {
+"107414": "faux",
+"497512": "faux",
+"404320": "faux"
+}
+},
+{
+"id": 82,
+"est_competence": true,
+"verdicts": {
+"481274": "faux",
+"499437": "partiel",
+"404362": "partiel"
+}
+},
+{
+"id": 83,
+"est_competence": true,
+"verdicts": {
+"520941": "faux",
+"502471": "faux",
+"300493": "correct"
+}
+},
+{
+"id": 84,
+"est_competence": true,
+"verdicts": {
+"300587": "partiel",
+"477660": "correct",
+"491524": "faux"
+}
+},
+{
+"id": 85,
+"est_competence": true,
+"verdicts": {
+"511642": "correct",
+"478365": "faux",
+"107926": "partiel"
+}
+},
+{
+"id": 86,
+"est_competence": true,
+"verdicts": {
+"403530": "partiel",
+"506759": "partiel",
+"508256": "faux"
+}
+},
+{
+"id": 87,
+"est_competence": false,
+"verdicts": {
+"405064": "faux",
+"512538": "faux",
+"478198": "faux"
+}
+},
+{
+"id": 88,
+"est_competence": true,
+"verdicts": {
+"499156": "partiel",
+"123749": "partiel",
+"121285": "faux"
+}
+},
+{
+"id": 89,
+"est_competence": false,
+"verdicts": {
+"521178": "faux",
+"493781": "faux",
+"497464": "faux"
+}
+},
+{
+"id": 91,
+"est_competence": true,
+"verdicts": {
+"512971": "correct",
+"300434": "correct"
+}
+},
+{
+"id": 95,
+"est_competence": true,
+"verdicts": {
+"494028": "faux",
+"513055": "correct",
+"506575": "partiel"
+}
+},
+{
+"id": 99,
+"est_competence": true,
+"verdicts": {
+"521413": "correct",
+"520080": "partiel",
+"105334": "faux"
+}
+},
+{
+"id": 101,
+"est_competence": true,
+"verdicts": {
+"485122": "faux",
+"400905": "faux"
+}
+},
+{
+"id": 102,
+"est_competence": true,
+"verdicts": {
+"513863": "faux",
+"479792": "partiel",
+"485041": "faux",
+"513471": "faux"
+}
+},
+{
+"id": 104,
+"est_competence": true,
+"verdicts": {
+"125042": "faux",
+"124943": "partiel",
+"115631": "partiel"
+}
+},
+{
+"id": 105,
+"est_competence": true,
+"verdicts": {
+"124579": "faux",
+"481503": "partiel",
+"400918": "faux"
+}
+},
+{
+"id": 106,
+"est_competence": true,
+"verdicts": {
+"491810": "partiel",
+"103228": "correct"
+}
+},
+{
+"id": 107,
+"est_competence": true,
+"verdicts": {
+"118977": "faux",
+"109883": "faux",
+"520246": "faux"
+}
+},
+{
+"id": 109,
+"est_competence": true,
+"verdicts": {
+"489982": "partiel",
+"485092": "faux",
+"518464": "partiel"
+}
+},
+{
+"id": 112,
+"est_competence": true,
+"verdicts": {
+"403609": "correct",
+"490646": "partiel",
+"107459": "partiel"
+}
+},
+{
+"id": 119,
+"est_competence": true,
+"verdicts": {
+"300465": "correct",
+"521098": "correct",
+"508219": "partiel"
+}
+},
+{
+"id": 121,
+"est_competence": true,
+"verdicts": {
+"519571": "correct",
+"477559": "partiel"
+}
+},
+{
+"id": 122,
+"est_competence": true,
+"verdicts": {
+"101959": "partiel",
+"492196": "partiel",
+"489749": "partiel"
+}
+},
+{
+"id": 123,
+"est_competence": true,
+"verdicts": {
+"200034": "partiel",
+"118249": "partiel",
+"479495": "faux"
+}
+},
+{
+"id": 124,
+"est_competence": true,
+"verdicts": {
+"517123": "correct",
+"505868": "correct",
+"121378": "correct"
+}
+},
+{
+"id": 127,
+"est_competence": true,
+"verdicts": {
+"513668": "faux",
+"521056": "partiel",
+"300483": "partiel"
+}
+},
+{
+"id": 135,
+"est_competence": true,
+"verdicts": {
+"512244": "faux",
+"400078": "partiel",
+"516494": "partiel"
+}
+},
+{
+"id": 136,
+"est_competence": true,
+"verdicts": {
+"300442": "partiel",
+"508114": "faux",
+"513893": "partiel"
+}
+},
+{
+"id": 137,
+"est_competence": true,
+"verdicts": {
+"403114": "partiel",
+"403039": "correct"
+}
+},
+{
+"id": 138,
+"est_competence": true,
+"verdicts": {
+"497132": "correct",
+"404747": "partiel",
+"477178": "partiel"
+}
+},
+{
+"id": 142,
+"est_competence": true,
+"verdicts": {
+"518581": "partiel",
+"517787": "faux",
+"516494": "partiel"
+}
+},
+{
+"id": 145,
+"est_competence": true,
+"verdicts": {
+"500471": "faux",
+"512510": "faux",
+"520595": "partiel"
+}
+},
+{
+"id": 146,
+"est_competence": true,
+"verdicts": {
+"300460": "correct",
+"521056": "correct"
+}
+},
+{
+"id": 147,
+"est_competence": true,
+"verdicts": {
+"300461": "faux",
+"300473": "faux",
+"490274": "faux",
+"400905": "faux"
+}
+},
+{
+"id": 148,
+"est_competence": true,
+"verdicts": {
+"513551": "partiel",
+"514683": "faux"
+}
+},
+{
+"id": 149,
+"est_competence": true,
+"verdicts": {
+"123189": "faux",
+"400192": "faux",
+"109411": "faux"
+}
+},
+{
+"id": 150,
+"est_competence": true,
+"verdicts": {
+"483493": "faux",
+"126156": "faux",
+"497406": "partiel"
+}
+},
+{
+"id": 151,
+"est_competence": true,
+"verdicts": {
+"110651": "faux",
+"104076": "faux",
+"514577": "faux"
+}
+},
+{
+"id": 152,
+"est_competence": true,
+"verdicts": {
+"485551": "partiel",
+"511381": "partiel",
+"507550": "partiel"
+}
+},
+{
+"id": 153,
+"est_competence": true,
+"verdicts": {
+"403786": "partiel",
+"300467": "correct"
+}
+},
+{
+"id": 155,
+"est_competence": false,
+"verdicts": {
+"489980": "faux",
+"513658": "faux",
+"518565": "faux",
+"513504": "faux"
+}
+},
+{
+"id": 156,
+"est_competence": true,
+"verdicts": {
+"492346": "faux",
+"477053": "partiel",
+"300473": "partiel"
+}
+},
+{
+"id": 158,
+"est_competence": true,
+"verdicts": {
+"498994": "partiel",
+"116211": "partiel",
+"511660": "correct"
+}
+},
+{
+"id": 159,
+"est_competence": true,
+"verdicts": {
+"121796": "partiel",
+"520242": "partiel",
+"400489": "partiel",
+"489427": "partiel"
+}
+},
+{
+"id": 160,
+"est_competence": true,
+"verdicts": {
+"514865": "faux",
+"300483": "correct",
+"121796": "correct"
+}
+},
+{
+"id": 161,
+"est_competence": true,
+"verdicts": {
+"102216": "partiel",
+"495622": "partiel",
+"511525": "faux"
+}
+},
+{
+"id": 164,
+"est_competence": true,
+"verdicts": {
+"513740": "correct",
+"513890": "faux",
+"300463": "correct"
+}
+},
+{
+"id": 165,
+"est_competence": true,
+"verdicts": {
+"404179": "faux",
+"495908": "partiel",
+"512251": "partiel"
+}
+},
+{
+"id": 166,
+"est_competence": true,
+"verdicts": {
+"507538": "faux",
+"504280": "partiel",
+"110237": "faux"
+}
+},
+{
+"id": 167,
+"est_competence": true,
+"verdicts": {
+"521370": "correct",
+"493990": "correct",
+"300006": "correct"
+}
+},
+{
+"id": 169,
+"est_competence": false,
+"verdicts": {
+"123607": "faux",
+"520762": "faux",
+"123630": "faux"
+}
+},
+{
+"id": 170,
+"est_competence": true,
+"verdicts": {
+"116223": "partiel",
+"300139": "partiel",
+"405377": "faux"
+}
+},
+{
+"id": 172,
+"est_competence": true,
+"verdicts": {
+"300459": "faux",
+"108104": "partiel",
+"117702": "faux"
+}
+},
+{
+"id": 173,
+"est_competence": true,
+"verdicts": {
+"300459": "faux",
+"125901": "partiel",
+"489507": "faux"
+}
+},
+{
+"id": 174,
+"est_competence": true,
+"verdicts": {
+"511154": "correct",
+"513752": "faux",
+"511378": "faux"
+}
+},
+{
+"id": 177,
+"est_competence": true,
+"verdicts": {
+"500099": "partiel",
+"504374": "partiel",
+"403123": "correct"
+}
+},
+{
+"id": 178,
+"est_competence": false,
+"verdicts": {
+"495908": "faux",
+"489329": "faux",
+"508747": "faux"
+}
+},
+{
+"id": 179,
+"est_competence": true,
+"verdicts": {
+"506392": "faux",
+"300204": "partiel",
+"491511": "faux"
+}
+},
+{
+"id": 182,
+"est_competence": false,
+"verdicts": {
+"484416": "faux",
+"404755": "faux",
+"500684": "faux"
+}
+},
+{
+"id": 183,
+"est_competence": true,
+"verdicts": {
+"403903": "correct",
+"477052": "correct",
+"522873": "partiel"
+}
+},
+{
+"id": 184,
+"est_competence": true,
+"verdicts": {
+"501967": "partiel",
+"518397": "partiel",
+"403123": "partiel"
+}
+},
+{
+"id": 192,
+"est_competence": true,
+"verdicts": {
+"103196": "faux",
+"508873": "partiel",
+"502505": "faux"
+}
+},
+{
+"id": 193,
+"est_competence": true,
+"verdicts": {
+"508873": "partiel",
+"405465": "partiel",
+"493273": "correct",
+"502186": "partiel"
+}
+},
+{
+"id": 194,
+"est_competence": true,
+"verdicts": {
+"103552": "correct",
+"498717": "correct",
+"490644": "correct"
+}
+},
+{
+"id": 195,
+"est_competence": true,
+"verdicts": {
+"491486": "faux",
+"404574": "correct"
+}
+},
+{
+"id": 197,
+"est_competence": true,
+"verdicts": {
+"300326": "faux",
+"499094": "partiel",
+"116398": "faux"
+}
+},
+{
+"id": 198,
+"est_competence": true,
+"verdicts": {
+"115839": "correct",
+"125268": "partiel",
+"300245": "correct"
+}
+},
+{
+"id": 201,
+"est_competence": true,
+"verdicts": {
+"500994": "correct",
+"126050": "correct",
+"125944": "partiel"
+}
+},
+{
+"id": 204,
+"est_competence": true,
+"verdicts": {
+"492928": "partiel",
+"496446": "faux",
+"404575": "partiel"
+}
+},
+{
+"id": 205,
+"est_competence": true,
+"verdicts": {
+"104076": "faux",
+"402127": "faux",
+"520312": "faux",
+"479534": "faux"
+}
+},
+{
+"id": 210,
+"est_competence": true,
+"verdicts": {
+"497464": "correct",
+"514577": "partiel",
+"402321": "correct"
+}
+},
+{
+"id": 216,
+"est_competence": true,
+"verdicts": {
+"403123": "partiel",
+"404550": "correct",
+"403114": "partiel"
+}
+},
+{
+"id": 217,
+"est_competence": true,
+"verdicts": {
+"490597": "faux",
+"512808": "faux",
+"108834": "faux"
+}
+},
+{
+"id": 219,
+"est_competence": true,
+"verdicts": {
+"491559": "faux",
+"519059": "partiel",
+"514208": "faux",
+"521500": "partiel"
+}
+},
+{
+"id": 220,
+"est_competence": true,
+"verdicts": {
+"521500": "correct",
+"511804": "partiel",
+"505859": "partiel"
+}
+},
+{
+"id": 221,
+"est_competence": true,
+"verdicts": {
+"521500": "correct",
+"404364": "correct"
+}
+},
+{
+"id": 223,
+"est_competence": true,
+"verdicts": {
+"102717": "faux",
+"119132": "faux",
+"403114": "partiel"
+}
+},
+{
+"id": 226,
+"est_competence": true,
+"verdicts": {
+"122079": "faux",
+"477196": "faux",
+"511630": "faux"
+}
+},
+{
+"id": 227,
+"est_competence": true,
+"verdicts": {
+"482041": "faux",
+"519014": "faux",
+"494131": "correct"
+}
+},
+{
+"id": 228,
+"est_competence": true,
+"verdicts": {
+"477442": "correct",
+"477553": "partiel",
+"404526": "partiel"
+}
+},
+{
+"id": 229,
+"est_competence": true,
+"verdicts": {
+"118500": "partiel",
+"300467": "correct"
+}
+},
+{
+"id": 230,
+"est_competence": true,
+"verdicts": {
+"126528": "faux",
+"123688": "partiel",
+"480503": "faux"
+}
+},
+{
+"id": 231,
+"est_competence": true,
+"verdicts": {
+"477597": "partiel",
+"122067": "partiel",
+"511655": "partiel"
+}
+},
+{
+"id": 234,
+"est_competence": true,
+"verdicts": {
+"489522": "faux",
+"500925": "faux",
+"116660": "partiel"
+}
+},
+{
+"id": 236,
+"est_competence": true,
+"verdicts": {
+"492452": "faux",
+"497110": "partiel",
+"107436": "partiel"
+}
+},
+{
+"id": 237,
+"est_competence": true,
+"verdicts": {
+"489771": "faux",
+"497469": "partiel",
+"300249": "faux"
+}
+},
+{
+"id": 239,
+"est_competence": true,
+"verdicts": {
+"482411": "partiel",
+"516159": "partiel",
+"479422": "partiel"
+}
+},
+{
+"id": 240,
+"est_competence": true,
+"verdicts": {
+"300481": "correct",
+"400323": "correct",
+"477629": "partiel"
+}
+},
+{
+"id": 241,
+"est_competence": true,
+"verdicts": {
+"300473": "correct",
+"120084": "faux",
+"521158": "correct"
+}
+},
+{
+"id": 246,
+"est_competence": true,
+"verdicts": {
+"499529": "partiel",
+"300125": "correct",
+"300664": "partiel"
+}
+},
+{
+"id": 248,
+"est_competence": true,
+"verdicts": {
+"496822": "faux",
+"124149": "faux",
+"108383": "faux"
+}
+},
+{
+"id": 249,
+"est_competence": true,
+"verdicts": {
+"496283": "partiel",
+"513945": "correct",
+"491578": "faux"
+}
+},
+{
+"id": 252,
+"est_competence": true,
+"verdicts": {
+"404855": "faux",
+"497225": "partiel",
+"481704": "faux"
+}
+},
+{
+"id": 253,
+"est_competence": true,
+"verdicts": {
+"522108": "faux",
+"479725": "partiel",
+"124946": "correct"
+}
+},
+{
+"id": 255,
+"est_competence": true,
+"verdicts": {
+"493437": "partiel",
+"513548": "partiel",
+"102147": "faux"
+}
+},
+{
+"id": 256,
+"est_competence": true,
+"verdicts": {
+"490485": "faux",
+"402053": "faux",
+"101645": "faux"
+}
+},
+{
+"id": 257,
+"est_competence": true,
+"verdicts": {
+"506392": "faux",
+"105672": "correct",
+"522047": "faux"
+}
+},
+{
+"id": 260,
+"est_competence": true,
+"verdicts": {
+"300463": "correct",
+"513740": "correct",
+"404865": "partiel"
+}
+},
+{
+"id": 261,
+"est_competence": true,
+"verdicts": {
+"476954": "faux",
+"403009": "faux",
+"514629": "faux",
+"505627": "partiel"
+}
+},
+{
+"id": 262,
+"est_competence": false,
+"verdicts": {
+"402167": "faux",
+"512783": "faux",
+"492292": "faux"
+}
+},
+{
+"id": 263,
+"est_competence": true,
+"verdicts": {
+"477442": "faux",
+"520829": "partiel",
+"405145": "correct"
+}
+},
+{
+"id": 264,
+"est_competence": true,
+"verdicts": {
+"117272": "faux",
+"477597": "partiel",
+"300462": "correct"
+}
+},
+{
+"id": 266,
+"est_competence": true,
+"verdicts": {
+"497354": "faux",
+"495005": "faux",
+"496540": "faux"
+}
+},
+{
+"id": 267,
+"est_competence": true,
+"verdicts": {
+"478249": "partiel",
+"480847": "partiel",
+"124310": "partiel"
+}
+},
+{
+"id": 269,
+"est_competence": true,
+"verdicts": {
+"485636": "faux",
+"521413": "correct",
+"520080": "correct"
+}
+},
+{
+"id": 271,
+"est_competence": true,
+"verdicts": {
+"300326": "partiel",
+"403817": "faux",
+"493827": "correct"
+}
+},
+{
+"id": 273,
+"est_competence": true,
+"verdicts": {
+"300583": "partiel",
+"477580": "partiel",
+"515611": "partiel"
+}
+},
+{
+"id": 274,
+"est_competence": true,
+"verdicts": {
+"477847": "correct",
+"489285": "correct",
+"403015": "correct"
+}
+},
+{
+"id": 275,
+"est_competence": true,
+"verdicts": {
+"484739": "partiel",
+"493344": "partiel",
+"107832": "partiel"
+}
+},
+{
+"id": 277,
+"est_competence": true,
+"verdicts": {
+"495444": "faux",
+"520364": "faux",
+"122473": "faux"
+}
+},
+{
+"id": 278,
+"est_competence": true,
+"verdicts": {
+"399999": "partiel",
+"502182": "partiel",
+"300605": "faux"
+}
+},
+{
+"id": 279,
+"est_competence": true,
+"verdicts": {
+"511929": "correct",
+"300499": "faux"
+}
+},
+{
+"id": 281,
+"est_competence": true,
+"verdicts": {
+"300068": "correct",
+"123324": "partiel",
+"107887": "faux"
+}
+},
+{
+"id": 282,
+"est_competence": true,
+"verdicts": {
+"518534": "partiel",
+"400916": "faux",
+"512821": "partiel"
+}
+},
+{
+"id": 284,
+"est_competence": true,
+"verdicts": {
+"405381": "partiel",
+"120321": "correct",
+"499136": "partiel"
+}
+},
+{
+"id": 285,
+"est_competence": false,
+"verdicts": {
+"522670": "faux",
+"118153": "faux",
+"121391": "faux"
+}
+},
+{
+"id": 286,
+"est_competence": true,
+"verdicts": {
+"108355": "faux",
+"482189": "partiel",
+"482650": "partiel"
+}
+},
+{
+"id": 287,
+"est_competence": true,
+"verdicts": {
+"505396": "correct",
+"490359": "partiel",
+"477559": "partiel"
+}
+},
+{
+"id": 291,
+"est_competence": true,
+"verdicts": {
+"125901": "partiel",
+"490078": "faux",
+"117702": "partiel"
+}
+},
+{
+"id": 294,
+"est_competence": true,
+"verdicts": {
+"513547": "correct",
+"101665": "partiel",
+"118828": "correct"
+}
+},
+{
+"id": 295,
+"est_competence": true,
+"verdicts": {
+"101665": "correct",
+"485221": "partiel"
+}
+},
+{
+"id": 296,
+"est_competence": true,
+"verdicts": {
+"100029": "faux",
+"495652": "partiel",
+"403061": "partiel"
+}
+},
+{
+"id": 299,
+"est_competence": true,
+"verdicts": {
+"519888": "partiel",
+"404246": "partiel",
+"492411": "partiel",
+"513745": "faux"
+}
+},
+{
+"id": 302,
+"est_competence": true,
+"verdicts": {
+"120246": "partiel",
+"490266": "correct",
+"510664": "partiel"
+}
+},
+{
+"id": 305,
+"est_competence": true,
+"verdicts": {
+"477056": "partiel",
+"482630": "faux",
+"402302": "partiel"
+}
+},
+{
+"id": 306,
+"est_competence": true,
+"verdicts": {
+"300470": "partiel",
+"492412": "partiel",
+"513471": "faux"
+}
+},
+{
+"id": 308,
+"est_competence": true,
+"verdicts": {
+"103505": "faux",
+"521057": "partiel",
+"513936": "partiel",
+"479393": "partiel"
+}
+},
+{
+"id": 309,
+"est_competence": true,
+"verdicts": {
+"518513": "partiel",
+"505796": "partiel",
+"493524": "faux"
+}
+},
+{
+"id": 311,
+"est_competence": false,
+"verdicts": {
+"492351": "faux",
+"124012": "faux",
+"480434": "faux"
+}
+},
+{
+"id": 313,
+"est_competence": true,
+"verdicts": {
+"490181": "correct",
+"522322": "correct",
+"513940": "faux"
+}
+},
+{
+"id": 314,
+"est_competence": true,
+"verdicts": {
+"504374": "partiel",
+"120691": "correct",
+"102557": "faux"
+}
+},
+{
+"id": 315,
+"est_competence": true,
+"verdicts": {
+"117290": "faux",
+"118218": "faux",
+"498131": "partiel"
+}
+},
+{
+"id": 316,
+"est_competence": true,
+"verdicts": {
+"499063": "correct",
+"495899": "correct"
+}
+},
+{
+"id": 317,
+"est_competence": true,
+"verdicts": {
+"118700": "partiel",
+"124909": "faux",
+"116217": "faux"
+}
+},
+{
+"id": 320,
+"est_competence": true,
+"verdicts": {
+"403040": "correct",
+"403114": "partiel",
+"118901": "faux"
+}
+}
 ]
 }
