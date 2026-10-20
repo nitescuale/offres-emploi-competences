@@ -1,0 +1,85 @@
+/* Page « Coulisses » */
+
+.suivi { max-width: 1180px; margin: 0 auto; padding: 28px 20px 40px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+.tete h1 { font-size: 32px; letter-spacing: -0.02em; margin: 0 0 4px; }
+.tete p { margin: 0 0 4px; max-width: 760px; }
+.panneau h3 { font-size: 15px; margin: 4px 0 2px; }
+
+/* États : toujours une icône et un mot, jamais la couleur seule */
+.statut { display: inline-flex; align-items: center; gap: 5px; padding: 2px 9px 2px 3px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; background: var(--surface-2); color: var(--texte); }
+.statut .icone { display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; font-size: 10px; color: #fff; }
+.statut.ok .icone { background: var(--aqua); }
+.statut.alerte .icone { background: var(--orange); }
+.statut.erreur .icone { background: var(--rouge); }
+.statut.cours { padding-left: 9px; }
+.titre-statut { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.titre-statut > .statut { font-size: 14px; padding: 4px 12px 4px 5px; }
+.titre-statut > .statut .icone { width: 20px; height: 20px; font-size: 12px; }
+
+.chaine { list-style: none; counter-reset: etape; margin: 0; padding: 0; display: grid; gap: 2px; }
+.chaine li { counter-increment: etape; display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--grille); }
+.chaine li:last-child { border-bottom: 0; }
+.chaine li::before { content: counter(etape); display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--surface-2); font-size: 12px; font-weight: 700; color: var(--texte-2); }
+.chaine p { margin: 0; }
+.passage { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-size: 13px; text-decoration: none; color: var(--texte-2); text-align: right; }
+.passage small { color: var(--texte-3); font-size: 12px; }
+@media (max-width: 560px) { .chaine li { grid-template-columns: 24px minmax(0, 1fr); } .passage { grid-column: 2; align-items: flex-start; text-align: left; } }
+
+.defilant-x { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { text-align: left; font-size: 12px; font-weight: 600; color: var(--texte-3); padding: 4px 10px 6px 0; border-bottom: 1px solid var(--grille); }
+td { padding: 7px 10px 7px 0; border-bottom: 1px solid var(--grille); vertical-align: top; }
+tbody tr:last-child td { border-bottom: 0; }
+.controles td:first-child { font-weight: 600; min-width: 170px; }
+.controles td:nth-child(2) { white-space: nowrap; }
+.hausses td:not(:first-child), .hausses th:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.historique { margin-top: 14px; }
+.historique p { margin: 0 0 6px; }
+.jours { display: flex; flex-wrap: wrap; gap: 3px; }
+.jours i { width: 10px; height: 18px; border-radius: 2px; background: var(--grille); }
+.jours i.ok { background: var(--aqua); }
+.jours i.alerte { background: var(--orange); }
+.jours i.erreur { background: var(--rouge); }
+
+.grille { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+.grille .large { grid-column: 1 / -1; }
+@media (max-width: 900px) { .grille { grid-template-columns: minmax(0, 1fr); } }
+.graphique svg { display: block; width: 100%; height: auto; overflow: visible; }
+.graphique text { font-family: var(--sans); font-size: 12px; fill: var(--texte-3); }
+.axe line { stroke: var(--grille); }
+.ligne-serie { fill: none; stroke: var(--bleu); stroke-width: 2; stroke-linejoin: round; }
+.repere line { stroke: var(--texte-3); stroke-width: 1; }
+.repere circle { fill: var(--bleu); stroke: var(--surface); stroke-width: 2; }
+
+.legende { display: flex; gap: 16px; font-size: 12px; color: var(--texte-2); margin-bottom: 8px; }
+.legende i { display: inline-block; width: 12px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.avant { background: var(--texte-3); }
+.recente { background: var(--bleu); }
+.paires { display: grid; gap: 8px; }
+.paire { display: grid; grid-template-columns: minmax(0, 1fr) minmax(120px, 1.2fr) 56px; gap: 10px; align-items: center; font-size: 14px; }
+.paire .nom { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.paire .pistes { display: grid; gap: 2px; }
+.paire .piste { height: 9px; background: var(--surface-2); border-radius: 0 4px 4px 0; overflow: hidden; }
+.paire .piste span { display: block; height: 100%; border-radius: 0 4px 4px 0; }
+.paire .valeurs { font-size: 12px; line-height: 1.25; text-align: right; color: var(--texte-2); font-variant-numeric: tabular-nums; }
+@media (max-width: 560px) { .paire { grid-template-columns: minmax(0, 1fr) 80px 52px; } }
+
+.verdict { padding: 10px 12px; border-radius: 8px; background: var(--surface-2); font-size: 14px; margin: 0 0 14px; }
+.deux { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
+.deux p { margin: 0 0 8px; }
+@media (max-width: 900px) { .deux { grid-template-columns: minmax(0, 1fr); } }
+
+.methode ul { margin: 6px 0 0; padding-left: 18px; font-size: 14px; color: var(--texte-2); }
+.methode li { margin-bottom: 6px; }
+.methode b { color: var(--texte); }
+
+/* Sur téléphone, chaque contrôle devient une carte : nom et état sur une ligne, détail dessous */
+@media (max-width: 560px) {
+  .controles thead { display: none; }
+  .controles tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; padding: 8px 0; border-bottom: 1px solid var(--grille); }
+  .controles tbody tr:last-child { border-bottom: 0; }
+  .controles td { display: block; padding: 0; border: 0; min-width: 0 !important; }
+  .controles td:nth-child(3) { grid-column: 1 / -1; font-size: 13px; }
+  .titre-statut { flex-wrap: wrap; }
+}

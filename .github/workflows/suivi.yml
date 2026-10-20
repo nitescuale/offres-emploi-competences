@@ -1,0 +1,53 @@
+name: Suivi
+
+# Contrôles des données publiées (fraîcheur, volumes, champs manquants, couverture des compétences) et dérive des
+# compétences demandées : chaque jour, et après chaque mise à jour des compétences. Publie suivi_dernier.json et
+# suivi_historique.json dans la release `donnees` ; le site (page « Coulisses ») est reconstruit ensuite. Un contrôle
+# en erreur fait échouer le workflow, ce qui prévient par courriel, mais le rapport est publié quand même.
+on:
+  schedule:
+    - cron: "30 5 * * *"
+  workflow_run:
+    workflows: ["Compétences"]
+    types: [completed]
+  push:
+    branches: [main]
+    paths:
+      - "src/offres/suivi.py"
+      - ".github/workflows/suivi.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: suivi
+  cancel-in-progress: false
+
+jobs:
+  suivi:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e .
+      - name: Historique des contrôles
+        run: gh release download donnees -p suivi_historique.json -D precedent 2>/dev/null || echo "Premier contrôle"
+      - name: Contrôler
+        id: controle
+        run: |
+          set +e
+          offres suivi --sortie suivi --historique precedent/suivi_historique.json
+          echo "code=$?" >> "$GITHUB_OUTPUT"
+          python -c "import json; r = json.load(open('suivi/suivi_dernier.json')); print('| Contrôle | Niveau | Détail |'); print('|---|---|---|'); [print(f\"| {c['libelle']} | {c['niveau']} | {c['detail']} |\") for c in r['controles']]" >> "$GITHUB_STEP_SUMMARY"
+      - name: Publier dans la release
+        if: hashFiles('suivi/suivi_dernier.json') != ''
+        run: gh release upload donnees suivi/suivi_dernier.json suivi/suivi_historique.json --clobber
+      - name: Résultat
+        run: exit "${{ steps.controle.outputs.code }}"

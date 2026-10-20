@@ -13,7 +13,7 @@ Projet de data science de bout en bout sur les offres d'emploi publiques : les *
 5. Structure du marché et zoom métiers de la data (fait) : [`notebooks/03_structure.ipynb`](notebooks/03_structure.ipynb)
 6. Postes qui peinent à recruter (fait) : [`notebooks/04_recrutement.ipynb`](notebooks/04_recrutement.ipynb) ; pas de salaire dans les offres du service public, la cible est la republication du poste (le modèle du salaire reviendra avec les offres France Travail)
 7. Site, tableau de bord et article (fait) : [`site/`](site/), publié sur GitHub Pages par le workflow « Site »
-8. Industrialisation et suivi
+8. Industrialisation et suivi (fait) : workflow « Suivi » quotidien ([`src/offres/suivi.py`](src/offres/suivi.py)), page « Coulisses » du site
 
 ## Site
 
@@ -21,9 +21,18 @@ Projet de data science de bout en bout sur les offres d'emploi publiques : les *
 
 - `index.html` : l'article de synthèse, avec les figures des notebooks ;
 - `tableau.html` : le tableau de bord par métier (884), territoire (région, département) et année : offres par mois, télétravail, catégories, management, taux de republication, carte des départements, compétences citées et fiche ROME ;
+- `suivi.html` : les « Coulisses », avec la chaîne des workflows (état lu en direct sur l'API GitHub), les contrôles du jour et leur historique, et la dérive des compétences ;
 - `outil.html` : « Mes compétences », qui découpe une offre ou un CV et rattache chaque item au ROME dans le navigateur. La découpe et TF-IDF sont réécrits en JavaScript ([`site/js/extraction.js`](site/js/extraction.js)) et vérifiés identiques au Python par `tests/test_site.py` ; les formes déjà vues dans les offres reprennent le rattachement de la méthode publiée.
 
-Les données du site (`donnees/`, `outil/`) sont calculées par [`src/offres/web.py`](src/offres/web.py) à partir de la release `donnees`. Le workflow « Site » reconstruit et publie le tout après chaque mise à jour des compétences ; la publication demande GitHub Pages réglé sur la source « GitHub Actions ».
+Les données du site (`donnees/`, `outil/`) sont calculées par [`src/offres/web.py`](src/offres/web.py) à partir de la release `donnees`. Le workflow « Site » reconstruit et publie le tout après chaque passage du suivi, donc chaque jour ; la publication demande GitHub Pages réglé sur la source « GitHub Actions ».
+
+## Suivi de production
+
+`offres suivi --sortie suivi --historique suivi_historique.json` contrôle les fichiers de la release et écrit `suivi_dernier.json` et `suivi_historique.json`, publiés dans la release par le workflow « Suivi » (chaque jour à 5 h 30 UTC et après chaque mise à jour des compétences). Chaîne : offres (lundi) → compétences → suivi → site.
+
+- **Contrôles** : fraîcheur de la dernière offre, volume total et mensuel, doublons, dates futures, départements inconnus, valeurs manquantes, part d'offres avec un texte de compétences, gros auteurs de textes qui cessent d'en écrire, couverture et version des rattachements au ROME. Un contrôle en erreur fait échouer le workflow (courriel de GitHub) ; le rapport est publié quand même et affiché sur le site.
+- **Dérive** : compétences ROME citées ces six derniers mois contre les deux années précédentes, en brut puis à employeurs constants (écart par employeur présent dans les deux périodes, test t, correction de Benjamini-Hochberg), et part mensuelle de formes jamais vues.
+- **Premier constat** (octobre 2026) : depuis novembre 2025, les services des armées, auteurs d'environ 38 % des textes de compétences en 2023-2025, n'en écrivent presque plus. Les hausses brutes de compétences (travail en équipe, bureautique…) viennent de ce changement d'auteurs : à employeurs constants, aucune des 887 compétences testées ne progresse nettement.
 
 ## Données
 

@@ -1,5 +1,5 @@
 """Ligne de commande : `offres collecte --mode jour|stock`, `offres referentiels`, `offres rome`, `offres csp`, `offres competences`,
-`offres site`."""
+`offres site`, `offres suivi`."""
 
 from __future__ import annotations
 
@@ -142,6 +142,31 @@ def extraire_competences(dossier: Path, cache: Path | None) -> None:
     print(json.dumps(rapport, ensure_ascii=False, indent=1))
 
 
+def suivre(sortie: Path, ancien_historique: Path | None) -> str:
+    """Contrôles et dérive : écrit suivi_dernier.json et suivi_historique.json, renvoie le statut (ok, alerte, erreur)."""
+    from offres import competences, donnees, suivi
+
+    offres = donnees.offres_service_public()
+    items = pl.read_parquet(donnees.chemin("competences_items.parquet"))
+    formes = pl.read_parquet(donnees.chemin("competences_formes.parquet"))
+    metiers_rome = pl.read_parquet(donnees.chemin("metiers_rome.parquet"))
+    catalogue = competences.catalogue_rome()
+    ancien = json.loads(ancien_historique.read_text()) if ancien_historique and ancien_historique.exists() else []
+    # Le nom de chaque fichier annuel commence par sa date de mise à jour sur data.gouv.fr (AAAAMMJJ)
+    maj = max(offres["fichier_source"].unique().to_list())[:8]
+    source = {"mise_a_jour_fichier": f"{maj[:4]}-{maj[4:6]}-{maj[6:]}" if maj.isdigit() else None}
+    rapport = suivi.rapport(offres, items, formes, metiers_rome, catalogue, competences.version(catalogue),
+                            collecte.maintenant().date(), ancien[-1] if ancien else None, source)
+    sortie.mkdir(parents=True, exist_ok=True)
+    (sortie / "suivi_dernier.json").write_text(json.dumps(rapport, ensure_ascii=False, indent=1))
+    (sortie / "suivi_historique.json").write_text(json.dumps(suivi.historique(ancien, rapport), ensure_ascii=False, indent=1))
+    for c in rapport["controles"]:
+        print(f"{c['niveau']:>7}  {c['libelle']} : {c['detail']}")
+        if c["niveau"] != suivi.OK:
+            print(f"::{'error' if c['niveau'] == suivi.ERREUR else 'warning'} title={c['libelle']}::{c['detail']}")
+    return rapport["statut"]
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(prog="offres", description=__doc__)
     parser.add_argument("--dossier", type=Path, default=Path("donnees"), help="dossier des données")
@@ -164,6 +189,9 @@ def main(argv: list[str] | None = None) -> None:
     c4.add_argument("--lot", type=int, default=8, help="items par requête")
     c5 = sous.add_parser("site", help="site statique : article, tableau de bord et outil, avec leurs données")
     c5.add_argument("--sortie", type=Path, default=Path("_site"), help="dossier du site construit")
+    c6 = sous.add_parser("suivi", help="contrôles des données publiées et dérive des compétences")
+    c6.add_argument("--sortie", type=Path, default=Path("suivi"), help="dossier des rapports de suivi")
+    c6.add_argument("--historique", type=Path, help="suivi_historique.json du passage précédent")
     c3.add_argument("--cache", type=Path, help="competences_formes.parquet du passage précédent (formes déjà rattachées)")
     args = parser.parse_args(argv)
 
@@ -187,6 +215,8 @@ def main(argv: list[str] | None = None) -> None:
         from offres import web
 
         print(json.dumps(web.construire(args.sortie), ensure_ascii=False, indent=1))
+    elif args.commande == "suivi" and suivre(args.sortie, args.historique) == "erreur":
+        raise SystemExit("Au moins un contrôle en erreur")
 
 
 if __name__ == "__main__":

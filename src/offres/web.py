@@ -17,6 +17,7 @@ from datetime import date, timedelta
 from pathlib import Path
 
 import polars as pl
+import requests
 
 from offres import competences, donnees, recrutement
 from offres.collecte import maintenant
@@ -331,4 +332,14 @@ def construire(sortie: Path) -> dict:
     metiers = pl.DataFrame(json.loads((sortie / "donnees" / "metiers.json").read_text())["lignes"],
                            schema=["id", "metier", "offres", "textes", "code_rome"], orient="row")
     donnees_outil(sortie / "outil", formes, items, catalogue, par_fiche, metiers_rome, metiers)
+    copier_suivi(sortie / "donnees")
     return resume
+
+
+def copier_suivi(cible: Path) -> None:
+    """Rapports du workflow « Suivi » pour la page Coulisses ; avant le premier contrôle, la page le signale."""
+    for nom in ("suivi_dernier.json", "suivi_historique.json"):
+        try:
+            shutil.copy(donnees.chemin(nom, rafraichir=True), cible / nom)
+        except requests.HTTPError as e:
+            print(f"{nom} absent de la release ({e.response.status_code}) : page Coulisses sans contrôles")

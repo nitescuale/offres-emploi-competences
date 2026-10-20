@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Coulisses · Compétences du service public</title>
+  <meta name="description" content="Comment le site se met à jour seul : la chaîne de traitements, les contrôles quotidiens des données et le suivi des compétences émergentes.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/suivi.css">
+</head>
+<body>
+  <header class="entete">
+    <a class="marque" href="index.html"><span class="pastilles"><i style="background:var(--bleu)"></i><i style="background:var(--aqua)"></i></span><span class="titre">Compétences du service public</span></a>
+    <nav>
+      <a href="index.html">Article</a>
+      <a href="tableau.html">Tableau de bord</a>
+      <a href="outil.html">Mes compétences</a>
+      <a href="suivi.html" aria-current="page">Coulisses</a>
+    </nav>
+  </header>
+
+  <main class="suivi">
+    <div class="tete">
+      <h1>Coulisses</h1>
+      <p class="discret">Le site se reconstruit seul chaque jour. Cette page montre la chaîne de traitements qui l'alimente, les contrôles automatiques des données et ce qui bouge dans les compétences demandées.</p>
+    </div>
+
+    <section class="panneau">
+      <h2>La chaîne de traitements</h2>
+      <p class="sous-titre">Tâches GitHub Actions, dans l'ordre où elles s'enchaînent. L'état du dernier passage est lu en direct sur GitHub.</p>
+      <ol class="chaine" id="chaine"></ol>
+    </section>
+
+    <section class="panneau" id="panneau-controles">
+      <div class="titre-statut">
+        <div>
+          <h2>Contrôles des données</h2>
+          <p class="sous-titre" id="controles-date">Chaque jour, sur les fichiers publiés.</p>
+        </div>
+        <span class="statut" id="statut-global"></span>
+      </div>
+      <p class="alerte" id="sans-controle" hidden>Aucun contrôle n'a encore été publié : le premier passage du workflow « Suivi » remplira cette page.</p>
+      <div class="defilant-x"><table class="controles" id="controles"></table></div>
+      <div class="historique" id="historique-bloc" hidden>
+        <p class="tres-petit discret" id="historique-titre"></p>
+        <div class="jours" id="historique"></div>
+      </div>
+    </section>
+
+    <div class="grille" id="graphiques" hidden>
+      <section class="panneau graphique">
+        <h2>Offres publiées chaque mois</h2>
+        <p class="sous-titre">Toutes les offres du fichier, mois complets seulement.</p>
+        <div id="g-offres"></div>
+      </section>
+      <section class="panneau graphique">
+        <h2>Part des offres avec un texte de compétences</h2>
+        <p class="sous-titre">Le champ est facultatif : c'est sur ces textes que reposent toutes les compétences du site.</p>
+        <div id="g-textes"></div>
+      </section>
+
+      <section class="panneau large">
+        <h2>Qui écrit les textes de compétences</h2>
+        <p class="sous-titre" id="employeurs-titre"></p>
+        <div class="legende">
+          <span><i class="avant"></i>période précédente</span>
+          <span><i class="recente"></i>six derniers mois</span>
+        </div>
+        <div id="employeurs" class="paires"></div>
+        <p class="petit discret" id="employeurs-note"></p>
+      </section>
+
+      <section class="panneau large">
+        <h2>Des compétences en hausse ?</h2>
+        <p class="sous-titre" id="derive-titre"></p>
+        <p class="verdict" id="verdict"></p>
+        <div class="deux">
+          <div>
+            <h3>En brut</h3>
+            <p class="petit discret">Part des annonces avec texte qui citent la compétence. « Premier employeur » : part des citations récentes venant de l'employeur qui la cite le plus.</p>
+            <div class="defilant-x"><table class="hausses" id="brutes"></table></div>
+          </div>
+          <div>
+            <h3>À employeurs constants</h3>
+            <p class="petit discret" id="constants-note"></p>
+            <div class="defilant-x"><table class="hausses" id="constantes"></table></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panneau large graphique">
+        <h2>Vocabulaire nouveau</h2>
+        <p class="sous-titre">Part des items de compétences, chaque mois, dont la forme n'avait jamais été vue dans les mois précédents. Les formes nouvelles sont souvent rares, et le rattachement des formes rares au référentiel est le moins fiable.</p>
+        <div id="g-nouveautes"></div>
+      </section>
+    </div>
+
+    <section class="panneau methode">
+      <h2>Ce que vérifient les contrôles</h2>
+      <ul>
+        <li><b>Fraîcheur</b> : le fichier de l'année en cours est mis à jour à peu près une fois par mois sur data.gouv.fr. Alerte si la dernière offre a plus de 45 jours, erreur au-delà de 75.</li>
+        <li><b>Volumes</b> : jamais moins de 95 % des offres du contrôle précédent (un fichier annuel perdu), et un dernier mois complet entre 0,6 et 1,6 fois le même mois un an plus tôt.</li>
+        <li><b>Champs</b> : références uniques, pas de date dans le futur, départements connus, et pas plus de 5 points de valeurs manquantes en plus (métier, département, catégorie) sur trois mois par rapport aux douze précédents.</li>
+        <li><b>Textes de compétences</b> : part des offres qui en ont un, et gros auteurs de textes (au moins 2 % des textes) qui en écrivent quatre fois moins tout en publiant toujours des offres.</li>
+        <li><b>Rattachement</b> : textes effectivement découpés (95 % en temps normal : un texte sans liste repérable ne donne aucun item), toutes les formes rattachées, à des codes du ROME courant, avec la version de méthode attendue.</li>
+        <li>Une <b>erreur</b> fait échouer le workflow, ce qui prévient par courriel ; le site est quand même reconstruit pour l'afficher ici. Une <b>alerte</b> est seulement signalée.</li>
+        <li><b>Compétences en hausse</b> : les six derniers mois du fichier contre les deux années précédentes. À employeurs constants, l'écart est mesuré employeur par employeur (au moins 10 annonces avec texte dans chaque période), puis moyenné ; un test t sur les employeurs et la correction de Benjamini-Hochberg (taux de fausses découvertes de 10 %) tiennent compte des centaines de compétences testées à la fois.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="pied">
+    <p>Données : <a href="https://www.data.gouv.fr/datasets/les-offres-diffusees-sur-choisir-le-service-public">Choisir le service public</a> (DGAFP) et <a href="https://www.data.gouv.fr/datasets/repertoire-operationnel-des-metiers-et-des-emplois-rome">ROME 4.0</a> (France Travail), Licence Ouverte.</p>
+    <p>Code et workflows : <a href="https://github.com/nitescuale/offres-emploi-competences">github.com/nitescuale/offres-emploi-competences</a></p>
+  </footer>
+
+  <script src="js/commun.js"></script>
+  <script src="js/suivi.js"></script>
+</body>
+</html>
