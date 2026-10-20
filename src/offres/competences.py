@@ -133,8 +133,9 @@ def catalogue_appellations() -> pl.DataFrame:
         .filter(pl.col("peu_usite") != "O")
         .select("code_ogr", pl.col("libelle_appellation_long").alias("libelle"), "code_rome")
         .join(fiches, on="code_rome", how="left")
-        .with_columns(pl.col("libelle").map_elements(lambda x: normaliser(sans_double_genre(x, False)), return_dtype=pl.Utf8)
-                      .alias("forme"))
+        .with_columns(pl.col("libelle").map_elements(lambda x: sans_double_genre(x, False).lower(), return_dtype=pl.Utf8)
+                      .alias("texte"))
+        .with_columns(pl.col("texte").map_elements(normaliser, return_dtype=pl.Utf8).alias("forme"))
     )
 
 
@@ -143,55 +144,122 @@ def competences_par_fiche() -> pl.DataFrame:
     return donnees.rome("coherence_item").with_columns(pl.col("coeur_metier").fill_null("").eq("Principale").alias("coeur"))
 
 
-class Rapprocheur:
-    """Rapproche des items de compétence du catalogue ROME ; renvoie code, libellé et score de la meilleure entrée."""
+def _centrer(scores: np.ndarray) -> np.ndarray:
+    """Scores centrés-réduits par ligne : rend comparables des similarités d'échelles différentes (TF-IDF ~0-1,
+    e5 ~0,75-0,95) avant de les additionner."""
+    return (scores - scores.mean(1, keepdims=True)) / (scores.std(1, keepdims=True) + 1e-9)
 
-    def __init__(self, catalogue: pl.DataFrame, methode: str = "tfidf", modele=None):
+
+class Rapprocheur:
+    """Rapproche des items (ou des intitulés de métier) d'un catalogue ROME ; renvoie code, libellé et score de la
+    meilleure entrée.
+
+    Méthodes : `dictionnaire` (forme identique), `tfidf` (n-grammes de caractères), `embeddings` (modèle de phrases,
+    usage symétrique : « query: » des deux côtés pour e5), `hybride` (somme des scores TF-IDF et embeddings centrés-
+    réduits, la meilleure sur l'échantillon annoté du notebook 02). Le catalogue a une colonne `forme` (voir
+    `normaliser`) et, pour les embeddings, une colonne `texte` (à défaut, `libelle`).
+    """
+
+    def __init__(self, catalogue: pl.DataFrame, methode: str = "hybride", modele=None):
         self.catalogue = catalogue
         self.methode = methode
         self.formes = catalogue["forme"].to_list()
+        if methode not in ("dictionnaire", "tfidf", "embeddings", "hybride"):
+            raise ValueError(methode)
         if methode == "dictionnaire":
             index: dict[str, int] = {}
             for i, f in enumerate(self.formes):
                 index.setdefault(f, i)
             self.index = index
-        elif methode == "tfidf":
+        if methode in ("tfidf", "hybride"):
             from sklearn.feature_extraction.text import TfidfVectorizer
 
-            self.vect = TfidfVectorizer(analyzer="char_wb", ngram_range=(3, 5), sublinear_tf=True)
+            self.vect = TfidfVectorizer(analyzer="char_wb", ngram_range=(3, 5), sublinear_tf=True, dtype=np.float32)
             self.matrice = self.vect.fit_transform(self.formes)
-        elif methode == "embeddings":
+        if methode in ("embeddings", "hybride"):
             if modele is None:
-                raise ValueError("méthode embeddings : fournir un modèle (voir offres.embeddings)")
+                raise ValueError(f"méthode {methode} : fournir un modèle (voir offres.embeddings)")
             self.modele = modele
-            self.matrice = modele.encoder(catalogue["libelle"].to_list(), requete=False)
-        else:
-            raise ValueError(methode)
+            textes = catalogue["texte"] if "texte" in catalogue.columns else catalogue["libelle"]
+            self.vecteurs = modele.encoder(textes.to_list(), requete=True)
 
-    def candidats(self, items: list[str], k: int = 5, lot: int = 2000) -> list[list[tuple[int, float]]]:
+    def scores(self, items: list[str]) -> np.ndarray:
+        """Matrice items x catalogue des scores de la méthode (sauf dictionnaire)."""
+        if self.methode == "tfidf":
+            return (self.vect.transform([normaliser(i) for i in items]) @ self.matrice.T).toarray()
+        emb = self.modele.encoder([nettoyer(i) for i in items], requete=True) @ self.vecteurs.T
+        if self.methode == "embeddings":
+            return emb
+        tfidf = (self.vect.transform([normaliser(i) for i in items]) @ self.matrice.T).toarray()
+        return _centrer(emb) + _centrer(tfidf)
+
+    def candidats(self, items: list[str], k: int = 5, lot: int = 1000) -> list[list[tuple[int, float]]]:
         """Pour chaque item, les k meilleures entrées du catalogue (indice, score), calculées par lots pour tenir en mémoire."""
         if self.methode == "dictionnaire":
             return [[(self.index[f], 1.0)] if (f := normaliser(i)) in self.index else [] for i in items]
         resultat: list[list[tuple[int, float]]] = []
         for debut in range(0, len(items), lot):
-            morceau = items[debut : debut + lot]
-            if self.methode == "tfidf":
-                scores = (self.vect.transform([normaliser(i) for i in morceau]) @ self.matrice.T).toarray()
-            else:
-                scores = self.modele.encoder([nettoyer(i) for i in morceau], requete=True) @ self.matrice.T
-            meilleurs = np.argpartition(-scores, min(k, scores.shape[1] - 1), axis=1)[:, :k]
-            for r, ligne in enumerate(meilleurs):
-                tri = sorted(((int(j), float(scores[r, j])) for j in ligne), key=lambda x: -x[1])
-                resultat.append(tri)
+            scores = self.scores(items[debut : debut + lot])
+            k_ = min(k, scores.shape[1])
+            meilleurs = np.argpartition(-scores, k_ - 1, axis=1)[:, :k_]
+            valeurs = np.take_along_axis(scores, meilleurs, axis=1)
+            ordre = np.argsort(-valeurs, axis=1)
+            meilleurs, valeurs = np.take_along_axis(meilleurs, ordre, 1), np.take_along_axis(valeurs, ordre, 1)
+            resultat.extend([list(zip(m.tolist(), v.tolist())) for m, v in zip(meilleurs, valeurs)])
         return resultat
 
-    def rapprocher(self, items: list[str], seuil: float = 0.0) -> pl.DataFrame:
+    def rapprocher(self, items: list[str], seuil: float | None = None) -> pl.DataFrame:
+        """Meilleure entrée pour chaque item ; sous le seuil (s'il est donné), pas de rattachement."""
         lignes = []
+        codes, libelles = self.catalogue["code_ogr"], self.catalogue["libelle"]
         for item, cands in zip(items, self.candidats(items, k=1)):
-            if cands and cands[0][1] >= seuil:
+            if cands and (seuil is None or cands[0][1] >= seuil):
                 j, score = cands[0]
-                lignes.append({"item": item, "code_ogr": self.catalogue["code_ogr"][j], "libelle_rome": self.catalogue["libelle"][j],
-                               "score": score})
+                lignes.append({"item": item, "code_ogr": codes[j], "libelle_rome": libelles[j], "score": score})
             else:
                 lignes.append({"item": item, "code_ogr": None, "libelle_rome": None, "score": cands[0][1] if cands else None})
         return pl.DataFrame(lignes, schema={"item": pl.Utf8, "code_ogr": pl.Utf8, "libelle_rome": pl.Utf8, "score": pl.Float64})
+
+
+VERSION = "hybride-e5-v1"  # change si la méthode ou le catalogue change : les rattachements en cache sont alors refaits
+
+
+def items_des_offres(offres: pl.DataFrame) -> pl.DataFrame:
+    """Une ligne par (annonce, item) pour les offres qui ont un texte de compétences, avec la forme normalisée."""
+    return (
+        offres.filter(pl.col("competences_texte").is_not_null())
+        .unique("annonce_id")
+        .select("annonce_id", pl.col("competences_texte").map_elements(segmenter, return_dtype=pl.List(pl.Utf8)).alias("item"))
+        .explode("item")
+        .drop_nulls("item")
+        .with_columns(pl.col("item").map_elements(normaliser, return_dtype=pl.Utf8).alias("forme"))
+        .filter(pl.col("forme").str.len_chars() >= 2)
+        .unique(["annonce_id", "forme"])
+    )
+
+
+def rattacher_formes(items: pl.DataFrame, modele, cache: pl.DataFrame | None = None) -> pl.DataFrame:
+    """Forme -> compétence ROME (méthode hybride). Les formes déjà rattachées avec la même VERSION sont reprises du cache."""
+    formes = items.group_by("forme").agg(pl.col("item").first(), pl.len().alias("occurrences"))
+    deja = cache.filter(pl.col("version") == VERSION).select("forme", "code_ogr", "score") if cache is not None else None
+    a_faire = formes.join(deja, on="forme", how="anti") if deja is not None else formes
+    print(f"{formes.height} formes, {a_faire.height} à rattacher")
+    nouveaux = pl.DataFrame(schema={"forme": pl.Utf8, "code_ogr": pl.Utf8, "score": pl.Float64})
+    if a_faire.height:
+        catalogue = catalogue_rome()
+        r = Rapprocheur(catalogue, "hybride", modele).rapprocher(a_faire["item"].to_list())
+        nouveaux = pl.DataFrame({"forme": a_faire["forme"], "code_ogr": r["code_ogr"], "score": r["score"]})
+    tout = pl.concat([deja, nouveaux]) if deja is not None else nouveaux
+    return formes.select("forme", "occurrences").join(tout, on="forme", how="left").with_columns(version=pl.lit(VERSION))
+
+
+def rattacher_metiers(offres: pl.DataFrame, modele) -> pl.DataFrame:
+    """Métier de la fonction publique -> appellation et fiche ROME (méthode hybride, libellés sans double genre)."""
+    metiers = offres.group_by("metier").len().drop_nulls("metier")
+    app = catalogue_appellations()
+    textes = [sans_double_genre(m, True).lower() for m in metiers["metier"].to_list()]
+    r = Rapprocheur(app, "hybride", modele).rapprocher(textes)
+    return metiers.rename({"len": "offres"}).with_columns(
+        code_ogr_appellation=r["code_ogr"], appellation=r["libelle_rome"], score=r["score"],
+    ).join(app.select(pl.col("code_ogr").alias("code_ogr_appellation"), "code_rome", "libelle_rome"),
+           on="code_ogr_appellation", how="left")

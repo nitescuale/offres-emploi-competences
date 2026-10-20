@@ -1,0 +1,501 @@
+metier,offres,methode,appellation,code_rome,score,verdict,top60
+Chargée / Chargé de gestion administrative et/ou de paie,86455,tfidf,Technicien / Technicienne de gestion administrative,M1607,0.7285721562130846,partiel,true
+Chargée / Chargé de gestion administrative et/ou de paie,86455,e5,Chargé / Chargée de la gestion administrative du personnel,M1507,0.9417530298233032,correct,true
+Chargée / Chargé de gestion administrative et/ou de paie,86455,minilm,Responsable administratif / Responsable administrative et de gestion du personnel,M1509,0.9274533987045288,partiel,true
+Chargée / Chargé de gestion administrative et/ou de paie,86455,hybride_e5,Chargé / Chargée de la gestion administrative du personnel,M1507,19.007907594268783,correct,true
+Chargée / Chargé de gestion administrative et/ou de paie,86455,hybride_minilm,Technicien / Technicienne de gestion administrative,M1607,17.645744545451613,partiel,true
+Enseignante / Enseignant,49722,tfidf,Enseignant / Enseignante des écoles,K2106,0.794023388364595,partiel,true
+Enseignante / Enseignant,49722,e5,Enseignant / Enseignante des écoles,K2106,0.946526825428009,partiel,true
+Enseignante / Enseignant,49722,minilm,Enseignant-chercheur / Enseignante-chercheuse,K2108,0.9753482341766357,partiel,true
+Enseignante / Enseignant,49722,hybride_e5,Enseignant / Enseignante des écoles,K2106,33.05142665367287,partiel,true
+Enseignante / Enseignant,49722,hybride_minilm,Enseignant / Enseignante des écoles,K2106,31.07416129570168,partiel,true
+Agente / Agent des interventions techniques polyvalent en milieu rural,46058,tfidf,Agent polyvalent / Agente polyvalente de cinéma,G1248,0.47803001799597217,faux,true
+Agente / Agent des interventions techniques polyvalent en milieu rural,46058,e5,Agent / Agente de développement rural,K1802,0.9271948337554932,faux,true
+Agente / Agent des interventions techniques polyvalent en milieu rural,46058,minilm,Agent / Agente de développement rural,K1802,0.7681934833526611,faux,true
+Agente / Agent des interventions techniques polyvalent en milieu rural,46058,hybride_e5,Agent polyvalent / Agente polyvalente de cinéma,G1248,14.337491633457745,faux,true
+Agente / Agent des interventions techniques polyvalent en milieu rural,46058,hybride_minilm,Agent / Agente de développement rural,K1802,12.461545407380378,faux,true
+"Chargée / Chargé d'accueil, de relation et de service à l'usager",32407,tfidf,Chargé / Chargée d'accueil,M1601,0.5906653457156602,correct,true
+"Chargée / Chargé d'accueil, de relation et de service à l'usager",32407,e5,Chargé / Chargée d'accueil et d'information,M1601,0.9400631189346313,correct,true
+"Chargée / Chargé d'accueil, de relation et de service à l'usager",32407,minilm,Chargé / Chargée de clientèle en agence de voyage,G1303,0.8071956634521484,faux,true
+"Chargée / Chargé d'accueil, de relation et de service à l'usager",32407,hybride_e5,Chargé / Chargée d'accueil,M1601,17.5948500735322,correct,true
+"Chargée / Chargé d'accueil, de relation et de service à l'usager",32407,hybride_minilm,Chargé / Chargée d'accueil,M1601,16.12796069212351,correct,true
+Animatrice / Animateur enfance-jeunesse,32357,tfidf,Animateur / Animatrice jeunesse,G1203,0.8165282163778665,correct,true
+Animatrice / Animateur enfance-jeunesse,32357,e5,Animateur / Animatrice jeunesse,G1203,0.9620893597602844,correct,true
+Animatrice / Animateur enfance-jeunesse,32357,minilm,Animateur / Animatrice petite enfance,K1307,0.9817277789115906,partiel,true
+Animatrice / Animateur enfance-jeunesse,32357,hybride_e5,Animateur / Animatrice jeunesse,G1203,30.39499162826013,correct,true
+Animatrice / Animateur enfance-jeunesse,32357,hybride_minilm,Animateur / Animatrice jeunesse,G1203,28.47181390914392,correct,true
+Chargée / Chargé d'entretien des locaux,31925,tfidf,Agent / Agente d'entretien-propreté de locaux,K2205,0.6647513432220301,correct,true
+Chargée / Chargé d'entretien des locaux,31925,e5,Chargé / Chargée d'exploitation nettoyage de locaux,K2203,0.9626321196556091,partiel,true
+Chargée / Chargé d'entretien des locaux,31925,minilm,Agent / Agente d'entretien-propreté de locaux,K2205,0.8991984128952026,correct,true
+Chargée / Chargé d'entretien des locaux,31925,hybride_e5,Agent / Agente d'entretien-propreté de locaux,K2205,18.2749919933894,correct,true
+Chargée / Chargé d'entretien des locaux,31925,hybride_minilm,Agent / Agente d'entretien-propreté de locaux,K2205,17.215586666546137,correct,true
+Assistante / Assistant de direction,29870,tfidf,Assistant / Assistante de direction,M1604,1.0,correct,true
+Assistante / Assistant de direction,29870,e5,Assistant / Assistante de direction,M1604,1.0,correct,true
+Assistante / Assistant de direction,29870,minilm,Assistant / Assistante de direction,M1604,0.9999997019767761,correct,true
+Assistante / Assistant de direction,29870,hybride_e5,Assistant / Assistante de direction,M1604,23.0082904815148,correct,true
+Assistante / Assistant de direction,29870,hybride_minilm,Assistant / Assistante de direction,M1604,18.79672069544302,correct,true
+Animatrice / Animateur de relais assistantes maternelles,28525,tfidf,Educateur / Educatrice de jeunes enfants et animation de relais d'assistantes maternelles,K1202,0.750031536901549,partiel,true
+Animatrice / Animateur de relais assistantes maternelles,28525,e5,Animateur / Animatrice de loisirs pour enfants,G1203,0.9256876111030579,partiel,true
+Animatrice / Animateur de relais assistantes maternelles,28525,minilm,Educateur / Educatrice de jeunes enfants et animation de relais d'assistantes maternelles,K1202,0.8232598304748535,partiel,true
+Animatrice / Animateur de relais assistantes maternelles,28525,hybride_e5,Educateur / Educatrice de jeunes enfants et animation de relais d'assistantes maternelles,K1202,22.96185625110017,partiel,true
+Animatrice / Animateur de relais assistantes maternelles,28525,hybride_minilm,Educateur / Educatrice de jeunes enfants et animation de relais d'assistantes maternelles,K1202,22.66730535540925,partiel,true
+Chargée / Chargé de conception et de réalisation de travaux voirie et réseaux divers,28281,tfidf,"Conducteur / Conductrice de travaux Voirie, Réseaux Divers (VRD)",F1208,0.6344750287155942,partiel,true
+Chargée / Chargé de conception et de réalisation de travaux voirie et réseaux divers,28281,e5,"Conducteur / Conductrice de travaux Voirie, Réseaux Divers (VRD)",F1208,0.9283835291862488,partiel,true
+Chargée / Chargé de conception et de réalisation de travaux voirie et réseaux divers,28281,minilm,Projeteur / Projeteuse Voirie Réseaux Divers (VRD),F1104,0.7948009967803955,partiel,true
+Chargée / Chargé de conception et de réalisation de travaux voirie et réseaux divers,28281,hybride_e5,"Conducteur / Conductrice de travaux Voirie, Réseaux Divers (VRD)",F1208,18.421419080563993,partiel,true
+Chargée / Chargé de conception et de réalisation de travaux voirie et réseaux divers,28281,hybride_minilm,"Conducteur / Conductrice de travaux Voirie, Réseaux Divers (VRD)",F1208,17.05380004293582,partiel,true
+"Chargée / Chargé de restauration, d'intendance",28258,tfidf,Responsable de restauration,G1410,0.516797341968037,partiel,true
+"Chargée / Chargé de restauration, d'intendance",28258,e5,"Responsable d'entrepôt, de dépôt",N1302,0.9339849948883057,faux,true
+"Chargée / Chargé de restauration, d'intendance",28258,minilm,Responsable de restauration,G1410,0.882520318031311,partiel,true
+"Chargée / Chargé de restauration, d'intendance",28258,hybride_e5,Responsable de restauration,G1410,14.43929805058628,partiel,true
+"Chargée / Chargé de restauration, d'intendance",28258,hybride_minilm,Responsable de restauration,G1410,16.518202917758522,partiel,true
+Assistante / Assistant d'éducation de la petite enfance,26982,tfidf,Assistant / Assistante d'éducation de la petite enfance,K1307,0.9999999999999993,correct,true
+Assistante / Assistant d'éducation de la petite enfance,26982,e5,Assistant / Assistante d'éducation de la petite enfance,K1307,0.9999997019767761,correct,true
+Assistante / Assistant d'éducation de la petite enfance,26982,minilm,Assistant / Assistante d'éducation de la petite enfance,K1307,1.0000001192092896,correct,true
+Assistante / Assistant d'éducation de la petite enfance,26982,hybride_e5,Assistant / Assistante d'éducation de la petite enfance,K1307,29.79902808470974,correct,true
+Assistante / Assistant d'éducation de la petite enfance,26982,hybride_minilm,Assistant / Assistante d'éducation de la petite enfance,K1307,27.909966633751488,correct,true
+Travailleuse sociale / Travailleur social,25459,tfidf,Assistant social / Assistante sociale du travail,K1201,0.6461356116092176,correct,true
+Travailleuse sociale / Travailleur social,25459,e5,Assistant social / Assistante sociale du travail,K1201,0.9451874494552612,correct,true
+Travailleuse sociale / Travailleur social,25459,minilm,Assistant social / Assistante sociale du travail,K1201,0.8819529414176941,correct,true
+Travailleuse sociale / Travailleur social,25459,hybride_e5,Assistant social / Assistante sociale du travail,K1201,22.655908395683817,correct,true
+Travailleuse sociale / Travailleur social,25459,hybride_minilm,Assistant social / Assistante sociale du travail,K1201,20.3279364604116,correct,true
+Infirmière / Infirmier,24748,tfidf,Infirmier / Infirmière d'entreprise,J1512,0.7504045136520462,partiel,true
+Infirmière / Infirmier,24748,e5,Infirmier / Infirmière scolaire,J1511,0.9445897340774536,partiel,true
+Infirmière / Infirmier,24748,minilm,Spécialiste support,M1874,0.7524955868721008,faux,true
+Infirmière / Infirmier,24748,hybride_e5,Infirmier / Infirmière scolaire,J1511,28.287076263026545,partiel,true
+Infirmière / Infirmier,24748,hybride_minilm,Infirmier / Infirmière d'entreprise,J1512,25.585845369233212,partiel,true
+Agente locale / Agent local de tranquillité publique,22591,tfidf,Agent / Agente de la force publique,K1706,0.4532037156880261,partiel,true
+Agente locale / Agent local de tranquillité publique,22591,e5,Agent local / Agente locale de médiation sociale,K1204,0.9281508922576904,partiel,true
+Agente locale / Agent local de tranquillité publique,22591,minilm,Agent / Agente d'entretien des collectivités,I1203,0.8681274652481079,faux,true
+Agente locale / Agent local de tranquillité publique,22591,hybride_e5,Agent / Agente de la force publique,K1706,18.650444827428657,partiel,true
+Agente locale / Agent local de tranquillité publique,22591,hybride_minilm,Agent / Agente de la force publique,K1706,16.511489472738106,partiel,true
+Chargée / Chargé d'aménagement des espaces verts et de production végétale,22420,tfidf,Aide agricole en production végétale,A1402,0.48420498608634865,partiel,true
+Chargée / Chargé d'aménagement des espaces verts et de production végétale,22420,e5,Chargé / Chargée d'études espaces et milieux naturels,A1306,0.9434937238693237,faux,true
+Chargée / Chargé d'aménagement des espaces verts et de production végétale,22420,minilm,Jardinier / Jardinière d'espaces verts,A1208,0.86783766746521,correct,true
+Chargée / Chargé d'aménagement des espaces verts et de production végétale,22420,hybride_e5,Ouvrier / Ouvrière des espaces verts,A1203,13.707903609726433,correct,true
+Chargée / Chargé d'aménagement des espaces verts et de production végétale,22420,hybride_minilm,Ouvrier / Ouvrière des espaces verts,A1203,15.445419774506096,correct,true
+Gestionnaire de comptabilité,21844,tfidf,Assistant / Assistante de gestion en comptabilité,M1213,0.7559770469590862,correct,true
+Gestionnaire de comptabilité,21844,e5,Gestionnaire comptable,M1203,0.9938904643058777,correct,true
+Gestionnaire de comptabilité,21844,minilm,Gestionnaire comptable,M1203,0.9859821200370789,correct,true
+Gestionnaire de comptabilité,21844,hybride_e5,Gestionnaire comptable,M1203,22.854017700998472,correct,true
+Gestionnaire de comptabilité,21844,hybride_minilm,Assistant / Assistante de gestion en comptabilité,M1213,19.688675745099626,correct,true
+Chargée / Chargé de développement territorial,21791,tfidf,Chargé / Chargée de projet et de développement territorial,K1404,0.9205946751383383,correct,true
+Chargée / Chargé de développement territorial,21791,e5,Chargé / Chargée de mission développement territorial,K1404,0.9844471216201782,correct,true
+Chargée / Chargé de développement territorial,21791,minilm,Responsable de développement territorial,K1809,0.9554787874221802,partiel,true
+Chargée / Chargé de développement territorial,21791,hybride_e5,Chargé / Chargée de mission développement territorial,K1404,23.615985026681233,correct,true
+Chargée / Chargé de développement territorial,21791,hybride_minilm,Chargé / Chargée de projet et de développement territorial,K1404,21.81029951232619,correct,true
+Secrétaire de mairie,20725,tfidf,Secrétaire de mairie,K1406,0.9999999999999994,correct,true
+Secrétaire de mairie,20725,e5,Secrétaire de mairie,K1406,1.0000001192092896,correct,true
+Secrétaire de mairie,20725,minilm,Secrétaire de mairie,K1406,1.0000001192092896,correct,true
+Secrétaire de mairie,20725,hybride_e5,Secrétaire de mairie,K1406,35.19890194110778,correct,true
+Secrétaire de mairie,20725,hybride_minilm,Secrétaire de mairie,K1406,30.582931329535516,correct,true
+Responsable sectorielle / sectoriel,18302,tfidf,Responsable sectoriel / Responsable sectorielle de la fonction publique,K1422,0.6228270018250142,partiel,true
+Responsable sectorielle / sectoriel,18302,e5,Serriste,A1414,0.8975837230682373,faux,true
+Responsable sectorielle / sectoriel,18302,minilm,Facteur / Factrice de secteur,M1603,0.7113689184188843,faux,true
+Responsable sectorielle / sectoriel,18302,hybride_e5,Responsable sectoriel / Responsable sectorielle de la fonction publique,K1422,41.17445432524177,partiel,true
+Responsable sectorielle / sectoriel,18302,hybride_minilm,Responsable sectoriel / Responsable sectorielle de la fonction publique,K1422,37.513234966797555,partiel,true
+Aide-soignante / Aide-soignant,17825,tfidf,Aide-soignant / Aide-soignante,J1501,1.0000000000000004,correct,true
+Aide-soignante / Aide-soignant,17825,e5,Aide-soignant / Aide-soignante,J1501,1.000000238418579,correct,true
+Aide-soignante / Aide-soignant,17825,minilm,Aide-soignant / Aide-soignante,J1501,0.9999995827674866,correct,true
+Aide-soignante / Aide-soignant,17825,hybride_e5,Aide-soignant / Aide-soignante,J1501,51.312157833606584,correct,true
+Aide-soignante / Aide-soignant,17825,hybride_minilm,Aide-soignant / Aide-soignante,J1501,47.09219094517885,correct,true
+"Plombière, opératrice, chauffagiste / Plombier, opérateur, chauffagiste en froid et ventilation",17592,tfidf,Plombier / Plombière chauffagiste,F1620,0.7280804379507048,correct,true
+"Plombière, opératrice, chauffagiste / Plombier, opérateur, chauffagiste en froid et ventilation",17592,e5,"Installateur / Installatrice en chauffage, climatisation, sanitaire et énergies renouvelables",F1620,0.930695116519928,correct,true
+"Plombière, opératrice, chauffagiste / Plombier, opérateur, chauffagiste en froid et ventilation",17592,minilm,Plombier / Plombière chauffagiste,F1620,0.8158352375030518,correct,true
+"Plombière, opératrice, chauffagiste / Plombier, opérateur, chauffagiste en froid et ventilation",17592,hybride_e5,Plombier / Plombière chauffagiste,F1620,26.801345613228236,correct,true
+"Plombière, opératrice, chauffagiste / Plombier, opérateur, chauffagiste en froid et ventilation",17592,hybride_minilm,Plombier / Plombière chauffagiste,F1620,26.42833974622384,correct,true
+Chargée / Chargé de communication,16568,tfidf,Chargé / Chargée de communication,E1112,1.0000000000000002,correct,true
+Chargée / Chargé de communication,16568,e5,Chargé / Chargée de communication,E1112,1.0000001192092896,correct,true
+Chargée / Chargé de communication,16568,minilm,Chargé / Chargée de communication,E1112,1.000000238418579,correct,true
+Chargée / Chargé de communication,16568,hybride_e5,Chargé / Chargée de communication,E1112,24.927356733566164,correct,true
+Chargée / Chargé de communication,16568,hybride_minilm,Chargé / Chargée de communication,E1112,22.339641584640383,correct,true
+Chercheuse / Chercheur,15482,tfidf,Directeur (chercheur) / Directrice (chercheuse) de recherche publique,K2406,0.6778225797448351,partiel,true
+Chercheuse / Chercheur,15482,e5,Chercheur / Chercheuse en histoire,K2401,0.941620409488678,partiel,true
+Chercheuse / Chercheur,15482,minilm,Technicien / Technicienne en recherche scientifique,H1210,0.8913769721984863,partiel,true
+Chercheuse / Chercheur,15482,hybride_e5,Chercheur animalier / Chercheuse animalière,K2418,21.484770965985682,partiel,true
+Chercheuse / Chercheur,15482,hybride_minilm,Chercheur / Chercheuse en géomatique,K2401,18.56242128505675,partiel,true
+Chargée / Chargé de maintenance générale des bâtiments,15119,tfidf,Agent / Agente de maintenance des bâtiments,I1203,0.7301533804886743,correct,true
+Chargée / Chargé de maintenance générale des bâtiments,15119,e5,Agent / Agente de maintenance des bâtiments,I1203,0.9416536688804626,correct,true
+Chargée / Chargé de maintenance générale des bâtiments,15119,minilm,Agent / Agente de maintenance des bâtiments,I1203,0.917951226234436,correct,true
+Chargée / Chargé de maintenance générale des bâtiments,15119,hybride_e5,Agent / Agente de maintenance des bâtiments,I1203,17.53031592790096,correct,true
+Chargée / Chargé de maintenance générale des bâtiments,15119,hybride_minilm,Agent / Agente de maintenance des bâtiments,I1203,16.943860582747153,correct,true
+Chargée / Chargé de propreté des espaces publics,14989,tfidf,Agent / Agente d'entretien d'espaces publics,K2307,0.5884663590749112,correct,true
+Chargée / Chargé de propreté des espaces publics,14989,e5,Chargé / Chargée d'exploitation nettoyage de locaux,K2203,0.9400352835655212,faux,true
+Chargée / Chargé de propreté des espaces publics,14989,minilm,Chargé / Chargée d'exploitation nettoyage de locaux,K2203,0.8991549015045166,faux,true
+Chargée / Chargé de propreté des espaces publics,14989,hybride_e5,Agent / Agente d'entretien d'espaces publics,K2307,18.671669743003015,correct,true
+Chargée / Chargé de propreté des espaces publics,14989,hybride_minilm,Agent / Agente d'entretien d'espaces publics,K2307,17.462276718558435,correct,true
+Animatrice éducative / Animateur éducatif accompagnement périscolaire,14011,tfidf,Animateur / Animatrice d'activités périscolaires,G1203,0.5786604429345868,correct,true
+Animatrice éducative / Animateur éducatif accompagnement périscolaire,14011,e5,Animateur / Animatrice d'activités périscolaires,G1203,0.9556047916412354,correct,true
+Animatrice éducative / Animateur éducatif accompagnement périscolaire,14011,minilm,Formateur animateur / Formatrice animatrice de formation,K2111,0.9062281250953674,faux,true
+Animatrice éducative / Animateur éducatif accompagnement périscolaire,14011,hybride_e5,Animateur / Animatrice d'activités périscolaires,G1203,23.27792579505806,correct,true
+Animatrice éducative / Animateur éducatif accompagnement périscolaire,14011,hybride_minilm,Animateur / Animatrice d'activités périscolaires,G1203,20.26824242446785,correct,true
+Secrétaire,12320,tfidf,Secrétaire,M1607,1.0000000000000002,correct,true
+Secrétaire,12320,e5,Secrétaire,M1607,1.0000005960464478,correct,true
+Secrétaire,12320,minilm,Secrétaire,M1607,1.000000238418579,correct,true
+Secrétaire,12320,hybride_e5,Secrétaire,M1607,31.202043163728437,correct,true
+Secrétaire,12320,hybride_minilm,Secrétaire,M1607,25.624088394593915,correct,true
+Psychologue,12213,tfidf,Psychologue,K1104,0.9999999999999998,correct,true
+Psychologue,12213,e5,Psychologue,K1104,1.0000001192092896,correct,true
+Psychologue,12213,minilm,Psychologue,K1104,1.0,correct,true
+Psychologue,12213,hybride_e5,Psychologue,K1104,40.90859364383945,correct,true
+Psychologue,12213,hybride_minilm,Psychologue,K1104,34.45375441425571,correct,true
+Directrice générale ou adjointe / Directeur général ou adjoint,12001,tfidf,Directeur général adjoint / Directrice générale adjointe de grande entreprise,M1301,0.7200994461394108,partiel,true
+Directrice générale ou adjointe / Directeur général ou adjoint,12001,e5,Directeur général adjoint / Directrice générale adjointe de grande entreprise,M1301,0.9301741719245911,partiel,true
+Directrice générale ou adjointe / Directeur général ou adjoint,12001,minilm,Responsable du secrétariat général,M1216,0.8556368350982666,partiel,true
+Directrice générale ou adjointe / Directeur général ou adjoint,12001,hybride_e5,Directeur général adjoint / Directrice générale adjointe de grande entreprise,M1301,19.781339286648908,partiel,true
+Directrice générale ou adjointe / Directeur général ou adjoint,12001,hybride_minilm,Directeur général adjoint / Directrice générale adjointe de grande entreprise,M1301,16.901887773358503,partiel,true
+Responsable budgétaire,11950,tfidf,Contrôleur / Contrôleuse budgétaire,M1204,0.7323607599512794,partiel,true
+Responsable budgétaire,11950,e5,Responsable comptabilité,M1206,0.9464377760887146,partiel,true
+Responsable budgétaire,11950,minilm,Contrôleur / Contrôleuse budgétaire,M1204,0.9358446598052979,partiel,true
+Responsable budgétaire,11950,hybride_e5,Contrôleur / Contrôleuse budgétaire,M1204,16.52321514392635,partiel,true
+Responsable budgétaire,11950,hybride_minilm,Contrôleur / Contrôleuse budgétaire,M1204,17.36525139117977,partiel,true
+Cuisinière / Cuisinier ou commise / commis,11867,tfidf,Commis / Commise de cuisine,G1602,0.7433976206388534,correct,true
+Cuisinière / Cuisinier ou commise / commis,11867,e5,Commis / Commise de cuisine,G1602,0.9262652397155762,correct,true
+Cuisinière / Cuisinier ou commise / commis,11867,minilm,Chef cuisinier-traiteur / Cheffe cuisinière-traiteuse,G1601,0.8047350645065308,partiel,true
+Cuisinière / Cuisinier ou commise / commis,11867,hybride_e5,Commis / Commise de cuisine,G1602,28.45849886384538,correct,true
+Cuisinière / Cuisinier ou commise / commis,11867,hybride_minilm,Commis / Commise de cuisine,G1602,25.785863546996627,correct,true
+Technicienne / Technicien support utilisateurs,11383,tfidf,Support aux utilisateurs en informatique,I1404,0.7875089915630588,correct,true
+Technicienne / Technicien support utilisateurs,11383,e5,Technicien / Technicienne support technique,H1108,0.9602712988853455,partiel,true
+Technicienne / Technicien support utilisateurs,11383,minilm,Représentant technique / Représentante technique utilisateur,H1108,0.9091089367866516,partiel,true
+Technicienne / Technicien support utilisateurs,11383,hybride_e5,Support aux utilisateurs en informatique,I1404,21.13586707758075,correct,true
+Technicienne / Technicien support utilisateurs,11383,hybride_minilm,Support aux utilisateurs en informatique,I1404,21.05279489206439,correct,true
+Responsable de coordination administrative,10909,tfidf,Responsable de gestion administrative des ventes,M1701,0.6702485829737128,partiel,true
+Responsable de coordination administrative,10909,e5,Responsable de secteur coordinateur / Responsable de secteur coordinatrice,J1509,0.9392604231834412,faux,true
+Responsable de coordination administrative,10909,minilm,Responsable administratif / Responsable administrative,M1205,0.8538122177124023,partiel,true
+Responsable de coordination administrative,10909,hybride_e5,Responsable administratif / Responsable administrative,M1205,14.012147060301656,partiel,true
+Responsable de coordination administrative,10909,hybride_minilm,Responsable administratif / Responsable administrative,M1205,13.213414779570455,partiel,true
+Entraîneuse sportive / Entraîneur sportif,10816,tfidf,Entraîneur sportif / Entraîneure sportive,G1204,0.9999999999999999,correct,true
+Entraîneuse sportive / Entraîneur sportif,10816,e5,Entraîneur sportif / Entraîneure sportive,G1204,1.0,correct,true
+Entraîneuse sportive / Entraîneur sportif,10816,minilm,Entraîneur sportif / Entraîneure sportive,G1204,1.000000238418579,correct,true
+Entraîneuse sportive / Entraîneur sportif,10816,hybride_e5,Entraîneur sportif / Entraîneure sportive,G1204,37.90473593690001,correct,true
+Entraîneuse sportive / Entraîneur sportif,10816,hybride_minilm,Entraîneur sportif / Entraîneure sportive,G1204,34.46513642289244,correct,true
+Chargée / Chargé de l'assainissement et de l'eau potable,10732,tfidf,Agent / Agente d'assainissement,K2301,0.6382453058181687,partiel,true
+Chargée / Chargé de l'assainissement et de l'eau potable,10732,e5,Technicien / Technicienne du nettoiement et de l'assainissement,K2307,0.9376057386398315,faux,true
+Chargée / Chargé de l'assainissement et de l'eau potable,10732,minilm,Responsable d'usine d'épuration des eaux,K2306,0.8382062911987305,partiel,true
+Chargée / Chargé de l'assainissement et de l'eau potable,10732,hybride_e5,Agent / Agente d'assainissement,K2301,19.948014255005827,partiel,true
+Chargée / Chargé de l'assainissement et de l'eau potable,10732,hybride_minilm,Agent / Agente d'assainissement,K2301,19.61810254617404,partiel,true
+Chargée / Chargé d'accueil et de service à l'usager,10666,tfidf,Chargé / Chargée d'accueil,M1601,0.6603894867250558,correct,true
+Chargée / Chargé d'accueil et de service à l'usager,10666,e5,Chargé / Chargée d'accueil et d'information,M1601,0.956855833530426,correct,true
+Chargée / Chargé d'accueil et de service à l'usager,10666,minilm,Responsable de station de transport de personnes,N4202,0.8508658409118652,faux,true
+Chargée / Chargé d'accueil et de service à l'usager,10666,hybride_e5,Chargé / Chargée d'accueil,M1601,19.504978711597317,correct,true
+Chargée / Chargé d'accueil et de service à l'usager,10666,hybride_minilm,Chargé / Chargée d'accueil,M1601,18.02338677167117,correct,true
+Chargée / Chargé d'intervention sociale et familiale,10481,tfidf,Chargé / Chargée d'intervention sociale,K1201,0.8141511086925466,partiel,true
+Chargée / Chargé d'intervention sociale et familiale,10481,e5,Chargé / Chargée d'intervention sociale,K1201,0.9680283069610596,partiel,true
+Chargée / Chargé d'intervention sociale et familiale,10481,minilm,Chargé / Chargée de l'accompagnement et de la médiation familiale,K1101,0.9021795988082886,partiel,true
+Chargée / Chargé d'intervention sociale et familiale,10481,hybride_e5,Chargé / Chargée d'intervention sociale,K1201,26.13443999485209,partiel,true
+Chargée / Chargé d'intervention sociale et familiale,10481,hybride_minilm,Chargé / Chargée d'intervention sociale,K1201,24.400292446176554,partiel,true
+Responsable de la logistique,10181,tfidf,Responsable logistique,N1301,0.9677749056340905,correct,true
+Responsable de la logistique,10181,e5,Responsable logistique,N1301,0.9926677942276001,correct,true
+Responsable de la logistique,10181,minilm,Responsable logistique,N1301,0.9773448705673218,correct,true
+Responsable de la logistique,10181,hybride_e5,Responsable logistique,N1301,17.328820690711833,correct,true
+Responsable de la logistique,10181,hybride_minilm,Responsable logistique,N1301,15.510742172798015,correct,true
+Gestionnaire logistique,10128,tfidf,Chargé / Chargée de gestion logistique,N1301,0.7203968584027505,partiel,true
+Gestionnaire logistique,10128,e5,Chargé / Chargée de gestion logistique,N1301,0.9576753973960876,partiel,true
+Gestionnaire logistique,10128,minilm,Chargé / Chargée de gestion logistique,N1301,0.9690868258476257,partiel,true
+Gestionnaire logistique,10128,hybride_e5,Chargé / Chargée de gestion logistique,N1301,17.41889329606378,partiel,true
+Gestionnaire logistique,10128,hybride_minilm,Chargé / Chargée de gestion logistique,N1301,16.115015942395566,partiel,true
+Responsable des ressources humaines,9966,tfidf,Responsable de la gestion des Ressources Humaines,M1503,0.923508825122391,correct,true
+Responsable des ressources humaines,9966,e5,Responsable de la gestion des Ressources Humaines,M1503,0.9825053215026855,correct,true
+Responsable des ressources humaines,9966,minilm,Responsable du développement des ressources humaines,M1503,0.935990035533905,correct,true
+Responsable des ressources humaines,9966,hybride_e5,Responsable de la gestion des Ressources Humaines,M1503,21.262727078664295,correct,true
+Responsable des ressources humaines,9966,hybride_minilm,Responsable de la gestion des Ressources Humaines,M1503,19.75215321468114,correct,true
+Chargée / Chargé de l'instruction et de la délivrance des titres,9494,tfidf,Chargé / Chargée d'affaires de la construction,F1135,0.4243176293830372,faux,true
+Chargée / Chargé de l'instruction et de la délivrance des titres,9494,e5,Chargé / Chargée d'études et d'inventaire patrimoine,K1602,0.9394552707672119,faux,true
+Chargée / Chargé de l'instruction et de la délivrance des titres,9494,minilm,Chargé / Chargée de cours,K2108,0.8396753072738647,faux,true
+Chargée / Chargé de l'instruction et de la délivrance des titres,9494,hybride_e5,Chargé / Chargée d'affaires de la construction,F1135,13.266767535086535,faux,true
+Chargée / Chargé de l'instruction et de la délivrance des titres,9494,hybride_minilm,Chargé / Chargée d'affaires de la construction,F1135,11.734751496191882,faux,true
+Éducatrice / Educateur de jeunes enfants,9064,tfidf,Educateur / Educatrice de jeunes enfants,K1202,1.0,correct,true
+Éducatrice / Educateur de jeunes enfants,9064,e5,Educateur / Educatrice de jeunes enfants,K1202,1.0000003576278687,correct,true
+Éducatrice / Educateur de jeunes enfants,9064,minilm,Educateur / Educatrice de jeunes enfants,K1202,1.0000003576278687,correct,true
+Éducatrice / Educateur de jeunes enfants,9064,hybride_e5,Educateur / Educatrice de jeunes enfants,K1202,41.44875868823415,correct,true
+Éducatrice / Educateur de jeunes enfants,9064,hybride_minilm,Educateur / Educatrice de jeunes enfants,K1202,37.77842768695241,correct,true
+"Coordonnatrice / Coordonnateur enfance, jeunesse et éducation",8772,tfidf,Educateur / Educatrice de jeunes enfants coordination petite enfance,K1202,0.6271172022999206,partiel,true
+"Coordonnatrice / Coordonnateur enfance, jeunesse et éducation",8772,e5,Educateur / Educatrice de jeunes enfants coordination petite enfance,K1202,0.9379652142524719,partiel,true
+"Coordonnatrice / Coordonnateur enfance, jeunesse et éducation",8772,minilm,Accompagnant éducatif / Accompagnante éducative petite enfance,K1307,0.8636723160743713,partiel,true
+"Coordonnatrice / Coordonnateur enfance, jeunesse et éducation",8772,hybride_e5,Educateur / Educatrice de jeunes enfants coordination petite enfance,K1202,23.324856209670767,partiel,true
+"Coordonnatrice / Coordonnateur enfance, jeunesse et éducation",8772,hybride_minilm,Educateur / Educatrice de jeunes enfants coordination petite enfance,K1202,23.20455782405065,partiel,true
+Médecin,8652,tfidf,Médecin du sport,J1126,0.8076707346327153,partiel,true
+Médecin,8652,e5,Médecin spécialiste,J1102,0.9438002705574036,correct,true
+Médecin,8652,minilm,Médecin praticien,J1102,0.9535060524940491,correct,true
+Médecin,8652,hybride_e5,Médecin conseil,K1402,28.455496749016092,partiel,true
+Médecin,8652,hybride_minilm,Médecin conseil,K1402,26.157389124962137,partiel,true
+Chargée / Chargé d'études et d'enquêtes,7788,tfidf,Chargé / Chargée d'enquêtes,M1401,0.8637993397906113,partiel,true
+Chargée / Chargé d'études et d'enquêtes,7788,e5,Chargé / Chargée d'enquêtes,M1401,0.9667452573776245,partiel,true
+Chargée / Chargé d'études et d'enquêtes,7788,minilm,Responsable d'enquêtes,M1404,0.907981812953949,partiel,true
+Chargée / Chargé d'études et d'enquêtes,7788,hybride_e5,Chargé / Chargée d'enquêtes,M1401,24.55006743973932,partiel,true
+Chargée / Chargé d'études et d'enquêtes,7788,hybride_minilm,Chargé / Chargée d'enquêtes,M1401,22.809056058590027,partiel,true
+Cadre - Experte chargée / Cadre - Expert chargé d'une politique transversale,7773,tfidf,Plume politique,E1102,0.34580914158395754,faux,true
+Cadre - Experte chargée / Cadre - Expert chargé d'une politique transversale,7773,e5,Chargé / Chargée de terrain - management et gestion d'enquêtes,M1404,0.9092744588851929,faux,true
+Cadre - Experte chargée / Cadre - Expert chargé d'une politique transversale,7773,minilm,Responsable de veille stratégique,M1403,0.6769089102745056,partiel,true
+Cadre - Experte chargée / Cadre - Expert chargé d'une politique transversale,7773,hybride_e5,Spécialiste transverse des programmes d'armement,K1735,13.963175735151086,faux,true
+Cadre - Experte chargée / Cadre - Expert chargé d'une politique transversale,7773,hybride_minilm,Chargé / Chargée de projet politique publique biodiversité,A1325,12.605208696979611,partiel,true
+Chargée / Chargé du pilotage et de la gestion des ressources budgétaires,7554,tfidf,Contrôleur / Contrôleuse de gestion budgétaire,M1204,0.5274229030726533,partiel,true
+Chargée / Chargé du pilotage et de la gestion des ressources budgétaires,7554,e5,Chargé / Chargée de trésorerie et de financement,M1207,0.9244146347045898,partiel,true
+Chargée / Chargé du pilotage et de la gestion des ressources budgétaires,7554,minilm,Contrôleur / Contrôleuse de gestion chargé(e) du budget,M1204,0.8123072981834412,partiel,true
+Chargée / Chargé du pilotage et de la gestion des ressources budgétaires,7554,hybride_e5,Contrôleur / Contrôleuse de gestion budgétaire,M1204,16.848126463332036,partiel,true
+Chargée / Chargé du pilotage et de la gestion des ressources budgétaires,7554,hybride_minilm,Contrôleur / Contrôleuse de gestion budgétaire,M1204,17.46791391793714,partiel,true
+Magasinière / Magasinier - Manutentionnaire - Conductrice / Conducteur d'engin de manutention,7428,tfidf,Conducteur / Conductrice d'engins de manutention,N1101,0.7468385852335891,partiel,true
+Magasinière / Magasinier - Manutentionnaire - Conductrice / Conducteur d'engin de manutention,7428,e5,"Conducteur / Conductrice de matériel de collecte de déchets (ménagers, industriels, etc.)",N4118,0.9239492416381836,faux,true
+Magasinière / Magasinier - Manutentionnaire - Conductrice / Conducteur d'engin de manutention,7428,minilm,Responsable de comptoir en location de voitures,D1238,0.8104422688484192,faux,true
+Magasinière / Magasinier - Manutentionnaire - Conductrice / Conducteur d'engin de manutention,7428,hybride_e5,Conducteur / Conductrice d'engins de manutention,N1101,19.785770042958873,partiel,true
+Magasinière / Magasinier - Manutentionnaire - Conductrice / Conducteur d'engin de manutention,7428,hybride_minilm,Conducteur / Conductrice d'engins de manutention,N1101,19.02383409363331,partiel,true
+Responsable des affaires juridiques,7269,tfidf,Responsable juridique,K1914,0.7956215317106872,correct,true
+Responsable des affaires juridiques,7269,e5,Responsable juridique,K1914,0.9617804884910583,correct,true
+Responsable des affaires juridiques,7269,minilm,Responsable juridique,K1914,0.9476019144058228,correct,true
+Responsable des affaires juridiques,7269,hybride_e5,Responsable juridique,K1914,18.8096148175636,correct,true
+Responsable des affaires juridiques,7269,hybride_minilm,Responsable juridique,K1914,17.828706423703736,correct,true
+Chargée / Chargé d'animation auprès des publics,7263,tfidf,Chargé / Chargée des publics et de la médiation culturelle,K1213,0.4811437300276374,correct,true
+Chargée / Chargé d'animation auprès des publics,7263,e5,Chargé / Chargée de l'exécution de la dépense publique,K1513,0.9245581030845642,faux,true
+Chargée / Chargé d'animation auprès des publics,7263,minilm,Responsable d'animation,G1239,0.8803851008415222,partiel,true
+Chargée / Chargé d'animation auprès des publics,7263,hybride_e5,Chargé / Chargée des publics et de la médiation culturelle,K1213,13.908180813320534,correct,true
+Chargée / Chargé d'animation auprès des publics,7263,hybride_minilm,Chargé / Chargée des publics et de la médiation culturelle,K1213,11.920624355801003,correct,true
+Chargée / Chargé de projet d'aménagement,7148,tfidf,Chargé / Chargée de projet en aménagement du territoire,K1811,0.7804658037296953,correct,true
+Chargée / Chargé de projet d'aménagement,7148,e5,Chargé / Chargée de projet en aménagement du territoire,K1811,0.9704717397689819,correct,true
+Chargée / Chargé de projet d'aménagement,7148,minilm,Chargé / Chargée de projet en aménagement du territoire,K1811,0.8794229626655579,correct,true
+Chargée / Chargé de projet d'aménagement,7148,hybride_e5,Chargé / Chargée de projet en aménagement du territoire,K1811,22.237591417436228,correct,true
+Chargée / Chargé de projet d'aménagement,7148,hybride_minilm,Chargé / Chargée de projet en aménagement du territoire,K1811,20.200125129823313,correct,true
+Auxiliaire de vie - Aide à domicile,7132,tfidf,Aide à domicile,K1304,0.6940658805671285,partiel,true
+Auxiliaire de vie - Aide à domicile,7132,e5,Auxiliaire de Vie Sociale (AVS),K1306,0.9317654967308044,correct,true
+Auxiliaire de vie - Aide à domicile,7132,minilm,Aide à domicile,K1304,0.9017050862312317,partiel,true
+Auxiliaire de vie - Aide à domicile,7132,hybride_e5,Aide à domicile,K1304,27.159303991185375,partiel,true
+Auxiliaire de vie - Aide à domicile,7132,hybride_minilm,Aide à domicile,K1304,28.336572019444652,partiel,true
+Gestionnaire de scolarité,7026,tfidf,Gestionnaire de lits,M1212,0.5356121608916105,faux,true
+Gestionnaire de scolarité,7026,e5,Gardien / Gardienne d'établissement scolaire,K2513,0.9326840043067932,faux,true
+Gestionnaire de scolarité,7026,minilm,Gérant / Gérante de cantine scolaire,G1404,0.931668758392334,faux,true
+Gestionnaire de scolarité,7026,hybride_e5,Gestionnaire de collection,K1606,16.027222899431024,faux,true
+Gestionnaire de scolarité,7026,hybride_minilm,Gestionnaire paie,M1507,14.300653405285038,faux,true
+Chargée / Chargé de la gestion des RH de proximité,6883,tfidf,Chargé / Chargée de projet en gestion urbaine de proximité,K1802,0.722114098125477,faux,true
+Chargée / Chargé de la gestion des RH de proximité,6883,e5,Chargé / Chargée de projet en gestion urbaine de proximité,K1802,0.9295282959938049,faux,true
+Chargée / Chargé de la gestion des RH de proximité,6883,minilm,Responsable de proximité,K1408,0.7936885356903076,faux,true
+Chargée / Chargé de la gestion des RH de proximité,6883,hybride_e5,Chargé / Chargée de projet en gestion urbaine de proximité,K1802,22.29959928323218,faux,true
+Chargée / Chargé de la gestion des RH de proximité,6883,hybride_minilm,Chargé / Chargée de projet en gestion urbaine de proximité,K1802,19.96690427590796,faux,true
+Bibliothécaire,6730,tfidf,Bibliothécaire,K1603,1.0000000000000002,correct,true
+Bibliothécaire,6730,e5,Bibliothécaire,K1603,1.000000238418579,correct,true
+Bibliothécaire,6730,minilm,Bibliothécaire,K1603,1.0000001192092896,correct,true
+Bibliothécaire,6730,hybride_e5,Bibliothécaire,K1603,55.28611690889068,correct,true
+Bibliothécaire,6730,hybride_minilm,Bibliothécaire,K1603,50.78390104661651,correct,true
+Chargée / Chargé des d'exploitation des équipements sportifs et ludiques,6475,tfidf,Exploitant / Exploitante d'équipement sportif,G1406,0.5619321275643079,partiel,true
+Chargée / Chargé des d'exploitation des équipements sportifs et ludiques,6475,e5,Inspecteur / Inspectrice de conformité d'équipements sportifs et aires de jeux,H1301,0.9454717636108398,faux,true
+Chargée / Chargé des d'exploitation des équipements sportifs et ludiques,6475,minilm,Exploitant / Exploitante d'équipement sportif,G1406,0.8952146172523499,partiel,true
+Chargée / Chargé des d'exploitation des équipements sportifs et ludiques,6475,hybride_e5,Exploitant / Exploitante d'équipement sportif,G1406,14.962028286400107,partiel,true
+Chargée / Chargé des d'exploitation des équipements sportifs et ludiques,6475,hybride_minilm,Exploitant / Exploitante d'équipement sportif,G1406,15.841468594017295,partiel,true
+"Chargée / Chargé de restauration, d'intendance et de production culinaire",6438,tfidf,Chef / Cheffe de production en restauration collective,G1404,0.44108673378963775,correct,true
+"Chargée / Chargé de restauration, d'intendance et de production culinaire",6438,e5,Agent / Agente de restauration et d'hôtellerie,J1301,0.9216024279594421,faux,true
+"Chargée / Chargé de restauration, d'intendance et de production culinaire",6438,minilm,Menuisier / Menuisière de restauration,H2206,0.7598779797554016,faux,true
+"Chargée / Chargé de restauration, d'intendance et de production culinaire",6438,hybride_e5,Chef / Cheffe de production en restauration collective,G1404,12.255460320527268,correct,true
+"Chargée / Chargé de restauration, d'intendance et de production culinaire",6438,hybride_minilm,Responsable de production en restauration collective,G1404,11.954268597319876,correct,true
+Chargée / Chargé de politique environnementale,6226,tfidf,Chargé / Chargée de projet en environnement,A1313,0.5996211329203754,correct,true
+Chargée / Chargé de politique environnementale,6226,e5,Chargé / Chargée de projet en environnement,A1313,0.951765239238739,correct,true
+Chargée / Chargé de politique environnementale,6226,minilm,Directeur / Directrice environnement,A1312,0.9225526452064514,partiel,true
+Chargée / Chargé de politique environnementale,6226,hybride_e5,Chargé / Chargée de projet en environnement,A1313,19.580320766975532,correct,true
+Chargée / Chargé de politique environnementale,6226,hybride_minilm,Chargé / Chargée de projet en environnement,A1313,17.457554987480293,correct,true
+Opératrice / Opérateur de maintien en condition opérationnelle,6156,tfidf,Technicien / Technicienne armement maintien en condition opérationnelle aéronautique,K1729,0.6998621968254267,partiel,true
+Opératrice / Opérateur de maintien en condition opérationnelle,6156,e5,Opérateur / Opératrice de ligne de conditionnement,H3305,0.9388642311096191,faux,true
+Opératrice / Opérateur de maintien en condition opérationnelle,6156,minilm,Opérateur / Opératrice d'abattage,H2101,0.8427773714065552,faux,true
+Opératrice / Opérateur de maintien en condition opérationnelle,6156,hybride_e5,Technicien / Technicienne armement maintien en condition opérationnelle aéronautique,K1729,17.515259218850574,partiel,true
+Opératrice / Opérateur de maintien en condition opérationnelle,6156,hybride_minilm,Technicien / Technicienne armement maintien en condition opérationnelle aéronautique,K1729,15.818747950234851,partiel,true
+Chargée / Chargé de collecte des déchets,5992,tfidf,Agent / Agente de collecte de déchets,K2303,0.8298439933796783,correct,true
+Chargée / Chargé de collecte des déchets,5992,e5,Chargé / Chargée du traitement des déchets,K2320,0.9787725806236267,partiel,true
+Chargée / Chargé de collecte des déchets,5992,minilm,Chargé / Chargée du traitement des déchets,K2320,0.969835102558136,partiel,true
+Chargée / Chargé de collecte des déchets,5992,hybride_e5,Agent / Agente de collecte de déchets,K2303,23.356945283986775,correct,true
+Chargée / Chargé de collecte des déchets,5992,hybride_minilm,Agent / Agente de collecte de déchets,K2303,24.710789449788777,correct,true
+Technicienne / Technicien du spectacle,5667,tfidf,Electricien / Electricienne spectacle,L1504,0.699327418661506,partiel,false
+Technicienne / Technicien du spectacle,5667,e5,Technicien / Technicienne spectacle en site de divertissement,L1511,0.9432483911514282,partiel,false
+Technicienne / Technicien du spectacle,5667,minilm,Régisseur / Régisseuse de spectacles,L1512,0.9100508093833923,partiel,false
+Technicienne / Technicien du spectacle,5667,hybride_e5,Technicien / Technicienne spectacle en site de divertissement,L1511,13.928011524005958,partiel,false
+Technicienne / Technicien du spectacle,5667,hybride_minilm,Technicien / Technicienne spectacle en site de divertissement,L1511,12.038428413196632,partiel,false
+Chargée / Chargé des réseaux de transports et de la mobilité durables,3888,tfidf,Chargé / Chargée de maintenance réseaux mobiles,I1319,0.4240050524473791,faux,false
+Chargée / Chargé des réseaux de transports et de la mobilité durables,3888,e5,Chargé / Chargée des compétences et de la mobilité professionnelle,M1502,0.9357966780662537,faux,false
+Chargée / Chargé des réseaux de transports et de la mobilité durables,3888,minilm,Régulateur / Régulatrice réseau transport routier de personnes,N4204,0.7734321355819702,partiel,false
+Chargée / Chargé des réseaux de transports et de la mobilité durables,3888,hybride_e5,Chargé / Chargée de maintenance réseaux mobiles,I1319,13.33943142852145,faux,false
+Chargée / Chargé des réseaux de transports et de la mobilité durables,3888,hybride_minilm,Contrôleur / Contrôleuse des transports en commun réseau routier,N4302,13.070575864647461,faux,false
+Responsable de direction d'un établissement d'éducation,3202,tfidf,Responsable d'établissement médico-éducatif,K1407,0.7142725034510956,partiel,false
+Responsable de direction d'un établissement d'éducation,3202,e5,Responsable d'établissement médico-éducatif,K1407,0.9593868255615234,partiel,false
+Responsable de direction d'un établissement d'éducation,3202,minilm,Chef / Cheffe d'établissement d'enseignement,K2103,0.9289767146110535,correct,false
+Responsable de direction d'un établissement d'éducation,3202,hybride_e5,Responsable d'établissement médico-éducatif,K1407,15.314887636623084,partiel,false
+Responsable de direction d'un établissement d'éducation,3202,hybride_minilm,Responsable d'établissement médico-éducatif,K1407,13.230467909297644,partiel,false
+"Conductrice / Conducteur d'engins lourds, spéciaux ou de sécurité",2722,tfidf,Conducteur / Conductrice d'engins lourds de manutention,N1114,0.5972452639247465,partiel,false
+"Conductrice / Conducteur d'engins lourds, spéciaux ou de sécurité",2722,e5,Conducteur / Conductrice d'engins lourds de manutention,N1114,0.9433568716049194,partiel,false
+"Conductrice / Conducteur d'engins lourds, spéciaux ou de sécurité",2722,minilm,Conducteur / Conductrice de véhicule de protection de convoi exceptionnel,N4134,0.885294497013092,partiel,false
+"Conductrice / Conducteur d'engins lourds, spéciaux ou de sécurité",2722,hybride_e5,Conducteur / Conductrice d'engins lourds de manutention,N1114,17.543390015107146,partiel,false
+"Conductrice / Conducteur d'engins lourds, spéciaux ou de sécurité",2722,hybride_minilm,Conducteur / Conductrice d'engins lourds de manutention,N1114,16.726522425156585,partiel,false
+Technicienne / Technicien d'exploitation et maintenance 1er niveau,2405,tfidf,Technicien / Technicienne de maintenance d'équipements d'exploitation,I1302,0.6891626746868533,partiel,false
+Technicienne / Technicien d'exploitation et maintenance 1er niveau,2405,e5,Technicien / Technicienne de maintenance d'équipements d'exploitation,I1302,0.9373888969421387,partiel,false
+Technicienne / Technicien d'exploitation et maintenance 1er niveau,2405,minilm,Technicien / Technicienne de maintenance d'équipements d'exploitation,I1302,0.8713687062263489,partiel,false
+Technicienne / Technicien d'exploitation et maintenance 1er niveau,2405,hybride_e5,Technicien / Technicienne de maintenance d'équipements d'exploitation,I1302,12.934921536734274,partiel,false
+Technicienne / Technicien d'exploitation et maintenance 1er niveau,2405,hybride_minilm,Technicien / Technicienne de maintenance d'équipements d'exploitation,I1302,12.184090171148947,partiel,false
+Responsable du service population,2048,tfidf,Responsable de station-service,D1303,0.5731658538146128,faux,false
+Responsable du service population,2048,e5,Responsable du personnel,M1503,0.9310221076011658,faux,false
+Responsable du service population,2048,minilm,Responsable d'unité de services à la personne,K1408,0.8609814047813416,faux,false
+Responsable du service population,2048,hybride_e5,Responsable de station-service,D1303,12.316941144900795,faux,false
+Responsable du service population,2048,hybride_minilm,Responsable de station-service,D1303,11.234891298251625,faux,false
+"Technicienne / Technicien réseaux, télécoms et/ou Multimédias et maintenance",1923,tfidf,Technicien / Technicienne télécoms et réseaux,M1816,0.6405647189147807,correct,false
+"Technicienne / Technicien réseaux, télécoms et/ou Multimédias et maintenance",1923,e5,Technicien / Technicienne réseaux informatiques et télécoms,M1816,0.9545312523841858,correct,false
+"Technicienne / Technicien réseaux, télécoms et/ou Multimédias et maintenance",1923,minilm,Technicien / Technicienne télécoms et réseaux,M1816,0.8337971568107605,correct,false
+"Technicienne / Technicien réseaux, télécoms et/ou Multimédias et maintenance",1923,hybride_e5,Technicien / Technicienne télécoms et réseaux,M1816,15.316653500402445,correct,false
+"Technicienne / Technicien réseaux, télécoms et/ou Multimédias et maintenance",1923,hybride_minilm,Technicien / Technicienne télécoms et réseaux,M1816,14.88225961765098,correct,false
+Cheffe / Chef de service dans un établissement public,1533,tfidf,Directeur général / Directrice générale d'établissement public,K1422,0.6022403154372565,partiel,false
+Cheffe / Chef de service dans un établissement public,1533,e5,Chef / Cheffe du service du personnel,M1503,0.9423603415489197,partiel,false
+Cheffe / Chef de service dans un établissement public,1533,minilm,Chef / Cheffe d'équipe travaux publics,F1207,0.9124168157577515,faux,false
+Cheffe / Chef de service dans un établissement public,1533,hybride_e5,Directeur général / Directrice générale d'établissement public,K1422,16.160720047446546,partiel,false
+Cheffe / Chef de service dans un établissement public,1533,hybride_minilm,Directeur général / Directrice générale d'établissement public,K1422,15.343783554526624,partiel,false
+Puéricultrice / Puériculteur,1334,tfidf,Puériculteur / Puéricultrice,J1507,0.9999999999999999,correct,false
+Puéricultrice / Puériculteur,1334,e5,Puériculteur / Puéricultrice,J1507,0.9999999403953552,correct,false
+Puéricultrice / Puériculteur,1334,minilm,Puériculteur / Puéricultrice,J1507,1.0,correct,false
+Puéricultrice / Puériculteur,1334,hybride_e5,Puériculteur / Puéricultrice,J1507,40.57987223578489,correct,false
+Puéricultrice / Puériculteur,1334,hybride_minilm,Puériculteur / Puéricultrice,J1507,34.06919918967283,correct,false
+Gestionnaire d'un Etablissement Public Local d'Enseignement,1144,tfidf,Chef / Cheffe d'établissement d'enseignement,K2103,0.6979882279665035,partiel,false
+Gestionnaire d'un Etablissement Public Local d'Enseignement,1144,e5,Gardien / Gardienne d'établissement scolaire,K2513,0.9211714863777161,faux,false
+Gestionnaire d'un Etablissement Public Local d'Enseignement,1144,minilm,Gérant / Gérante de cantine scolaire,G1404,0.79031902551651,partiel,false
+Gestionnaire d'un Etablissement Public Local d'Enseignement,1144,hybride_e5,Chef / Cheffe d'établissement d'enseignement,K2103,17.594541510038436,partiel,false
+Gestionnaire d'un Etablissement Public Local d'Enseignement,1144,hybride_minilm,Chef / Cheffe d'établissement d'enseignement,K2103,17.691829880170882,partiel,false
+Directrice / Directeur d'établissement d'enseignement artistique,1109,tfidf,Directeur / Directrice d'établissement d'enseignement privé,K2103,0.7920024017924607,partiel,false
+Directrice / Directeur d'établissement d'enseignement artistique,1109,e5,Directeur / Directrice d'établissement culturel,K1604,0.9564938545227051,partiel,false
+Directrice / Directeur d'établissement d'enseignement artistique,1109,minilm,Professeur / Professeure d'école nationale d'art,K2136,0.8848539590835571,partiel,false
+Directrice / Directeur d'établissement d'enseignement artistique,1109,hybride_e5,Directeur / Directrice d'établissement d'enseignement privé,K2103,19.15698106032348,partiel,false
+Directrice / Directeur d'établissement d'enseignement artistique,1109,hybride_minilm,Chef / Cheffe d'établissement d'enseignement,K2103,16.936745315354,partiel,false
+Responsable socio-éducative / socio-éducatif,906,tfidf,Responsable socio-éducatif,K1409,0.8732934131541897,correct,false
+Responsable socio-éducative / socio-éducatif,906,e5,Responsable socio-éducatif,K1409,0.9507710337638855,correct,false
+Responsable socio-éducative / socio-éducatif,906,minilm,Encadrant socio-éducatif / Encadrante socio-éducative,K1409,0.9772361516952515,correct,false
+Responsable socio-éducative / socio-éducatif,906,hybride_e5,Responsable socio-éducatif,K1409,36.27372961437375,correct,false
+Responsable socio-éducative / socio-éducatif,906,hybride_minilm,Responsable socio-éducatif,K1409,32.95383434688718,correct,false
+Conceptrice / Concepteur-paysagiste,861,tfidf,Concepteur / Conceptrice paysagiste,A1206,1.0000000000000002,correct,false
+Conceptrice / Concepteur-paysagiste,861,e5,Concepteur / Conceptrice paysagiste,A1206,0.9830408096313477,correct,false
+Conceptrice / Concepteur-paysagiste,861,minilm,Concepteur-formateur / Conceptrice-formatrice,K2132,0.7568889260292053,faux,false
+Conceptrice / Concepteur-paysagiste,861,hybride_e5,Concepteur / Conceptrice paysagiste,A1206,33.67913263675797,correct,false
+Conceptrice / Concepteur-paysagiste,861,hybride_minilm,Concepteur / Conceptrice paysagiste,A1206,28.638642009469148,correct,false
+Psychologue de l'Education Nationale,726,tfidf,"Psychologue de l'Education Nationale, Education Développement Apprentissage (EDA)",K1114,0.7359209025758157,correct,false
+Psychologue de l'Education Nationale,726,e5,Médecin de l'Education Nationale,J1107,0.953203558921814,faux,false
+Psychologue de l'Education Nationale,726,minilm,"Psychologue de l'Education Nationale, Education Développement Apprentissage (EDA)",K1114,0.9133180379867554,correct,false
+Psychologue de l'Education Nationale,726,hybride_e5,"Psychologue de l'Education Nationale, Education Développement Apprentissage (EDA)",K1114,24.2350656300683,correct,false
+Psychologue de l'Education Nationale,726,hybride_minilm,"Psychologue de l'Education Nationale, Education Développement Apprentissage (EDA)",K1114,23.859686544527527,correct,false
+Chargée / Chargé du pilotage de l'offre de formation,696,tfidf,Chargé / Chargée de formation en organisme de formation,K2142,0.3949418089900848,partiel,false
+Chargée / Chargé du pilotage de l'offre de formation,696,e5,Chargé / Chargée de formation en organisme de formation,K2142,0.9301207661628723,partiel,false
+Chargée / Chargé du pilotage de l'offre de formation,696,minilm,Pilote instructeur / Instructrice (avion de ligne),N2103,0.828217089176178,faux,false
+Chargée / Chargé du pilotage de l'offre de formation,696,hybride_e5,Chargé / Chargée de formation en organisme de formation,K2142,13.318951983131576,partiel,false
+Chargée / Chargé du pilotage de l'offre de formation,696,hybride_minilm,Consultant / Consultante pilotage de la performance,M1429,11.809322797718645,faux,false
+Chargée / Chargé de qualité de l'eau,598,tfidf,Technicien / Technicienne de la qualité de l'eau,H1530,0.7129530079832506,correct,false
+Chargée / Chargé de qualité de l'eau,598,e5,Technicien / Technicienne de la qualité de l'eau,H1530,0.9556189179420471,correct,false
+Chargée / Chargé de qualité de l'eau,598,minilm,Poseur / Poseuse de compteurs d'eau,F1627,0.8802037835121155,faux,false
+Chargée / Chargé de qualité de l'eau,598,hybride_e5,Technicien / Technicienne de la qualité de l'eau,H1530,20.090964444487767,correct,false
+Chargée / Chargé de qualité de l'eau,598,hybride_minilm,Technicien / Technicienne de la qualité de l'eau,H1530,20.923858769744115,correct,false
+Statisticienne / Statisticien - Chargée / Chargé d'opérations statistiques,589,tfidf,Statisticien / Statisticienne,M1414,0.7093567396765985,correct,false
+Statisticienne / Statisticien - Chargée / Chargé d'opérations statistiques,589,e5,Chargé / Chargée de terrain - management et gestion d'enquêtes,M1404,0.9293802380561829,partiel,false
+Statisticienne / Statisticien - Chargée / Chargé d'opérations statistiques,589,minilm,Chargé / Chargée d'études statistiques,M1403,0.8393501043319702,partiel,false
+Statisticienne / Statisticien - Chargée / Chargé d'opérations statistiques,589,hybride_e5,Chargé / Chargée d'études statistiques,M1403,20.85763072217998,partiel,false
+Statisticienne / Statisticien - Chargée / Chargé d'opérations statistiques,589,hybride_minilm,Chargé / Chargée d'études statistiques,M1403,21.74995707716045,partiel,false
+Chargée / Chargé du traitement de la circulation aérienne,546,tfidf,Contrôleur / Contrôleuse de la circulation aérienne,N2208,0.7017238752447814,correct,false
+Chargée / Chargé du traitement de la circulation aérienne,546,e5,Superviseur / Superviseuse de la circulation aérienne,N2208,0.9434161186218262,correct,false
+Chargée / Chargé du traitement de la circulation aérienne,546,minilm,Affréteur / Affréteuse transport aérien,N1201,0.9117043018341064,faux,false
+Chargée / Chargé du traitement de la circulation aérienne,546,hybride_e5,Contrôleur / Contrôleuse de la circulation aérienne,N2208,22.047933171806477,correct,false
+Chargée / Chargé du traitement de la circulation aérienne,546,hybride_minilm,Contrôleur / Contrôleuse de la circulation aérienne,N2208,21.94699866634383,correct,false
+"Experte / Expert Electronicien, Electrotechnicien, contrôle-commande",467,tfidf,Technicien / Technicienne de contrôle en électrotechnique,H1504,0.6977909710475222,partiel,false
+"Experte / Expert Electronicien, Electrotechnicien, contrôle-commande",467,e5,Contrôleur / Contrôleuse technique en électricité-électronique,H1504,0.917128324508667,partiel,false
+"Experte / Expert Electronicien, Electrotechnicien, contrôle-commande",467,minilm,Technicien / Technicienne de contrôle en matériel électronique,H1504,0.8657172918319702,partiel,false
+"Experte / Expert Electronicien, Electrotechnicien, contrôle-commande",467,hybride_e5,Technicien / Technicienne de contrôle en électrotechnique,H1504,13.962487645645222,partiel,false
+"Experte / Expert Electronicien, Electrotechnicien, contrôle-commande",467,hybride_minilm,Technicien / Technicienne de contrôle en électrotechnique,H1504,13.238787837524495,partiel,false
+Conseillère / Conseiller politique en administration centrale,464,tfidf,Directeur / Directrice d'administration centrale,K1401,0.656741692875663,partiel,false
+Conseillère / Conseiller politique en administration centrale,464,e5,Directeur / Directrice d'administration centrale,K1401,0.9256724715232849,partiel,false
+Conseillère / Conseiller politique en administration centrale,464,minilm,Directeur / Directrice d'administration centrale,K1401,0.8517034649848938,partiel,false
+Conseillère / Conseiller politique en administration centrale,464,hybride_e5,Directeur / Directrice d'administration centrale,K1401,18.057392989590475,partiel,false
+Conseillère / Conseiller politique en administration centrale,464,hybride_minilm,Directeur / Directrice d'administration centrale,K1401,16.982110654309103,partiel,false
+Chargée / Chargé des retraites,332,tfidf,Conseiller retraite / Conseillère retraite,C1115,0.5657936931651217,correct,false
+Chargée / Chargé des retraites,332,e5,Chargé / Chargée de paie,M1507,0.9330059885978699,partiel,false
+Chargée / Chargé des retraites,332,minilm,Agent / Agente technique des régimes de retraite complémentaire et de prévoyance,C1402,0.8355370759963989,partiel,false
+Chargée / Chargé des retraites,332,hybride_e5,Conseiller retraite / Conseillère retraite,C1115,19.107717838081395,correct,false
+Chargée / Chargé des retraites,332,hybride_minilm,Conseiller retraite / Conseillère retraite,C1115,19.619784679206884,correct,false
+Opératrice / Opérateur en centre de traitement de l'alerte,274,tfidf,Opérateur / Opératrice de traitement de texte,M1606,0.5997888014404537,faux,false
+Opératrice / Opérateur en centre de traitement de l'alerte,274,e5,Opérateur / Opératrice de centre d'usinage,H2903,0.9213603734970093,faux,false
+Opératrice / Opérateur en centre de traitement de l'alerte,274,minilm,Opérateur / Opératrice de repérage amiante,F1103,0.8245381712913513,faux,false
+Opératrice / Opérateur en centre de traitement de l'alerte,274,hybride_e5,Opérateur / Opératrice de traitement de texte,M1606,16.53519574079158,faux,false
+Opératrice / Opérateur en centre de traitement de l'alerte,274,hybride_minilm,Opérateur / Opératrice de traitement de texte,M1606,14.635922822090407,faux,false
+Ingénieur Patrimoine immobilier,220,tfidf,Directeur / Directrice du patrimoine immobilier,C1501,0.8324552417615785,partiel,false
+Ingénieur Patrimoine immobilier,220,e5,Ingénieur / Ingénieure en gestion patrimoniale,C1205,0.9545889496803284,faux,false
+Ingénieur Patrimoine immobilier,220,minilm,Gestionnaire de patrimoine immobilier,C1507,0.8312491178512573,faux,false
+Ingénieur Patrimoine immobilier,220,hybride_e5,Responsable de patrimoine immobilier,C1501,20.333005627403963,partiel,false
+Ingénieur Patrimoine immobilier,220,hybride_minilm,Directeur / Directrice du patrimoine immobilier,C1501,18.994628283039944,partiel,false
+Chargée / Chargé d'éducation routière et du permis de conduire,178,tfidf,Inspecteur / Inspectrice du permis de conduire et de la sécurité routière,K1515,0.6881026987374329,correct,false
+Chargée / Chargé d'éducation routière et du permis de conduire,178,e5,Formateur / Formatrice aux métiers de l'éducation et de la sécurité routière,K2128,0.9471642971038818,partiel,false
+Chargée / Chargé d'éducation routière et du permis de conduire,178,minilm,Enseignant / Enseignante de la conduite et de la sécurité routière,K2110,0.8712385892868042,partiel,false
+Chargée / Chargé d'éducation routière et du permis de conduire,178,hybride_e5,Inspecteur / Inspectrice du permis de conduire et de la sécurité routière,K1515,22.999824497712765,correct,false
+Chargée / Chargé d'éducation routière et du permis de conduire,178,hybride_minilm,Inspecteur / Inspectrice du permis de conduire et de la sécurité routière,K1515,22.918793652070676,correct,false
+Conseillère / Conseiller - Référente / Référent QVT,161,tfidf,Conseiller référent / Conseillère référente emploi,K1801,0.8224824281531391,faux,false
+Conseillère / Conseiller - Référente / Référent QVT,161,e5,Conseiller référent / Conseillère référente emploi,K1801,0.9008731842041016,faux,false
+Conseillère / Conseiller - Référente / Référent QVT,161,minilm,Conseiller professionnel / Conseillère professionnelle,K1801,0.8057332038879395,faux,false
+Conseillère / Conseiller - Référente / Référent QVT,161,hybride_e5,Conseiller référent / Conseillère référente emploi,K1801,26.818267874309125,faux,false
+Conseillère / Conseiller - Référente / Référent QVT,161,hybride_minilm,Conseiller référent / Conseillère référente emploi,K1801,25.416290096828046,faux,false
+Responsable des ressources et de l'ingénierie documentaire,146,tfidf,Responsable des ressources documentaires,K1614,0.8628461440838139,partiel,false
+Responsable des ressources et de l'ingénierie documentaire,146,e5,Responsable des ressources documentaires,K1614,0.9654834866523743,partiel,false
+Responsable des ressources et de l'ingénierie documentaire,146,minilm,Responsable des ressources documentaires,K1614,0.909937858581543,partiel,false
+Responsable des ressources et de l'ingénierie documentaire,146,hybride_e5,Responsable des ressources documentaires,K1614,19.99925547229694,partiel,false
+Responsable des ressources et de l'ingénierie documentaire,146,hybride_minilm,Responsable des ressources documentaires,K1614,19.37967711078571,partiel,false
+Chargée / Chargé de l'habitat indigne,144,tfidf,Chargé / Chargée des usagers de l'habitat social,K1810,0.5860963740644042,partiel,false
+Chargée / Chargé de l'habitat indigne,144,e5,Chargé / Chargée des usagers de l'habitat social,K1810,0.9281205534934998,partiel,false
+Chargée / Chargé de l'habitat indigne,144,minilm,Responsable de chambre forte ou coffre,N1208,0.7864790558815002,faux,false
+Chargée / Chargé de l'habitat indigne,144,hybride_e5,Chargé / Chargée des usagers de l'habitat social,K1810,22.684303313210233,partiel,false
+Chargée / Chargé de l'habitat indigne,144,hybride_minilm,Chargé / Chargée des usagers de l'habitat social,K1810,20.743963986351712,partiel,false
+Chargée / Chargé de la politique documentaire,127,tfidf,Chargé / Chargée de veille documentaire,K1601,0.6589982546725666,partiel,false
+Chargée / Chargé de la politique documentaire,127,e5,Chargé / Chargée des ressources documentaires,K1601,0.9501116871833801,partiel,false
+Chargée / Chargé de la politique documentaire,127,minilm,Directeur / Directrice des ressources documentaires,K1614,0.9009906053543091,partiel,false
+Chargée / Chargé de la politique documentaire,127,hybride_e5,Chargé / Chargée d'études documentaires,K1601,21.979875678345188,partiel,false
+Chargée / Chargé de la politique documentaire,127,hybride_minilm,Chargé / Chargée de veille documentaire,K1601,21.297418624496025,partiel,false
+Instructrice / Instructeur de dossiers des affaires étrangères,114,tfidf,Chargé / Chargée d'affaires de la construction,F1135,0.41415766109406466,faux,false
+Instructrice / Instructeur de dossiers des affaires étrangères,114,e5,Assistant d'études commerciales / Assistante d'études commerciales,M1430,0.8984140753746033,faux,false
+Instructrice / Instructeur de dossiers des affaires étrangères,114,minilm,Chargé / Chargée de mission aux relations internationales,K1412,0.8224509358406067,faux,false
+Instructrice / Instructeur de dossiers des affaires étrangères,114,hybride_e5,Chargé / Chargée d'affaires de la construction,F1135,14.803908634508293,faux,false
+Instructrice / Instructeur de dossiers des affaires étrangères,114,hybride_minilm,Chargé / Chargée d'affaires de la construction,F1135,13.671526480043571,faux,false
+"Technicienne / Technicien en études mécaniques, chaudronnerie et soudage",84,tfidf,Technicien / Technicienne en chaudronnerie,H2902,0.683691490842075,partiel,false
+"Technicienne / Technicien en études mécaniques, chaudronnerie et soudage",84,e5,Technicien / Technicienne en chaudronnerie,H2902,0.9322711825370789,partiel,false
+"Technicienne / Technicien en études mécaniques, chaudronnerie et soudage",84,minilm,Dessinateur / Dessinatrice d'études en mécanique,H1203,0.8636264204978943,partiel,false
+"Technicienne / Technicien en études mécaniques, chaudronnerie et soudage",84,hybride_e5,Technicien / Technicienne en chaudronnerie,H2902,16.013284855103294,partiel,false
+"Technicienne / Technicien en études mécaniques, chaudronnerie et soudage",84,hybride_minilm,Technicien / Technicienne en chaudronnerie,H2902,15.193378143524923,partiel,false
+"Chargée / Chargé de la tarification des établissements sanitaires, sociaux et médico-sociaux",60,tfidf,"Directeur / Directrice d'établissement sanitaire, social et médico-social (D3S)",K1407,0.6038510776237855,partiel,false
+"Chargée / Chargé de la tarification des établissements sanitaires, sociaux et médico-sociaux",60,e5,"Chargé / Chargée d'information, de médiation sociale et médicosociale",K1204,0.9335897564888,faux,false
+"Chargée / Chargé de la tarification des établissements sanitaires, sociaux et médico-sociaux",60,minilm,Responsable de circonscription d'intervention sanitaire et sociale,K1230,0.8480104804039001,faux,false
+"Chargée / Chargé de la tarification des établissements sanitaires, sociaux et médico-sociaux",60,hybride_e5,"Directeur / Directrice d'établissement sanitaire, social et médico-social (D3S)",K1407,19.70049063677692,partiel,false
+"Chargée / Chargé de la tarification des établissements sanitaires, sociaux et médico-sociaux",60,hybride_minilm,"Directeur / Directrice d'établissement sanitaire, social et médico-social (D3S)",K1407,18.35814969057941,partiel,false
+Responsable ou chargée / chargé d'intervention spécialisée,56,tfidf,Chargé / Chargée d'intervention sociale,K1201,0.648130240948467,partiel,false
+Responsable ou chargée / chargé d'intervention spécialisée,56,e5,Chargé / Chargée d'intervention sociale,K1201,0.9590818285942078,partiel,false
+Responsable ou chargée / chargé d'intervention spécialisée,56,minilm,Correcteur spécialisé / Correctrice spécialisée,E1312,0.8462064862251282,faux,false
+Responsable ou chargée / chargé d'intervention spécialisée,56,hybride_e5,Chargé / Chargée d'intervention sociale,K1201,20.30657479909307,partiel,false
+Responsable ou chargée / chargé d'intervention spécialisée,56,hybride_minilm,Chargé / Chargée d'intervention sociale,K1201,17.4207558408106,partiel,false
+Directrice / Directeur des soins en établissement,54,tfidf,Directeur / Directrice d'établissement culturel,K1604,0.6669556819383995,faux,false
+Directrice / Directeur des soins en établissement,54,e5,Directeur / Directrice d'établissement pour personnes âgées,K1403,0.9488649368286133,partiel,false
+Directrice / Directeur des soins en établissement,54,minilm,Directeur / Directrice d'établissement médicosocial,K1407,0.9359168410301208,partiel,false
+Directrice / Directeur des soins en établissement,54,hybride_e5,Directeur / Directrice d'établissement privé de santé,K1415,17.288215502318373,partiel,false
+Directrice / Directeur des soins en établissement,54,hybride_minilm,Directeur / Directrice d'établissement privé de santé,K1415,15.0083650193777,partiel,false
+Chargée / Chargé de police de l'eau,36,tfidf,Technicien chargé / Technicienne chargée de la police des eaux,K2313,0.7395761515345045,correct,false
+Chargée / Chargé de police de l'eau,36,e5,Technicien chargé / Technicienne chargée de la police des eaux,K2313,0.9605218172073364,correct,false
+Chargée / Chargé de police de l'eau,36,minilm,Technicien chargé / Technicienne chargée de la police des eaux,K2313,0.9316422939300537,correct,false
+Chargée / Chargé de police de l'eau,36,hybride_e5,Technicien chargé / Technicienne chargée de la police des eaux,K2313,25.21127207954909,correct,false
+Chargée / Chargé de police de l'eau,36,hybride_minilm,Technicien chargé / Technicienne chargée de la police des eaux,K2313,23.479455787740008,correct,false
+Chargée / Chargé du développement et de la promotion touristique,30,tfidf,Chargé / Chargée de promotion touristique,G1102,0.8102647208905044,correct,false
+Chargée / Chargé du développement et de la promotion touristique,30,e5,Chargé / Chargée de promotion touristique,G1102,0.9599064588546753,correct,false
+Chargée / Chargé du développement et de la promotion touristique,30,minilm,Chargé / Chargée de promotion touristique,G1102,0.9121962189674377,correct,false
+Chargée / Chargé du développement et de la promotion touristique,30,hybride_e5,Chargé / Chargée de promotion touristique,G1102,20.117457626883276,correct,false
+Chargée / Chargé du développement et de la promotion touristique,30,hybride_minilm,Chargé / Chargée de promotion touristique,G1102,19.9132063375156,correct,false
+Cheffe / Chef de secteur affaires étrangères,29,tfidf,Directeur / Directrice des affaires financières,M1205,0.4140801254500179,faux,false
+Cheffe / Chef de secteur affaires étrangères,29,e5,Chef / Cheffe de secteur commerce,D1517,0.9324623942375183,faux,false
+Cheffe / Chef de secteur affaires étrangères,29,minilm,Chargé / Chargée de mission aux relations internationales,K1412,0.7907514572143555,partiel,false
+Cheffe / Chef de secteur affaires étrangères,29,hybride_e5,Secrétaire d'affaires,M1607,14.18428759934368,faux,false
+Cheffe / Chef de secteur affaires étrangères,29,hybride_minilm,Directeur / Directrice des affaires financières,M1205,14.30273432346298,faux,false
+Cheffe / Chef de projet politique de la ville,24,tfidf,Chef / Cheffe de projet contrat de ville,K1802,0.5682535920786815,correct,false
+Cheffe / Chef de projet politique de la ville,24,e5,Chef / Cheffe de projet contrat de ville,K1802,0.9563164710998535,correct,false
+Cheffe / Chef de projet politique de la ville,24,minilm,Chef / Cheffe de projet contrat de ville,K1802,0.8198222517967224,correct,false
+Cheffe / Chef de projet politique de la ville,24,hybride_e5,Chef / Cheffe de projet contrat de ville,K1802,20.98383674652927,correct,false
+Cheffe / Chef de projet politique de la ville,24,hybride_minilm,Chef / Cheffe de projet contrat de ville,K1802,18.101401901558567,correct,false
+Experte / Expert en connaissances de l'environnement terrestre et maritime,15,tfidf,Expert / Experte en environnement industriel,H1302,0.498417452786702,faux,false
+Experte / Expert en connaissances de l'environnement terrestre et maritime,15,e5,Expert / Experte en surveillance du littoral et des zones de souveraineté maritime,K1725,0.9459969401359558,faux,false
+Experte / Expert en connaissances de l'environnement terrestre et maritime,15,minilm,Technicien / Technicienne en écologie marine,A1315,0.775387167930603,partiel,false
+Experte / Expert en connaissances de l'environnement terrestre et maritime,15,hybride_e5,Expert / Experte en environnement industriel,H1302,16.27406650603506,faux,false
+Experte / Expert en connaissances de l'environnement terrestre et maritime,15,hybride_minilm,Expert / Experte en environnement industriel,H1302,15.268299160606592,faux,false
+Chargée / Chargé de culte,6,tfidf,Chef / Cheffe de culte,K1212,0.7203164230154112,correct,false
+Chargée / Chargé de culte,6,e5,Chef / Cheffe de culte,K1212,0.9473780989646912,correct,false
+Chargée / Chargé de culte,6,minilm,Chef / Cheffe de culte,K1212,0.9385887384414673,correct,false
+Chargée / Chargé de culte,6,hybride_e5,Chef / Cheffe de culte,K1212,23.040423233193035,correct,false
+Chargée / Chargé de culte,6,hybride_minilm,Chef / Cheffe de culte,K1212,20.73652537552702,correct,false
+Conseillère / Conseiller France Services,4,tfidf,Conseiller / Conseillère France Travail,K1801,0.6589834197264016,partiel,false
+Conseillère / Conseiller France Services,4,e5,Conseiller / Conseillère France Travail,K1801,0.949711799621582,partiel,false
+Conseillère / Conseiller France Services,4,minilm,Conseiller / Conseillère France Travail,K1801,0.8990534543991089,partiel,false
+Conseillère / Conseiller France Services,4,hybride_e5,Conseiller / Conseillère France Travail,K1801,19.038678102609776,partiel,false
+Conseillère / Conseiller France Services,4,hybride_minilm,Conseiller / Conseillère France Travail,K1801,17.456988744852207,partiel,false

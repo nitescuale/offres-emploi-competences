@@ -1,4 +1,4 @@
-"""Ligne de commande : `offres collecte --mode jour|stock`, `offres referentiels`, `offres rome`."""
+"""Ligne de commande : `offres collecte --mode jour|stock`, `offres referentiels`, `offres rome`, `offres csp`, `offres competences`."""
 
 from __future__ import annotations
 
@@ -113,6 +113,34 @@ def collecter_referentiels(dossier: Path) -> None:
         print(f"{nom} : {len(valeurs)} entrées")
 
 
+def extraire_competences(dossier: Path, cache: Path | None) -> None:
+    from offres import competences, donnees
+    from offres.embeddings import Modele
+
+    cible = dossier / "competences"
+    cible.mkdir(parents=True, exist_ok=True)
+    depart = time.monotonic()
+    offres = donnees.offres_service_public()
+    items = competences.items_des_offres(offres)
+    modele = Modele("e5")
+    precedent = pl.read_parquet(cache) if cache and cache.exists() else None
+    formes = competences.rattacher_formes(items, modele, precedent)
+    formes.write_parquet(cible / "competences_formes.parquet")
+    items.select("annonce_id", "forme").write_parquet(cible / "competences_items.parquet")
+    metiers = competences.rattacher_metiers(offres, modele)
+    metiers.write_parquet(cible / "metiers_rome.parquet")
+    rapport = {
+        "version": competences.VERSION,
+        "offres_avec_texte": items["annonce_id"].n_unique(),
+        "items": items.height,
+        "formes": formes.height,
+        "metiers": metiers.height,
+        "duree_s": round(time.monotonic() - depart),
+    }
+    (cible / "competences_rapport.json").write_text(json.dumps(rapport, ensure_ascii=False, indent=1))
+    print(json.dumps(rapport, ensure_ascii=False, indent=1))
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(prog="offres", description=__doc__)
     parser.add_argument("--dossier", type=Path, default=Path("donnees"), help="dossier des données")
@@ -127,6 +155,13 @@ def main(argv: list[str] | None = None) -> None:
     c2.add_argument("--rapport-precedent", type=Path, help="rapport du passage précédent, pour refuser une régression")
     sous.add_parser("sonde", help="diagnostic : portées OAuth et routes accessibles avec les identifiants")
     sous.add_parser("rome", help="référentiel ROME 4.0 (open data) : compétences et savoirs par métier")
+    c3 = sous.add_parser("competences", help="compétences des offres rattachées au ROME, métiers rattachés aux fiches ROME")
+    c4 = sous.add_parser("reclasser", help="reclassement des propositions par un LLM local (Ollama)")
+    c4.add_argument("--modele", default="qwen2.5:7b", help="modèle Ollama déjà téléchargé")
+    c4.add_argument("--entree", type=Path, required=True, help="JSON des items et de leurs candidats")
+    c4.add_argument("--sortie", type=Path, required=True, help="JSON des choix (reprise possible)")
+    c4.add_argument("--lot", type=int, default=8, help="items par requête")
+    c3.add_argument("--cache", type=Path, help="competences_formes.parquet du passage précédent (formes déjà rattachées)")
     args = parser.parse_args(argv)
 
     if args.commande == "collecte":
@@ -139,6 +174,12 @@ def main(argv: list[str] | None = None) -> None:
         sonde.sonder()
     elif args.commande == "rome":
         rome.telecharger(args.dossier / "rome")
+    elif args.commande == "reclasser":
+        from offres import reclassement
+
+        reclassement.reclasser(args.entree, args.sortie, args.modele, args.lot)
+    elif args.commande == "competences":
+        extraire_competences(args.dossier, args.cache)
 
 
 if __name__ == "__main__":
