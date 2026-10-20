@@ -1,7 +1,8 @@
 name: Offres Choisir le service public
 
-# Chaque lundi : offres d'emploi des trois fonctions publiques (open data DGAFP), converties en Parquet et
-# publiées dans la release `donnees` (fichiers csp_*). Aucune clé d'API nécessaire.
+# Chaque lundi : offres d'emploi des trois fonctions publiques (open data DGAFP), un CSV par année depuis 2022,
+# normalisées et consolidées en un seul Parquet (une ligne par offre) publié dans la release `donnees` :
+# csp_offres.parquet, csp_rapport.json. Aucune clé d'API nécessaire.
 on:
   push:
     branches: [main]
@@ -33,3 +34,7 @@ jobs:
             --title "Données collectées" --notes "Offres d'emploi (Parquet) et référentiels, mis à jour par les workflows du dépôt."
           cd donnees/csp && for f in *; do mv "$f" "csp_$f"; done
           gh release upload donnees ./* --clobber
+          # Anciens fichiers bruts par année, remplacés par le fichier consolidé
+          for a in $(gh release view donnees --json assets -q '.assets[].name' | grep '^csp_offres_datagouv_' || true); do
+            gh release delete-asset donnees "$a" --yes
+          done
