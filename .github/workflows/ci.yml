@@ -19,3 +19,5 @@ jobs:
       - run: pip install -e ".[dev]"
       - run: ruff check src tests
       - run: pytest -q
+      # Un workflow invalide échoue sans rien exécuter ni prévenir : on les vérifie ici
+      - run: pip install actionlint-py && actionlint -shellcheck= .github/workflows/*.yml
